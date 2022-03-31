@@ -1,0 +1,118 @@
+.container {
+    margin: auto;
+    max-width: 1280px;
+}
+.onCart{
+    display: block;
+}
+.active{
+    color: #ff514e;
+}
+.OrderItem {
+    &:hover {
+        .textOder {
+            color: #ff514e;
+        }
+        .lableOder {
+            color: #ff514e;
+            background: white;
+            border: 8px solid #ff514e;
+        }
+    }
+}
+.BestFoodItems {
+    .BestFoodItem {
+        transition: all 0.25s ease-in-out;
+    }
+    &:hover {
+        .BestFoodItem {
+            background: #ff514e;
+            transform: translateY(-10px);
+        }
+        .lableBestFoodItem {
+            color: white;
+        }
+        .textBestFoodItem {
+            color: white;
+        }
+    }
+}
+.sandwichVideo {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.playerSandwich ::after {
+    z-index: 1;
+    border: 2px solid #ff514e;
+    background-color: transparent;
+    animation: ripple 0.8s infinite ease-out;
+}
+.gooey {
+    z-index: 1;
+    position: absolute;
+    border-radius: 50%;
+    background: #ff514e;
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) 70ms;
+}
+.sandwichHover{
+    &:hover{
+        .sandwichVideo{
+            background-color: #ff514e;
+        }
+        .playerSandwich{
+            background: #fbb403;
+        }
+        .pSandwich{
+            color: white;
+        }
+        .gooey1{
+            top: 0;
+            right: -30%;
+        }
+        .gooey2{
+            bottom: -20%;
+            left: -15%;
+        }
+        .gooey3{
+            top: -15%;
+            left: -15%;
+        }
+
+    }
+}
+.openYoutube{
+    display: block !important;
+}
+.imgFeedback{
+    object-fit: cover;
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+}
+.spanFeedback{
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+    transform: translateX(-7px) rotate(-45deg);
+}
+.ProductsMenuItems{
+    &:hover{
+        .SpanProductsMenuItemsHover{
+            visibility: visible;
+            right: 40px;
+        }
+    }
+}
+.SpanProductsMenuItemsHover{
+    transition: all 0.15s linear;
+}
+.zoomImg{
+    transition: all .3s ease;
+    &:hover{
+        transform: scale(1.1);
+        width: 100%;
+    }
+}
+.shadowbtn{
+    box-shadow: 0px 3px 8px rgb(0 0 0 / 20%) !important;
+}
+.overPlayCart{
+    height: calc(100vh - 4rem);
+    width: calc(100vw - 35rem);
+}
