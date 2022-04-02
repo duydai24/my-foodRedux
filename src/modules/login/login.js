@@ -19,9 +19,9 @@ function Login() {
 
   const handleSubmit = () => {
     let checkUser = user.some((el) => el.userName === userName);
-    if (checkUser) {
+    if (checkUser  === true) {
       let checkPass = user.some((el) => el.passWord === passWord);
-      if (checkPass) {
+      if (checkPass === true) {
         setIsLogin(true);
       } else {
         alert("Mật khẩu không đúng");
@@ -30,7 +30,6 @@ function Login() {
       alert("Tài khoản không tồn tại");
     }
   };
-
 
   useEffect(() => {
     if (isLogin) {

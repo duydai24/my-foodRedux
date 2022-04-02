@@ -1,27 +1,48 @@
 import react from "react";
+import { useSelector } from "react-redux";
 import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Star from "../../../lib/star";
-import {cart} from '../../../db/db'
-import ProductsShop from "./productShop";
+import { useRouter } from "next/router";
+
+
 
 function ProductsShopDetailContent() {
-  console.log(cart)
+  const { products } = useSelector((state) => state.products);
+  const router = useRouter();
+  const { productShopDetailContent } = router.query;
+  let new_product = products.filter((e) => {
+    return e.id == productShopDetailContent;
+  });
+
   return (
-  <>
-  { cart && cart.map((value, key) => (
-    <ProductsShopDetailContentItems name={value.name} img={value.image} quantity={value.totalQuantity} description={value.description} price={value.price}/>
-  ))
-    
-  }
+    <>
+      {new_product &&
+        new_product.map((value, key) => (
+          <ProductsShopDetailContentItems
+            id={key}
+            key={key}
+            name={value.name}
+            img={value.image}
+            quantity={value.totalQuantity}
+            description={value.description}
+            price={value.price}
+          />
+        ))}
     </>
   );
 }
 
-
-function ProductsShopDetailContentItems({name, price, description, quantity, img}) {
-  return(
-<div className="flex py-24">
+function ProductsShopDetailContentItems({
+  name,
+  price,
+  description,
+  quantity,
+  img,
+  id,
+}) {
+  return (
+    <div key={id} className="flex py-24">
       <div className="w-1/2">
         <img
           className="rounded-md shadow-xlanh cursor-zoom-in overflow-hidden zoomImg"
@@ -47,7 +68,9 @@ function ProductsShopDetailContentItems({name, price, description, quantity, img
             <span className="bg-gray-300 w-10 h-10 pt-2 text-center rounded-full hover:text-[#ff514e]">
               -
             </span>
-            <span className=" w-10 h-10 pt-2 text-center rounded-full">{quantity}</span>
+            <span className=" w-10 h-10 pt-2 text-center rounded-full">
+              {quantity}
+            </span>
             <span className="bg-gray-300 w-10 h-10 pt-2 text-center  rounded-full hover:text-[#ff514e]">
               +
             </span>
@@ -64,6 +87,6 @@ function ProductsShopDetailContentItems({name, price, description, quantity, img
         </div>
       </div>
     </div>
-  )
+  );
 }
 export default ProductsShopDetailContent;

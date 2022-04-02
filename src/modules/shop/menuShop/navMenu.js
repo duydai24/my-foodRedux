@@ -1,6 +1,6 @@
 import react, { useState } from "react";
+import { useSelector } from "react-redux";
 import { MdFastfood } from "react-icons/md";
-import { category } from "../../../db/db";
 
 function NavMenu({ filterr }) {
   const [active, setActive] = useState(0);
@@ -8,7 +8,7 @@ function NavMenu({ filterr }) {
     setActive(key);
     filterr(key);
   };
-
+  const { category } = useSelector((state) => state.category);
   return (
     <div className="">
       <h2 className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
@@ -18,6 +18,8 @@ function NavMenu({ filterr }) {
         {category &&
           category.map((value, key) => (
             <LiNavMenu
+              id={key}
+              key={key}
               icon={<MdFastfood />}
               text={value.name}
               className={key === active ? "active" : ""}
@@ -38,10 +40,13 @@ function NavMenu({ filterr }) {
   );
 }
 
-function LiNavMenu({ icon, text, onClick, className }) {
+function LiNavMenu({ icon, text, onClick, className, id }) {
   return (
     <li
-      className={"flex items-center py-3 cursor-pointer hover:text-red-redd " + className}
+      key={id}
+      className={
+        "flex items-center py-3 cursor-pointer hover:text-red-redd " + className
+      }
       onClick={onClick}
     >
       <a className="text-3xl mr-5">{icon}</a>

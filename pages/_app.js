@@ -1,14 +1,15 @@
 import "../src/styles/globals.scss";
-import { Provider, useStore } from "react-redux";
+import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
+import { createWrapper } from "next-redux-wrapper";
+import store from "../src/redux/store";
+import { cartReducer } from "../src/redux/reducer/cartReducer";
 
 const TITLE = "My Food";
 
 function MyApp({ Component, pageProps }) {
-  const store = useStore(pageProps.initialReduxState);
   return (
     <>
-      {/* {store.getState()} */}
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
@@ -19,4 +20,7 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+const makestore = () => store;
+const wrapper = createWrapper(makestore);
+
+export default wrapper.withRedux(MyApp);

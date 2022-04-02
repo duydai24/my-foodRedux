@@ -6,10 +6,10 @@ import { BsNewspaper } from "react-icons/bs";
 import { FaStore } from "react-icons/fa";
 import { HiUserCircle } from "react-icons/hi";
 import Link from "next/link";
-import { user } from "../../../db/db";
+import { useSelector } from "react-redux";
 
-function Header({className, onClick}) {
-  
+function Header({ className, onClick }) {
+  const { user } = useSelector((state) => state.user);
 
   return (
     <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black opacity-80">
@@ -47,12 +47,14 @@ function Header({className, onClick}) {
             </Link>
             {user &&
               user.map((value, key) => (
-                <a className="text-white">{value.role}</a>
+                <a key={key} className="text-white">
+                  {value.role}
+                </a>
               ))}
           </div>
         </div>
       </div>
-    </div>  
+    </div>
   );
 }
 

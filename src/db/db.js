@@ -166,7 +166,7 @@ let cart = [
     id: 0,
     userId: 1,
     productId: 1,
-     totalPrice: 300,
+    totalPrice: 300,
     totalQuantity: 2,
   },
 ];

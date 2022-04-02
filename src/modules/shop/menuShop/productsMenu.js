@@ -1,14 +1,16 @@
-import react from "react";
+import react, { useState } from "react";
 import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
+import Link from "next/link";
+import Router from "next/router";
 
 function ProductsMenu({ products, filterId }) {
-  console.log(filterId);
   if (filterId !== null) {
     products = products.filter((e) => {
       return e.categoryId === filterId;
     });
   }
+  
   return (
     <div className="grid grid-cols-4 gap-4 pb-24">
       {products.length > 0 ? (
@@ -25,7 +27,10 @@ function ProductsMenu({ products, filterId }) {
           />
         ))
       ) : (
-        <img src="noData.png" className="rounded-xl w-full col-start-1 col-end-5"/>
+        <img
+          src="noData.png"
+          className="rounded-xl w-full col-start-1 col-end-5"
+        />
       )}
     </div>
   );
@@ -43,20 +48,25 @@ function ProductsMenuItems({
   const handleDetail = (id) => {
     let detailProduct = products.filter((e) => {
       return e.id === id;
-    });;
+    });
     console.log(detailProduct);
     console.log(id);
+    
   };
   return (
-    <div
+    <div 
       key={id}
       className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
       onClick={() => handleDetail(id)}
     >
-      <img className="h-32 w-full" src={img} />
+      <Link href={`/ProductsShop/${id}`}>
+        <img className="h-32 w-full" src={img} />
+      </Link>
       <img className="h-5 absolute top-2 rounded-xl" src={gif} />
       <div className="p-2">
-        <p className="font-bold text-black text-2xl">{name}</p>
+      <Link href={`/ProductsShop/${id}`}>
+          <p className="font-bold text-black text-2xl">{name}</p>
+        </Link>
         <p className="">{description}</p>
       </div>
       <span className="font-bold text-red-redd text-2xl float-right mr-3">

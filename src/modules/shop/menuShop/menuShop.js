@@ -1,7 +1,6 @@
 import react, { useState } from "react";
 import DetailMenu from "./detailMenu";
 import NavMenu from "./navMenu";
-import { products } from "../../../db/db";
 
 function MenuShop({ products }) {
   const [filterId, setFilterId] = useState(null);
