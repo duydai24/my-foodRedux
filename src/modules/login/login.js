@@ -23,6 +23,7 @@ function Login() {
       let checkPass = user.some((el) => el.passWord === passWord);
       if (checkPass === true) {
         setIsLogin(true);
+        alert("Đăng nhập thành công")
       } else {
         alert("Mật khẩu không đúng");
       }

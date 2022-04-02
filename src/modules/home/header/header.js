@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 function Header({ className, onClick }) {
+  
   const { user } = useSelector((state) => state.user);
 
   return (

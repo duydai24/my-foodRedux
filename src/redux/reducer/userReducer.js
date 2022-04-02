@@ -1,35 +1,31 @@
-import db from '../../db/db'
+import * as types from "../types";
 
-function Users(state = db, action) {
+export const initialState = {
+    user: [
+        {
+            id: 0,
+            userName: "dai",
+            passWord: "123456",
+            role: "admin",
+          },
+          {
+            id: 1,
+            userName: "dai1",
+            passWord: "123456",
+            role: "user",
+          },
+  ],
+  loading: false,
+  error: null,
+};
+export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_USER":
-      state = [action.payload, ...state];
-      return state;
-    case "UPDATE_USER":
-      let { id, userName, passWord, role } = action.payload;
-      let newUsers = { userName, passWord, role };
-      state.splice(id, 1, newUsers);
-      return state;
-    case "REMOVE_USER":
-      state.splice(action.payload.id, 1);
-      return state;
-
+    case types.GET_USERS:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }
-}
-
-function Login(state = null, action) {
-  switch (action.type) {
-    case "GET_USER":
-      state = action.payload;
-      return state;
-    case "LOGOUT":
-      state = null;
-      return state;
-    default:
-      return state;
-  }
-}
-
-export { Users, Login };
+};
