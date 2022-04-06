@@ -49,6 +49,7 @@ function ProductsMenuItems({
 }) {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
+  
 
   const handleDetail = (id) => {
     let detailProduct = products.filter((e) => {
@@ -59,7 +60,7 @@ function ProductsMenuItems({
     let detailProduct = products.filter((e) => {
       return e.id === id;
     });
-    if (cartItem.length == 0) {
+    if (cartItem.length === 0) {
       let quantity = 1;
       let cartItem = [
         {
@@ -99,15 +100,10 @@ function ProductsMenuItems({
 
         dispatch(addCart(cartItem, totalQuantity, totalPrice));
       } else {
-        console.log("1");
-        console.log(cartItem);
-        console.log("newCart");
-        console.log(newCart);
         let filterCart = cartItem.filter((e) => {
          return e.id === id
         });
         let key = cartItem.indexOf(...filterCart)
-        console.log("key", key);
         cartItem[key].quantity = cartItem[key].quantity + 1; 
        
         let totalQuantity = 0;

@@ -33,11 +33,11 @@ export const updateCart =
     });
   };
 export const deleteCart =
-  (id) => async (dispatch) => {
+  (cartItem, totalQuantity, totalPrice) => async (dispatch) => {
     dispatch({
       type: types.DELETE_CART,
       payload: {
-        id
+        cartItem, totalQuantity, totalPrice
       },
     });
   };

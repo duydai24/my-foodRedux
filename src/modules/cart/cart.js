@@ -13,8 +13,17 @@ function Cart({ className, onClick }) {
   const [truQuantity, setTruQuantity] = useState();
 
   const handleDeleteCartItem = (id) => {
-    
-  }
+    cartItem.splice(cartItem.id, 1);
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    cartItem.map((value) => {
+      totalQuantity += value.quantity;
+      totalPrice += value.price * value.quantity;
+      
+    });
+
+    dispatch(deleteCart(cartItem, totalQuantity, totalPrice));
+  };
 
   return (
     <div className={"hidden " + className}>
@@ -36,7 +45,7 @@ function Cart({ className, onClick }) {
                 quantity={value.quantity}
                 addQuantityOnClick={() => setAddQuantity(addQuantity + 1)}
                 truQuantityOnClick={() => setTruQuantity(truQuantity - 1)}
-                deleteCartItem={() => handleDeleteCartItem()}
+                deleteCartItem={() => handleDeleteCartItem(value.id)}
               />
             </div>
           ))}
@@ -65,11 +74,10 @@ function CartItems({
   img,
   price,
   quantity,
-  setHandleQty,
   id,
   truQuantityOnClick,
   addQuantityOnClick,
-  deleteCartItem
+  deleteCartItem,
 }) {
   return (
     <div className="flex m-5 items-center justify-between" key={id}>
@@ -131,7 +139,8 @@ let mapDispatchToProps = (dispatch) => {
     ADD_CART: (productId, totalQuantity, totalPrice) =>
       dispatch(addCart(productId, totalQuantity, totalPrice)),
     UPDATE_CART: (cart) => dispatch(updateCart(cart)),
-    DELETE_CART: (id) => dispatch(deleteCart(id)),
+    DELETE_CART: (cartItem, totalQuantity, totalPrice) =>
+      dispatch(deleteCart(cartItem, totalQuantity, totalPrice)),
   };
 };
 let mapStateToProps = (state) => {
