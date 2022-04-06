@@ -1,11 +1,15 @@
 import react, { useState, useEffect, useRouter } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { BiLock } from "react-icons/bi";
-import { user } from "../../db/db";
+import { useDispatch, useSelector, connect } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
+import { userLogin } from "../../redux/action/userAction";
 
 function Login() {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
   const [userName, setUserName] = useState();
   const [passWord, setPassWord] = useState();
   const [isLogin, setIsLogin] = useState(false);
@@ -19,11 +23,19 @@ function Login() {
 
   const handleSubmit = () => {
     let checkUser = user.some((el) => el.userName === userName);
-    if (checkUser  === true) {
+    if (checkUser === true) {
       let checkPass = user.some((el) => el.passWord === passWord);
       if (checkPass === true) {
         setIsLogin(true);
-        alert("Đăng nhập thành công")
+        alert("Đăng nhập thành công");
+        let idLogin = user.filter((e) => {
+          return e.userName === userName;
+        });
+        const results = [{
+          id: idLogin[0].id,
+          userName,
+        }];
+        dispatch(userLogin(results));
       } else {
         alert("Mật khẩu không đúng");
       }
@@ -46,7 +58,12 @@ function Login() {
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
           Don't have an account?
-          <span className="text-red-redd font-bold"> Create an account</span>
+          <Link href="/Register">
+            <span className="text-red-redd font-bold cursor-pointer">
+              {" "}
+              Create an account
+            </span>
+          </Link>
         </p>
         <div className="">
           <InputLogin
@@ -114,4 +131,17 @@ function InputLogin({
     </div>
   );
 }
-export default Login;
+
+let mapDispatchToProps = (dispatch) => {
+  return {
+    GET_USERS: (results) => dispatch(getUser(results)),
+    ACOUNT_LOGIN: (results) => dispatch(userLogin(results)),
+  };
+};
+let mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

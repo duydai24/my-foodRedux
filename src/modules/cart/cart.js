@@ -1,32 +1,20 @@
 import react, { useState } from "react";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
+import { updateCart, deleteCart } from "../../redux/action/cartAction";
 
 function Cart({ className, onClick }) {
-  const { cart } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  const { cartItem } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state);
 
+  const [addQuantity, setAddQuantity] = useState();
+  const [truQuantity, setTruQuantity] = useState();
 
-  // console.log(cart)
-  // console.log(products)
-  
-  const handleQuantity = (key) => {
-  };
-
-  // let checkCart = cart && cart.some((e) => e.productId === key);
-    // if (checkCart) {
-
-// let a1 = cart.includes(productId)
-
-      // let new_cart = products.filter((e) => {
-      //   return e.id === 0;
-        
-      // });
-      // console.log(new_cart);
-    // }
-
-
+  const handleDeleteCartItem = (id) => {
+    
+  }
 
   return (
     <div className={"hidden " + className}>
@@ -34,10 +22,10 @@ function Cart({ className, onClick }) {
         className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-10 opacity-50 overPlayCart "
         onClick={onClick}
       ></div>
-      <div className="fixed top-[4rem] right-0 h-screen w-[35rem] transition-all bg-white shadow-2xl z-10">
+      <div className="fixed top-[4rem] right-0 h-screen w-[35rem] transition-all bg-white shadow-2xl z-10 overflow-scroll">
         <HeadingCart onClick={onClick} />
-        {cart &&
-          cart.map((value, key) => (
+        {cartItem &&
+          cartItem.map((value, key) => (
             <div className="relative">
               <CartItems
                 id={key}
@@ -45,12 +33,14 @@ function Cart({ className, onClick }) {
                 img={value.image}
                 name={value.name}
                 price={value.price}
-                quantity={value.totalQuantity}
-                setHandleQty={handleQuantity}
+                quantity={value.quantity}
+                addQuantityOnClick={() => setAddQuantity(addQuantity + 1)}
+                truQuantityOnClick={() => setTruQuantity(truQuantity - 1)}
+                deleteCartItem={() => handleDeleteCartItem()}
               />
-              <CartHanldle id={key} key={key} totalPrice={value.price * value.totalQuantity} />
             </div>
           ))}
+        <CartHanldle totalPrice={cart.totalPrice} />
       </div>
     </div>
   );
@@ -70,11 +60,21 @@ function HeadingCart({ onClick }) {
   );
 }
 
-function CartItems({ name, img, price, quantity, setHandleQty, id }) {
+function CartItems({
+  name,
+  img,
+  price,
+  quantity,
+  setHandleQty,
+  id,
+  truQuantityOnClick,
+  addQuantityOnClick,
+  deleteCartItem
+}) {
   return (
     <div className="flex m-5 items-center justify-between" key={id}>
       <div className="flex">
-        <img src={img} className="w-26 h-24" />
+        <img src={img} className="w-36 h-24" />
         <div className="ml-5">
           <h2 className="font-bold">{name}</h2>
           <span className="font-bold text-red-redd">
@@ -82,14 +82,14 @@ function CartItems({ name, img, price, quantity, setHandleQty, id }) {
           </span>
           <div className="flex mt-5">
             <span
-              onClick={setHandleQty(id)}
+              onClick={truQuantityOnClick}
               className="bg-gray-200 w-8 h-8 text-center text-xl font-bold"
             >
               -
             </span>
             <span className="w-8 h-8 text-center mt-1">{quantity}</span>
             <span
-              onClick={setHandleQty(id)}
+              onClick={addQuantityOnClick}
               className="bg-gray-200 w-8 h-8 text-center text-xl font-bold"
             >
               +
@@ -98,16 +98,16 @@ function CartItems({ name, img, price, quantity, setHandleQty, id }) {
         </div>
       </div>
 
-      <span className="text-3xl text-gray-400">
+      <span onClick={deleteCartItem} className="text-3xl text-gray-400">
         <MdOutlineDeleteForever />
       </span>
     </div>
   );
 }
 
-function CartHanldle({ totalPrice , id}) {
+function CartHanldle({ totalPrice, id }) {
   return (
-    <div className="" key={id}>
+    <div className="border-t-[1px] border-black absolute top-[700px]" key={id}>
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
         <span className="font-bold text-red-redd text-xl">
@@ -118,11 +118,26 @@ function CartHanldle({ totalPrice , id}) {
         <button className="bg-red-redd rounded-full px-20 py-2 text-white font-bold uppercase shadowbtn">
           Checkout
         </button>
-        <button className="bg-white rounded-full px-20 py-2 font-bold uppercase shadowbtn">
+        <button className="bg-white rounded-full px-20 py-2 font-bold uppercase ml-2 shadowbtn">
           buy more
         </button>
       </div>
     </div>
   );
 }
-export default Cart;
+
+let mapDispatchToProps = (dispatch) => {
+  return {
+    ADD_CART: (productId, totalQuantity, totalPrice) =>
+      dispatch(addCart(productId, totalQuantity, totalPrice)),
+    UPDATE_CART: (cart) => dispatch(updateCart(cart)),
+    DELETE_CART: (id) => dispatch(deleteCart(id)),
+  };
+};
+let mapStateToProps = (state) => {
+  return {
+    cart: state.cart,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

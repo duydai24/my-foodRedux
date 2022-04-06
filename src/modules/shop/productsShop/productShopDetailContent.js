@@ -45,7 +45,7 @@ function ProductsShopDetailContentItems({
     <div key={id} className="flex py-24">
       <div className="w-1/2">
         <img
-          className="rounded-md shadow-xlanh cursor-zoom-in overflow-hidden zoomImg"
+          className="rounded-md shadow-xlanh cursor-zoom-in overflow-hidden"
           src={img}
         />
       </div>

@@ -2,7 +2,9 @@ import react, { useState } from "react";
 import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Link from "next/link";
-import Router from "next/router";
+import { useDispatch, connect, useSelector } from "react-redux";
+import { addCart } from "../../../redux/action/cartAction";
+
 
 function ProductsMenu({ products, filterId }) {
   if (filterId !== null) {
@@ -10,7 +12,7 @@ function ProductsMenu({ products, filterId }) {
       return e.categoryId === filterId;
     });
   }
-  
+
   return (
     <div className="grid grid-cols-4 gap-4 pb-24">
       {products.length > 0 ? (
@@ -45,16 +47,83 @@ function ProductsMenuItems({
   gif,
   id,
 }) {
+  const dispatch = useDispatch();
+  const { cartItem } = useSelector((state) => state.cart);
+
   const handleDetail = (id) => {
     let detailProduct = products.filter((e) => {
       return e.id === id;
     });
-    console.log(detailProduct);
-    console.log(id);
-    
+  };
+  const addToCart = () => {
+    let detailProduct = products.filter((e) => {
+      return e.id === id;
+    });
+    if (cartItem.length == 0) {
+      let quantity = 1;
+      let cartItem = [
+        {
+          id,
+          image: detailProduct[0].image,
+          name: detailProduct[0].name,
+          price: detailProduct[0].price,
+          quantity: quantity,
+        },
+      ];
+      let totalQuantity = quantity;
+      let totalPrice = price * quantity;
+
+      dispatch(addCart(cartItem, totalQuantity, totalPrice));
+    } else {
+      let quantity = 1;
+      let newCart = {
+        id,
+        image: detailProduct[0].image,
+        name,
+        price,
+        quantity,
+      };
+      const checkCart = cartItem.some((el) => el.id === id);
+      let totalQuantity = cartItem.totalQuantity;
+      let totalPrice = cartItem.totalPrice;
+
+      if (!checkCart) {
+        cartItem = [...cartItem, newCart];
+        let totalQuantity = 0;
+        let totalPrice = 0;
+        cartItem.map((value) => (
+          totalQuantity += value.quantity,
+          totalPrice += value.quantity * value.price
+        )
+        )
+
+        dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      } else {
+        console.log("1");
+        console.log(cartItem);
+        console.log("newCart");
+        console.log(newCart);
+        let filterCart = cartItem.filter((e) => {
+         return e.id === id
+        });
+        let key = cartItem.indexOf(...filterCart)
+        console.log("key", key);
+        cartItem[key].quantity = cartItem[key].quantity + 1; 
+       
+        let totalQuantity = 0;
+        let totalPrice = 0;
+        cartItem.map((value) => (
+          totalQuantity += value.quantity,
+          totalPrice += value.quantity * value.price
+        )
+        )
+        dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      }
+    }
+    alert("Thêm vào giỏ hàng thành công");
   };
   return (
-    <div 
+    <div
       key={id}
       className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
       onClick={() => handleDetail(id)}
@@ -64,7 +133,7 @@ function ProductsMenuItems({
       </Link>
       <img className="h-5 absolute top-2 rounded-xl" src={gif} />
       <div className="p-2">
-      <Link href={`/ProductsShop/${id}`}>
+        <Link href={`/ProductsShop/${id}`}>
           <p className="font-bold text-black text-2xl">{name}</p>
         </Link>
         <p className="">{description}</p>
@@ -79,7 +148,10 @@ function ProductsMenuItems({
         <span className="absolute top-1  rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
           <MdFavorite />
         </span>
-        <span className="absolute top-10 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
+        <span
+          onClick={() => addToCart()}
+          className="absolute top-10 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
+        >
           <BsFillCartPlusFill />
         </span>
       </div>
@@ -87,4 +159,16 @@ function ProductsMenuItems({
   );
 }
 
-export default ProductsMenu;
+let mapDispatchToProps = (dispatch) => {
+  return {
+    ADD_CART: (detailProduct) => dispatch(addCart(detailProduct)),
+  };
+};
+let mapStateToProps = (state) => {
+  return {
+    cart: state.cart,
+    detailProduct: state.detailProduct,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsMenu);

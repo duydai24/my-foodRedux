@@ -137,7 +137,7 @@ export const productsReducer = (state = initialState, action) => {
     case types.GET_PRODUCTS:
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.results,
       };
     default:
       return state;

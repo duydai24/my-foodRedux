@@ -10,13 +10,12 @@ import Footer from "./footer/footer";
 import Header from "./header/header";
 import Order from "./order/order";
 import SanwichVideo from "./sanwichVideo/sanwichVideo";
-import TextRedux from "./textRedux/textRedux";
 
 function index() {
   const [onCart, setOnCart] = useState(false);
   const _className = onCart ? "onCart" : " ";
   return (
-    <div> 
+    <div>
       <Header className={_className} onClick={() => setOnCart(!onCart)} />
       <Cart className={_className} onClick={() => setOnCart(!onCart)} />
       <BannerSlide />
@@ -28,8 +27,7 @@ function index() {
       <FeedBack />
       <Footer />
       <CopyRight />
-      {/* <TextRedux /> */}
     </div>
-  )
+  );
 }
 export default index;

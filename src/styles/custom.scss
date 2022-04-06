@@ -116,3 +116,10 @@
     height: calc(100vh - 4rem);
     width: calc(100vw - 35rem);
 }
+.UserHover{
+    &:hover{
+        .LogOut{
+            display: block !important;
+        }
+    }
+}
