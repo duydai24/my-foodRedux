@@ -3,15 +3,49 @@ import { RiDeleteBack2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
+import Link from "next/link";
 
 function Cart({ className, onClick }) {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
 
-  const [addQuantity, setAddQuantity] = useState();
-  const [truQuantity, setTruQuantity] = useState();
+  const handleAddQuantity = (id, key) => {
+    let filterCartItem = cartItem.filter((e) => {
+      return e.id === id;
+    });
+    let keys = cartItem.indexOf(...filterCartItem);
+    cartItem[keys].quantity = cartItem[keys].quantity + 1;
 
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    cartItem.map(
+      (value) => (
+        (totalQuantity += value.quantity),
+        (totalPrice += value.quantity * value.price)
+      )
+    );
+
+    dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+  };
+  const handleTruQuantity = (id, key) => {
+    let filterCartItem = cartItem.filter((e) => {
+      return e.id === id;
+    });
+    let keys = cartItem.indexOf(...filterCartItem);
+    cartItem[keys].quantity = cartItem[keys].quantity - 1;
+
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    cartItem.map(
+      (value) => (
+        (totalQuantity += value.quantity),
+        (totalPrice += value.quantity * value.price)
+      )
+    );
+
+    dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+  };
   const handleDeleteCartItem = (id) => {
     cartItem.splice(cartItem.id, 1);
     let totalQuantity = 0;
@@ -19,7 +53,6 @@ function Cart({ className, onClick }) {
     cartItem.map((value) => {
       totalQuantity += value.quantity;
       totalPrice += value.price * value.quantity;
-      
     });
 
     dispatch(deleteCart(cartItem, totalQuantity, totalPrice));
@@ -35,21 +68,19 @@ function Cart({ className, onClick }) {
         <HeadingCart onClick={onClick} />
         {cartItem &&
           cartItem.map((value, key) => (
-            <div className="relative">
-              <CartItems
-                id={key}
-                key={key}
-                img={value.image}
-                name={value.name}
-                price={value.price}
-                quantity={value.quantity}
-                addQuantityOnClick={() => setAddQuantity(addQuantity + 1)}
-                truQuantityOnClick={() => setTruQuantity(truQuantity - 1)}
-                deleteCartItem={() => handleDeleteCartItem(value.id)}
-              />
-            </div>
+            <CartItems
+              id={key}
+              key={key}
+              img={value.image}
+              name={value.name}
+              price={value.price}
+              quantity={value.quantity}
+              addQuantityOnClick={() => handleAddQuantity(value.id, value.key)}
+              truQuantityOnClick={() => handleTruQuantity(value.id, value.key)}
+              deleteCartItem={() => handleDeleteCartItem(value.id)}
+            />
           ))}
-        <CartHanldle totalPrice={cart.totalPrice} />
+        <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
       </div>
     </div>
   );
@@ -91,14 +122,14 @@ function CartItems({
           <div className="flex mt-5">
             <span
               onClick={truQuantityOnClick}
-              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold"
+              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
             >
               -
             </span>
             <span className="w-8 h-8 text-center mt-1">{quantity}</span>
             <span
               onClick={addQuantityOnClick}
-              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold"
+              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
             >
               +
             </span>
@@ -113,9 +144,12 @@ function CartItems({
   );
 }
 
-function CartHanldle({ totalPrice, id }) {
+function CartHanldle({ totalPrice, id, onClick }) {
+  const { accountLogin } = useSelector((state) => state.user);
+
+  let accountLoginLength = accountLogin.length;
   return (
-    <div className="border-t-[1px] border-black absolute top-[700px]" key={id}>
+    <div className="border-t-[1px] border-black" key={id}>
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
         <span className="font-bold text-red-redd text-xl">
@@ -123,12 +157,28 @@ function CartHanldle({ totalPrice, id }) {
         </span>
       </div>
       <div className="flex m-5 justify-between">
+        {accountLoginLength === 0 ? (
+          <Link href="/Login">
+            <button className="bg-red-redd rounded-full px-20 py-2 text-white font-bold uppercase shadowbtn">
+              Checkout
+            </button>
+          </Link>
+        ) : (
+          <Link href="/Checkout">
         <button className="bg-red-redd rounded-full px-20 py-2 text-white font-bold uppercase shadowbtn">
           Checkout
         </button>
-        <button className="bg-white rounded-full px-20 py-2 font-bold uppercase ml-2 shadowbtn">
-          buy more
-        </button>
+        </Link>
+        )}
+
+        <Link href="/Shop">
+          <button
+            onClick={onClick}
+            className="bg-white rounded-full px-20 py-2 font-bold uppercase ml-2 shadowbtn"
+          >
+            buy more
+          </button>
+        </Link>
       </div>
     </div>
   );
@@ -138,7 +188,8 @@ let mapDispatchToProps = (dispatch) => {
   return {
     ADD_CART: (productId, totalQuantity, totalPrice) =>
       dispatch(addCart(productId, totalQuantity, totalPrice)),
-    UPDATE_CART: (cart) => dispatch(updateCart(cart)),
+    UPDATE_CART: (cartItem, totalQuantity, totalPrice) =>
+      dispatch(updateCart(cartItem, totalQuantity, totalPrice)),
     DELETE_CART: (cartItem, totalQuantity, totalPrice) =>
       dispatch(deleteCart(cartItem, totalQuantity, totalPrice)),
   };

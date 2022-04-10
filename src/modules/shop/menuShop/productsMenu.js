@@ -9,7 +9,7 @@ import { addCart } from "../../../redux/action/cartAction";
 function ProductsMenu({ products, filterId }) {
   if (filterId !== null) {
     products = products.filter((e) => {
-      return e.categoryId === filterId;
+      return e.categoryId === filterId + 1;
     });
   }
 
@@ -76,6 +76,7 @@ function ProductsMenuItems({
 
       dispatch(addCart(cartItem, totalQuantity, totalPrice));
     } else {
+      console.log(detailProduct[0], "t");
       let quantity = 1;
       let newCart = {
         id,
@@ -84,9 +85,8 @@ function ProductsMenuItems({
         price,
         quantity,
       };
+      console.log(newCart, "m");
       const checkCart = cartItem.some((el) => el.id === id);
-      let totalQuantity = cartItem.totalQuantity;
-      let totalPrice = cartItem.totalPrice;
 
       if (!checkCart) {
         cartItem = [...cartItem, newCart];

@@ -10,7 +10,6 @@ import { isFulfilled } from "@reduxjs/toolkit";
 
 function Register() {
   const { user } = useSelector((state) => state.user);
-  console.log(user);
 
   const [userName, setUserName] = useState();
   const [passWord, setPassWord] = useState();
@@ -19,7 +18,6 @@ function Register() {
   const dispatch = useDispatch();
 
   const handleUser = (name) => {
-    console.log(name);
     setUserName(name);
   };
   const handlePass = (pass) => {

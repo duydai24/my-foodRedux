@@ -1,10 +1,26 @@
-import * as types from '../types'
+import * as types from "../types";
 
-export const fetchcart = (results) => async dispatch => {
-dispatch({
-    type: types.GET_PRODUCTS,
+export const addProducts = (products) => async (dispatch) => {
+  dispatch({
+    type: types.ADD_PRODUCTS,
     payload: {
-        results
-    }
-})
-}
+      products,
+    },
+  });
+};
+export const deleteProducts = (products) => async (dispatch) => {
+  dispatch({
+    type: types.DELETE_PRODUCTS,
+    payload: {
+      products,
+    },
+  });
+};
+export const updateProducts = (products) => async (dispatch) => {
+    dispatch({
+      type: types.UPDATE_PRODUCTS,
+      payload: {
+        products,
+      },
+    });
+  };

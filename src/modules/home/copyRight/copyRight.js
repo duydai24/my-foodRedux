@@ -2,7 +2,7 @@ import React from "react";
 
 function CopyRight() {
   return (
-    <div className="bg-red-redd py-5">
+    <div className="bg-red-redd pt-3 pb-2">
       <p className="text-[20px] text-black text-center">
         © 2022 - Bản quyền thuộc về
         <span className="text-[20px] text-black font-bold">

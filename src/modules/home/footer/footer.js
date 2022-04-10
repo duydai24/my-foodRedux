@@ -12,7 +12,7 @@ function Footer() {
   return (
     <div className="bg-black opacity-80 py-20 z-20">
       <div className="container flex justify-between">
-        <img src="logoRemove.png" className="w-[20rem] h-[10rem]" />
+        <img src="/logoRemove.png" className="w-[20rem] h-[10rem]" />
         <div className="">
           <p className="text-white uppercase font-bold text-xl mb-6">Address</p>
           <FooterItems icons={<BsFillTelephoneFill />} text={"0964247999"} />

@@ -13,33 +13,35 @@ import { LogOut, userLogin } from "../../../redux/action/userAction";
 function Header({ onClick }) {
   const dispatch = useDispatch();
   const { accountLogin } = useSelector((state) => state.user);
-  const  { cart }  = useSelector((state) => state);
+  const { cart } = useSelector((state) => state);
   const handleLogOut = () => {
     const results = [];
     dispatch(userLogin(results));
   };
   let userNameIsLogin = accountLogin.length;
 
-
-
   return (
     <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black opacity-80">
       <div className="container">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <img className="w-[120px] h-auto pr-10" src="logoRemove.png" />
+            <img className="w-[120px] h-auto pr-10" src="/logoRemove.png" />
             <div className="flex">
               <Link href="/">
                 <div>
                   <IconsHeader text={"Home"} icon={<FaHome />} />
                 </div>
               </Link>
-              <Link href="/">
+              <Link href="/Order">
                 <div>
                   <IconsHeader text={"Order"} icon={<BiBarcodeReader />} />
                 </div>
               </Link>
-              <IconsHeader text={"News"} icon={<BsNewspaper />} />
+              <Link href="/Admin">
+                <div>
+                  <IconsHeader text={"Admin"} icon={<BsNewspaper />} />
+                </div>
+              </Link>
               <Link href="/Shop">
                 <div>
                   <IconsHeader text={"Store"} icon={<FaStore />} />

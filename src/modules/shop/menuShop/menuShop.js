@@ -6,7 +6,9 @@ function MenuShop({ products }) {
   const [filterId, setFilterId] = useState(null);
   const _filterr = (key) => {
     setFilterId(key);
+    console.log(key + 1, "id");
   };
+  
 
   return (
     <div className="px-20 mt-24 flex justify-between">

@@ -8,7 +8,7 @@ function NavMenu({ filterr }) {
     setActive(key);
     filterr(key);
   };
-  const { category } = useSelector((state) => state.category);
+  const { category } = useSelector((state) => state.categorys);
   return (
     <div className="">
       <h2 className="text-2xl text-black font-bold border-b-[1px] border-black py-5">

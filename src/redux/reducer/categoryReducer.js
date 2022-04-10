@@ -19,8 +19,6 @@ export const initialState = {
             name: "Piza",
           },
   ],
-  loading: false,
-  error: null,
 };
 export const categoryReducer = (state = initialState, action) => {
   switch (action.type) {

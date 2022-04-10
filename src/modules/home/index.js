@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import Cart from "../cart/cart";
 import BannerSlide from "./banerSlide/banerSlide";
 import BestFood from "./bestFood/bestFood";
