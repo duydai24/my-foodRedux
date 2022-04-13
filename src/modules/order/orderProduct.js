@@ -48,7 +48,7 @@ function OrderProduct() {
 
         <div className="flex justify-between mt-10">
           <p className="font-bold text-center w-[250px]">Tên sản phẩm</p>
-          <p className="font-bold text-center w-[200px]">Hình ảnh</p>
+          <p className="font-bold text-center lg:max-w-[200px] max-w-[100px]">Hình ảnh</p>
           <p className="font-bold text-center w-[100px]">Số lượng</p>
           <p className="font-bold text-center w-[100px]">Giá cả</p>
           <p className="font-bold text-center w-[300px]">Thành Tiền</p>
@@ -61,7 +61,7 @@ function OrderProduct() {
                 className="flex justify-between mt-14 items-center border-b-[1px] border-gray-600 pb-10"
               >
                 <p className="text-center w-[250px]">{value.name}</p>
-                <img className="max-w-[200px]" src={value.image} />
+                <img className="lg:max-w-[200px] max-w-[100px]" src={value.image} />
                 <p className="text-center w-[100px]">{value.quantity}</p>
                 <p className="text-center w-[100px]">
                   <span>$</span>

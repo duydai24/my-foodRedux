@@ -49,18 +49,14 @@ function Register() {
   }, [isRegister]);
 
   return (
-    <div className="py-32 w-[70%] h-[600px] m-auto mt-[5%] shadow-2xl rounded-lg flex justify-evenly">
+    <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] mt-[30%] shadow-2xl rounded-lg flex justify-evenly">
       <Link href="/">
-        <img className="w-[40%]" src="logoRemove.png" />
+        <img className="hidden lg:block w-[40%]" src="logoRemove.png" />
       </Link>
       <div className="">
         <p className="text-black uppercase font-bold text-2xl">REGISTER</p>
         <p className="text-gray-500">
           Don't have an account?
-          <span className="text-red-redd font-bold cursor-pointer">
-            {" "}
-            Create an account
-          </span>
         </p>
         <div className="">
           <InputLogin

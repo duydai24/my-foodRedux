@@ -3,7 +3,6 @@ import { FaUserAlt } from "react-icons/fa";
 import { FaRegAddressCard } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { GiNotebook } from "react-icons/gi";
-import Link from "next/link";
 import Router from "next/router";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { addCart } from "../../redux/action/cartAction";
@@ -76,12 +75,12 @@ function Checkout() {
     }
   }, [isCheckout]);
   return (
-    <div className="py-32 w-[70%] h-[600px] m-auto mt-[5%] shadow-2xl rounded-lg flex justify-evenly">
-      <div className="">
+    <div className="py-20 lg:w-3/4 lg:h-11/12 w-11/12 h-3/4 mx-auto lg:mt-[7%] mt-[30%] shadow-2xl rounded-lg flex justify-evenly items-center">
+      <div className="w-11/12 lg:w-1/2">
         <p className="text-black uppercase text-center font-bold text-2xl">
           CHECK OUT
         </p>
-        <div className="">
+        <div className="py-10">
           <InputCheckOut
             title={"Họ Tên(*):"}
             name={"name"}
@@ -119,12 +118,12 @@ function Checkout() {
             onChange={handleNote}
           />
         </div>
-        <button
+        <p
           onClick={handleCheckout}
-          className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 px-6 mt-5 ml-32 uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
+          className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 mt-5 mx-7  uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
         >
           CHECKOUT
-        </button>
+        </p>
       </div>
     </div>
   );
@@ -146,7 +145,7 @@ function InputCheckOut({
       <div className="flex">
         <span className="bg-[#F8F8FF] p-3 text-xl">{icon}</span>
         <input
-          className="bg-[#F8F8FF] py-3 pr-32 border-none outline-none"
+          className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
           type={type}
           id={id}
           value={value}

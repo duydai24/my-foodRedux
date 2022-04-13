@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Cart from "../modules/cart/cart";
 import MenuMobile from "../modules/menuMobile/menuMobile";
 import CopyRight from "../modules/home/copyRight/copyRight";
@@ -11,6 +11,26 @@ function Layout({ children }) {
 
   const [onMobileMenu, setOnMobileMenu] = useState(false);
   const _className2 = onMobileMenu ? "offMobileMenu" : " ";
+
+  // const [stickyDown, setStickyDown] = useState(false);
+  // const [pageoffset, setPageoffset] = useState(0);
+
+  // useEffect(() => {
+  //   let prevScrolls = window.pageYOffset;
+  //   window.onscroll = () => {
+  //     let currentScrolls = window.pageYOffset;
+  //     if (prevScrolls < currentScrolls) {
+  //       setStickyDown(true);
+  //     }
+  //     prevScrolls = currentScrolls;
+  //     if (prevScrolls < 300) {
+  //       setStickyDown(false);
+  //     }
+  //     setPageoffset(prevScrolls);
+  //   };
+  // }, [500]);
+
+  // const _stickyDown = stickyDown ? "onTop" : ""
   return (
     <>
       <Header
@@ -24,7 +44,9 @@ function Layout({ children }) {
         onClick={() => setOnMobileMenu(!onMobileMenu)}
       />
       <Cart className={_className} onClick={() => setOnCart(!onCart)} />
-      <main>{children}</main>
+      <main>{children}
+      {/* <button className={"w-10 h-10 rounded-full bg-red-redd text-5xl float-right text-center " + _stickyDown}>^</button> */}
+      </main>
     </>
   );
 }
