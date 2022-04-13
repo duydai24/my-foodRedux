@@ -1,16 +1,17 @@
-import react from "react";
+import react, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { BiBarcodeReader } from "react-icons/bi";
 import { BsNewspaper } from "react-icons/bs";
 import { FaStore } from "react-icons/fa";
 import { HiUserCircle } from "react-icons/hi";
+import { BiMenuAltLeft } from "react-icons/bi";
+
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { connect } from "react-redux";
 import { LogOut, userLogin } from "../../../redux/action/userAction";
 
-function Header({ onClick }) {
+function Header({ onClick, onClick2 }) {
   const dispatch = useDispatch();
   const { accountLogin } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state);
@@ -20,13 +21,33 @@ function Header({ onClick }) {
   };
   let userNameIsLogin = accountLogin.length;
 
+  const [active, setOnActive] = useState(false);
+  const _className = active ? "onLogout" : " ";
+
+  let accountLoginRole;
+  accountLogin &&
+    accountLogin.map((value) => {
+      accountLoginRole = value.role;
+    });
+
   return (
     <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black opacity-80">
       <div className="container">
         <div className="flex justify-between h-16">
+          <span
+            onClick={onClick2}
+            className="text-white text-6xl text-center w-24 md:hidden"
+          >
+            <BiMenuAltLeft />
+          </span>
           <div className="flex items-center">
-            <img className="w-[120px] h-auto pr-10" src="/logoRemove.png" />
-            <div className="flex">
+            <Link href="/">
+              <img
+                className="w-24 md:w-[120px] h-auto md:pr-10"
+                src="/logoRemove.png"
+              />
+            </Link>
+            <div className="hidden md:flex lg:flex">
               <Link href="/">
                 <div>
                   <IconsHeader text={"Home"} icon={<FaHome />} />
@@ -37,11 +58,16 @@ function Header({ onClick }) {
                   <IconsHeader text={"Order"} icon={<BiBarcodeReader />} />
                 </div>
               </Link>
-              <Link href="/Admin">
-                <div>
-                  <IconsHeader text={"Admin"} icon={<BsNewspaper />} />
-                </div>
-              </Link>
+              {accountLoginRole === "admin" ? (
+                <Link href="/Admin">
+                  <div>
+                    <IconsHeader text={"Admin"} icon={<BsNewspaper />} />
+                  </div>
+                </Link>
+              ) : (
+                ""
+              )}
+
               <Link href="/Shop">
                 <div>
                   <IconsHeader text={"Store"} icon={<FaStore />} />
@@ -49,33 +75,52 @@ function Header({ onClick }) {
               </Link>
             </div>
           </div>
-          <div className="flex items-center">
-            <a onClick={onClick} className="text-white text-3xl mr-8 relative">
+          <div className="flex items-center max-w-[70px] xs:max-w-[80px] md:max-w-[96px] mr-3">
+            <a
+              onClick={onClick}
+              className="text-white text-2xl mr-5 md:text-3xl md:mr-8 relative"
+            >
               <FaShoppingCart />
-              <span className="bg-yellow-500 text-white text-center rounded-md text-base px-1 absolute top-2 left-5">
+              <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5">
                 {cart.totalQuantity}
               </span>
             </a>
             <div className="flex items-center relative UserHover">
               {userNameIsLogin > 0 ? (
                 <>
-                  <a className="text-white text-4xl ">
-                    <HiUserCircle />
-                  </a>
-                  <a className="text-white cursor-pointer ml-2">
-                    {accountLogin[0].userName}
-                  </a>
-
-                  <button
-                    onClick={() => handleLogOut()}
-                    className="bg-white rounded px-3 py-1 absolute top-0 left-[4.2rem] hidden LogOut"
+                  <div className="md:mr-3 md:flex lg:flex">
+                    <a
+                      onClick={() => setOnActive(!active)}
+                      className="text-white text-2xl md:text-white md:text-4xl lg:text-white lg:text-4xl"
+                    >
+                      <HiUserCircle />
+                    </a>
+                    <a className="text-white cursor-pointer md:ml-2 lg:ml-2 md:mt-2 ">
+                      {accountLogin[0].userName}
+                    </a>
+                  </div>
+                  <div
+                    className={
+                      "absolute top-14 md:top-16 -right-6 md:left-[2rem] md:w-32 md:h-20 rounded bg-white hidden " +
+                      _className
+                    }
                   >
-                    LogOut
-                  </button>
+                    <span className="flex flex-col justify-center items-center">
+                      <span className="bg-white rounded px-3 py-1">
+                        {accountLogin[0].role}
+                      </span>
+                      <button
+                        onClick={() => handleLogOut()}
+                        className="bg-red-redd text-white px-3 py-1 rounded"
+                      >
+                        LogOut
+                      </button>
+                    </span>
+                  </div>
                 </>
               ) : (
                 <Link href="/Login">
-                  <a className="text-white text-4xl ">
+                  <a className="text-white text-4xl">
                     <HiUserCircle />
                   </a>
                 </Link>
@@ -99,15 +144,4 @@ function IconsHeader({ text, icon }) {
   );
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    LOGOUT: () => dispatch(LogOut()),
-  };
-};
-let mapStateToProps = (state) => {
-  return {
-    accountLogin: state.accountLogin,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

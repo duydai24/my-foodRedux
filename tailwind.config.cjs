@@ -48,10 +48,11 @@ module.exports = {
       zIndex: {
         60: "60",
       },
+       screens: {
+          xs: "430px",
+        },
     },
-    screens: {
-      xs: "428px",
-    },
+   
   },
 
   plugins: [require("@tailwindcss/line-clamp")],

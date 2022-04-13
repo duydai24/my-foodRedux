@@ -14,7 +14,7 @@ function FeedBack() {
   };
   return (
     <div className="container">
-      <div className="my-20 z-20">
+      <div className="my-20 px-5 z-7">
         <Slider {...settings}>
           <FeedBackSlide
             img={"dai.JPG"}
@@ -49,11 +49,11 @@ function FeedBack() {
 function FeedBackSlide({ img, name, title, text }) {
   return (
     <div className="flex flex-col items-center relative pt-6">
-      <span className="w-[15rem] h-[15rem] bg-[#fbb403] spanFeedback" />
-      <img className="w-[15rem] h-[15rem] absolute imgFeedback" src={img} />
-      <p className="uppercase text-black font-bold text-3xl my-5">{name}</p>
-      <p className="text-gray-600 text-xl mb-5">{title}</p>
-      <p className="text-xl text-center">{text}</p>
+      <span className="w-[7rem] h-[7rem] md:w-[10rem] md:h-[10rem] lg:w-[15rem] lg:h-[15rem] bg-[#fbb403] spanFeedback" />
+      <img className="w-[7rem] h-[7rem] md:w-[10rem] md:h-[10rem] lg:w-[15rem] lg:h-[15rem] absolute imgFeedback" src={img} />
+      <p className="uppercase text-black font-bold text-xl md:text-3xl my-5">{name}</p>
+      <p className="text-gray-600 md:text-xl mb-5">{title}</p>
+      <p className="text-sm md:text-xl text-center">{text}</p>
     </div>
   );
 }

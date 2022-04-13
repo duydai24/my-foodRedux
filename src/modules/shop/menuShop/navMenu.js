@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import { MdFastfood } from "react-icons/md";
 
 function NavMenu({ filterr }) {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState();
   const handleCategory = (key) => {
     setActive(key);
     filterr(key);
   };
   const { category } = useSelector((state) => state.categorys);
   return (
-    <div className="">
+    <div className="hidden lg:block">
       <h2 className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
         Popular
       </h2>

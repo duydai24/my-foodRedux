@@ -39,6 +39,7 @@ function Checkout() {
       if (orders.length === 0) {
         let order = [
           {
+            id,
             name: name,
             address: address,
             phone: phone,
@@ -50,6 +51,7 @@ function Checkout() {
         dispatch(addOrder(order, cartItem));
       } else {
         let newOrder = {
+          id: Math.floor(Math.random() * 999999),
           name,
           address,
           phone,

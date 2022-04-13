@@ -1,7 +1,7 @@
 import react, { useState } from "react";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
 
@@ -10,9 +10,9 @@ function Cart({ className, onClick }) {
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
 
-  const handleAddQuantity = (id, key) => {
+  const handleAddQuantity = (id) => {
     let filterCartItem = cartItem.filter((e) => {
-      return e.id === id;
+      return e.id === id;    
     });
     let keys = cartItem.indexOf(...filterCartItem);
     cartItem[keys].quantity = cartItem[keys].quantity + 1;
@@ -46,8 +46,9 @@ function Cart({ className, onClick }) {
 
     dispatch(updateCart(cartItem, totalQuantity, totalPrice));
   };
-  const handleDeleteCartItem = (id) => {
-    cartItem.splice(cartItem.id, 1);
+  const handleDeleteCartItem = (id, key) => {
+    console.log(key, "id");
+    cartItem.splice(key, 1);
     let totalQuantity = 0;
     let totalPrice = 0;
     cartItem.map((value) => {
@@ -64,7 +65,7 @@ function Cart({ className, onClick }) {
         className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-10 opacity-50 overPlayCart "
         onClick={onClick}
       ></div>
-      <div className="fixed top-[4rem] right-0 h-screen w-[35rem] transition-all bg-white shadow-2xl z-10 overflow-scroll">
+      <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-10 overflow-scroll">
         <HeadingCart onClick={onClick} />
         {cartItem &&
           cartItem.map((value, key) => (
@@ -75,9 +76,9 @@ function Cart({ className, onClick }) {
               name={value.name}
               price={value.price}
               quantity={value.quantity}
-              addQuantityOnClick={() => handleAddQuantity(value.id, value.key)}
-              truQuantityOnClick={() => handleTruQuantity(value.id, value.key)}
-              deleteCartItem={() => handleDeleteCartItem(value.id)}
+              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
             />
           ))}
         <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
@@ -113,7 +114,7 @@ function CartItems({
   return (
     <div className="flex m-5 items-center justify-between" key={id}>
       <div className="flex">
-        <img src={img} className="w-36 h-24" />
+        <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" />
         <div className="ml-5">
           <h2 className="font-bold">{name}</h2>
           <span className="font-bold text-red-redd">
@@ -145,11 +146,11 @@ function CartItems({
 }
 
 function CartHanldle({ totalPrice, id, onClick }) {
+  
   const { accountLogin } = useSelector((state) => state.user);
-
   let accountLoginLength = accountLogin.length;
   return (
-    <div className="border-t-[1px] border-black" key={id}>
+    <div className="border-t-[1px] border-gray-200" key={id}>
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
         <span className="font-bold text-red-redd text-xl">
@@ -159,13 +160,13 @@ function CartHanldle({ totalPrice, id, onClick }) {
       <div className="flex m-5 justify-between">
         {accountLoginLength === 0 ? (
           <Link href="/Login">
-            <button className="bg-red-redd rounded-full px-20 py-2 text-white font-bold uppercase shadowbtn">
+            <button className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
               Checkout
             </button>
           </Link>
         ) : (
           <Link href="/Checkout">
-        <button className="bg-red-redd rounded-full px-20 py-2 text-white font-bold uppercase shadowbtn">
+        <button className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
           Checkout
         </button>
         </Link>
@@ -174,7 +175,7 @@ function CartHanldle({ totalPrice, id, onClick }) {
         <Link href="/Shop">
           <button
             onClick={onClick}
-            className="bg-white rounded-full px-20 py-2 font-bold uppercase ml-2 shadowbtn"
+            className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn"
           >
             buy more
           </button>
@@ -184,20 +185,4 @@ function CartHanldle({ totalPrice, id, onClick }) {
   );
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    ADD_CART: (productId, totalQuantity, totalPrice) =>
-      dispatch(addCart(productId, totalQuantity, totalPrice)),
-    UPDATE_CART: (cartItem, totalQuantity, totalPrice) =>
-      dispatch(updateCart(cartItem, totalQuantity, totalPrice)),
-    DELETE_CART: (cartItem, totalQuantity, totalPrice) =>
-      dispatch(deleteCart(cartItem, totalQuantity, totalPrice)),
-  };
-};
-let mapStateToProps = (state) => {
-  return {
-    cart: state.cart,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default Cart;

@@ -19,8 +19,7 @@ function OrderProduct() {
   const { orderProduct } = router.query;
   let { cartItem } = order[orderProduct];
 
-  const handleOrderProduct = () => {
-    let key = order.indexOf(...order);
+  const handleOrderProduct = (key) => {
     order[key].status = "Đã huỷ đơn hàng";
     dispatch(handelOrder(order));
     alert("Huỷ đơn hàng thành công");
@@ -55,26 +54,30 @@ function OrderProduct() {
           <p className="font-bold text-center w-[300px]">Thành Tiền</p>
         </div>
         {cartItem &&
-          cartItem.map((val) => {
+          cartItem.map((value, key) => {
             return (
-              <div className="flex justify-between mt-14 items-center border-b-[1px] border-gray-600 pb-10">
-                <p className="text-center w-[250px]">{val.name}</p>
-                <img className="max-w-[200px]" src={val.image} />
-                <p className="text-center w-[100px]">{val.quantity}</p>
+              <div
+                id={key}
+                className="flex justify-between mt-14 items-center border-b-[1px] border-gray-600 pb-10"
+              >
+                <p className="text-center w-[250px]">{value.name}</p>
+                <img className="max-w-[200px]" src={value.image} />
+                <p className="text-center w-[100px]">{value.quantity}</p>
                 <p className="text-center w-[100px]">
                   <span>$</span>
-                  {val.price}
+                  {value.price}
                 </p>
                 <p className="text-center w-[300px]">
                   <span>$</span>
-                  {val.price * val.quantity}
+                  {value.price * value.quantity}
                 </p>
               </div>
             );
           })}
+
         {statusLength == "Đang chờ xác nhận đơn hàng" ? (
           <button
-            onClick={() => handleOrderProduct()}
+            onClick={() => handleOrderProduct(orderProduct)}
             className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
           >
             Huỷ đơn hàng

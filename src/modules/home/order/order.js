@@ -10,25 +10,25 @@ function Order() {
             Mechanism of action
           </p>
         </div>
-        <div className="flex justify-between mt-16">
+        <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row items-center md:justify-items-center lg:justify-between mt-16">
           <OrderItem
             img={"oder1.jpg"}
             lable={"01 STEP"}
             text={"Choose Your Favorite"}
           />
-          <img className="w-20 h-5 mt-24" src="arrow1Oder.png" />
+          <img className="hidden lg:block w-20 h-5 mb-10" src="arrow1Oder.png" />
           <OrderItem
             img={"oder2.jpg"}
             lable={"02 STEP"}
             text={"We Deliver Your Meals"}
           />
-          <img className="w-20 h-5 mt-24" src="arrow2Oder.png" />
+          <img className="hidden lg:block w-20 h-5 mb-10" src="arrow2Oder.png" />
           <OrderItem
             img={"oder3.jpg"}
             lable={"03 STEP"}
             text={"Cash on Delivery"}
           />
-          <img className="w-20 h-5 mt-24" src="arrow1Oder.png" />
+          <img className="hidden lg:block w-20 h-5 mb-10" src="arrow1Oder.png" />
           <OrderItem
             img={"oder4.jpg"}
             lable={"04 STEP"}
@@ -43,7 +43,7 @@ function Order() {
 function OrderItem({ img, text, lable }) {
   return (
     <div className="OrderItem">
-      <div className="relative top-0 left-0">
+      <div className="relative">
         <img
           className="border-[15px] shadow-xl border-white rounded-full"
           src={img}
@@ -52,7 +52,7 @@ function OrderItem({ img, text, lable }) {
           {lable}
         </span>
       </div>
-      <p className="text-black text-[20px] font-semibold mt-10 text-center textOder">
+      <p className="text-black text-[20px] font-semibold mt-5 md:mt-10 text-center textOder">
         {text}
       </p>
     </div>

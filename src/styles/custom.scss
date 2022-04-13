@@ -1,11 +1,11 @@
-.container {
-    margin: auto;
-    max-width: 1280px;
-}
-.onCart{
+// .container {
+//     margin: auto;
+//     max-width: 1280px;
+// }
+.onCart {
     display: block;
 }
-.active{
+.active {
     color: #ff514e;
 }
 .OrderItem {
@@ -54,77 +54,76 @@
     background: #ff514e;
     transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) 70ms;
 }
-.sandwichHover{
-    &:hover{
-        .sandwichVideo{
+.sandwichHover {
+    &:hover {
+        .sandwichVideo {
             background-color: #ff514e;
         }
-        .playerSandwich{
+        .playerSandwich {
             background: #fbb403;
         }
-        .pSandwich{
+        .pSandwich {
             color: white;
         }
-        .gooey1{
+        .gooey1 {
             top: 0;
             right: -30%;
         }
-        .gooey2{
+        .gooey2 {
             bottom: -20%;
             left: -15%;
         }
-        .gooey3{
+        .gooey3 {
             top: -15%;
             left: -15%;
         }
-
     }
 }
-.openYoutube{
+.openYoutube {
     display: block !important;
 }
-.imgFeedback{
+.imgFeedback {
     object-fit: cover;
     border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
 }
-.spanFeedback{
+.spanFeedback {
     border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
     transform: translateX(-7px) rotate(-45deg);
 }
-.ProductsMenuItems{
-    &:hover{
-        .SpanProductsMenuItemsHover{
+.ProductsMenuItems {
+    &:hover {
+        .SpanProductsMenuItemsHover {
             visibility: visible;
             right: 40px;
         }
     }
 }
-.SpanProductsMenuItemsHover{
+.SpanProductsMenuItemsHover {
     transition: all 0.15s linear;
 }
-.zoomImg{
-    transition: all .3s ease;
-    &:hover{
-        transform: scale(1.1);
-        width: 100%;
-    }
-}
-.shadowbtn{
+.shadowbtn {
     box-shadow: 0px 3px 8px rgb(0 0 0 / 20%) !important;
 }
-.overPlayCart{
+.overPlayCart {
     height: calc(100vh - 4rem);
     width: calc(100vw - 35rem);
 }
-.UserHover{
-    &:hover{
-        .LogOut{
-            display: block !important;
-        }
-    }
-}
-.hoverr{
-    &:hover{
+.hoverr {
+    &:hover {
         color: #ff514e;
     }
 }
+.onLogout {
+    display: block !important;
+}
+.react-tabs__tab--selected {
+    background: #ff514e !important;
+}
+.menuMobile {
+    height: calc(100vh - 64px);
+}
+.offMobileMenu {
+    display: block;
+    transform: translateX(0);
+}
+

@@ -6,7 +6,7 @@ function BestFood() {
     <div className="pb-24 z-20">
       <div className="bg-[url('/bgBestFood.jpg')] bg-cover">
         <div className="flex justify-between">
-          <div className="ml-10">
+          <div className="ml-2 md:ml-10">
             <BestFoodItems
               number={"01"}
               lable={"Mild Butter"}
@@ -14,7 +14,7 @@ function BestFood() {
                 "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
               }
             />
-            <div className="ml-10">
+            <div className="ml-2 md:ml-10">
               <BestFoodItems
                 number={"01"}
                 lable={"Mild Butter"}
@@ -31,7 +31,7 @@ function BestFood() {
               }
             />
           </div>
-          <div className="mr-10">
+          <div className="mr-2 md:mr-10">
             <BestFoodItems
               number={"01"}
               lable={"Mild Butter"}
@@ -39,7 +39,7 @@ function BestFood() {
                 "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
               }
             />
-            <div className="ml-10">
+            <div className="ml-2 md:ml-10">
               <BestFoodItems
                 number={"01"}
                 lable={"Mild Butter"}
@@ -60,7 +60,7 @@ function BestFood() {
       </div>
       <div className="flex items-center flex-col">
         <p className="text-[#fbb403] font-bold text-3xl mt-5">Best Food!</p>
-        <p className="text-black font-bold text-4xl mt-5">
+        <p className="text-black text-center font-bold text-4xl mt-5">
           Super delicious Steak
           <span className="text-[#ff514e]"> Hamburger</span>
         </p>

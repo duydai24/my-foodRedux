@@ -31,10 +31,13 @@ function Login() {
         let idLogin = user.filter((e) => {
           return e.userName === userName;
         });
-        const results = [{
-          id: idLogin[0].id,
-          userName,
-        }];
+        const results = [
+          {
+            id: idLogin[0].id,
+            userName,
+            role: idLogin[0].role,
+          },
+        ];
         dispatch(userLogin(results));
       } else {
         alert("Mật khẩu không đúng");
@@ -55,12 +58,16 @@ function Login() {
         <img className="w-[40%]" src="logoRemove.png" />
       </Link>
       <div className="">
+        {user &&
+          user.map((value) => {
+            return <p className="text-black">{value.role}</p>;
+          })}
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
           Don't have an account?
           <Link href="/Register">
             <span className="text-red-redd font-bold cursor-pointer">
-              {" "}
+              {""}
               Create an account
             </span>
           </Link>
@@ -84,6 +91,15 @@ function Login() {
             value={passWord}
             onChange={handlePass}
           />
+          {/* <InputLogin
+            title={"Check Password:"}
+            placeholder={"Your Check Password"}
+            icon={<BiLock />}
+            name={"checkPassword"}
+            type={"password"}
+            value={checkPassWord}
+            onChange={handleCheckPass}
+          /> */}
           <div className="mt-5">
             <input
               className="w-5 h-5"

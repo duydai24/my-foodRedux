@@ -26,7 +26,7 @@ function BannerSlide() {
 function SlideHomeItem({ img }) {
   return (
     <div>
-      <img className="w-screen h-[50rem]" src={img} />
+      <img className="w-screen h-[17rem] md:h-[35rem] lg:h-[50rem]" src={img} />
     </div>
   );
 }
