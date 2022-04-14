@@ -10,7 +10,8 @@ function ProductsAdmin() {
   const [buttonAdd, setButtonAdd] = useState(false);
   const [editItem, setEditItem] = useState({});
   const [index, setIndex] = useState(0);
-  const { products } = useSelector((state) => state.products);
+  const { product } = useSelector((state) => state);
+  const { products } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
 

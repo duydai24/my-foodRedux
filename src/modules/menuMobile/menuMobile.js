@@ -19,7 +19,7 @@ function MenuMobile({ className, onClick }) {
     <div>
       <div
         className={
-          "transition-all bg-[url('/banerShop.jpg')] bg-covermt-16 w-[80%] -translate-x-full mt-[64px] z-50 fixed menuMobile " +
+          "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full mt-[64px] z-50 fixed menuMobile " +
           className
         }
       >

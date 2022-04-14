@@ -24,3 +24,12 @@ export const updateProducts = (products) => async (dispatch) => {
       },
     });
   };
+  export const quantityNumberProducts = (product, quantityNumber) => async (dispatch) => {
+    dispatch({
+      type: types.QUANTITY_PRODUCTS,
+      payload: {
+        product,
+        quantityNumber,
+      },
+    });
+  };

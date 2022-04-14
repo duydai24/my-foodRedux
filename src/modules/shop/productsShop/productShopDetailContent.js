@@ -1,20 +1,79 @@
 import react from "react";
-import { useSelector } from "react-redux";
 import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from "../../../redux/action/cartAction";
+import { quantityNumberProducts } from "../../../redux/action/productsAction";
 import Star from "../../../lib/star";
 import { useRouter } from "next/router";
-
-
+import { prototype } from "router";
 
 function ProductsShopDetailContent() {
-  const { products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product);
+  const { cartItem } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state);
   const router = useRouter();
   const { productShopDetailContent } = router.query;
   let new_product = products.filter((e) => {
     return e.id == productShopDetailContent;
   });
 
+  let quantityNumber = 1;
+
+  const handleAddQuantity = (id, key) => {
+    quantityNumber += product.quantityNumber;
+    dispatch(quantityNumberProducts(product, quantityNumber));
+  };
+
+  const handleTruQuantity = (id, key) => {
+    quantityNumber = product.quantityNumber - 1;
+    dispatch(quantityNumberProducts(product, quantityNumber));
+  };
+
+  const addToCart = (id, key, name, img, price) => {
+    const checkCart = cartItem.some((el) => el.id === id);
+    if (!checkCart) {
+      let totalQuantity = 0;
+      let totalPrice = 0;
+      let new_cartItem = {
+        id,
+        name: name,
+        image: img,
+        price: price,
+        quantity: product.quantityNumber,
+      };
+      cartItem = [...cartItem, new_cartItem];
+      cartItem.map(
+        (value) => (
+          (totalQuantity += value.quantity),
+          (totalPrice += value.quantity * value.price)
+        )
+      );
+      dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      quantityNumber = 1;
+     dispatch(quantityNumberProducts(product, quantityNumber));
+    } else {
+      let filterCart = cartItem.filter((e) => {
+        return e.id === id;
+      });
+      let key = cartItem.indexOf(...filterCart);
+      cartItem[key].quantity = cartItem[key].quantity + 1;
+      let totalQuantity = 0;
+      let totalPrice = 0;
+      cartItem.map(
+        (value) => (
+          (totalQuantity += value.quantity),
+          (totalPrice += value.quantity * value.price)
+        )
+      );
+      quantityNumber = 1;
+      dispatch(quantityNumberProducts(product, quantityNumber));
+      dispatch(addCart(cartItem, totalQuantity, totalPrice));
+    }
+    alert("Thêm vào giỏ hàng thành công");
+  };
   return (
     <>
       {new_product &&
@@ -24,9 +83,14 @@ function ProductsShopDetailContent() {
             key={key}
             name={value.name}
             img={value.image}
-            quantity={value.totalQuantity}
             description={value.description}
+            quantity={product.quantityNumber}
             price={value.price}
+            addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+            truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+            addToCart={() =>
+              addToCart(value.id, key, value.name, value.image, value.price)
+            }
           />
         ))}
     </>
@@ -40,16 +104,20 @@ function ProductsShopDetailContentItems({
   quantity,
   img,
   id,
+  truQuantityOnClick,
+  addQuantityOnClick,
+  addToCart,
 }) {
+  const { product } = useSelector((state) => state);
   return (
-    <div key={id} className="flex py-24">
-      <div className="w-1/2">
+    <div key={id} className="flex lg:flex-row flex-col items-center py-24">
+      <div className="lg:w-1/2 w-3/4">
         <img
           className="rounded-md shadow-xlanh cursor-zoom-in overflow-hidden"
           src={img}
         />
       </div>
-      <div className="w-1/2 px-10">
+      <div className="lg:w-1/2 w-11/12 px-10">
         <div className="">
           <p className="font-bold text-2xl">{name}</p>
           <div className="flex py-5">
@@ -63,19 +131,28 @@ function ProductsShopDetailContentItems({
           <p className="font-bold text-red-redd text-2xl mr-3 pb-5">{price}</p>
           <p>{description}</p>
         </div>
-        <div className="border-y-[1px] border-gray-600 py-5 flex justify-around mt-24">
+        <div className="border-y-[1px] border-gray-600 py-5 flex justify-around lg:mt-24 mt-5">
           <div className="flex">
-            <span className="bg-gray-300 w-10 h-10 pt-2 text-center rounded-full hover:text-[#ff514e]">
+            <span
+              onClick={truQuantityOnClick}
+              className="bg-gray-300 cursor-pointer w-10 h-10 pt-2 text-center rounded-full hover:text-[#ff514e]"
+            >
               -
             </span>
             <span className=" w-10 h-10 pt-2 text-center rounded-full">
               {quantity}
             </span>
-            <span className="bg-gray-300 w-10 h-10 pt-2 text-center  rounded-full hover:text-[#ff514e]">
+            <span
+              onClick={addQuantityOnClick}
+              className="bg-gray-300 cursor-pointer w-10 h-10 pt-2 text-center  rounded-full hover:text-[#ff514e]"
+            >
               +
             </span>
           </div>
-          <button className="bg-[#ff514e] rounded-3xl font-bold text-white py-1 px-20 shadow-lg uppercase border-2 border-[#ff514e] hover:bg-white hover:text-[#ff514e] flex">
+          <button
+            onClick={addToCart}
+            className="bg-[#ff514e] rounded-3xl font-bold text-white py-1 lg:px-20 px-2 md:px-16 shadow-lg uppercase border-2 border-[#ff514e] hover:bg-white hover:text-[#ff514e] flex"
+          >
             <span className="text-xl">
               <BsFillCartPlusFill />
             </span>

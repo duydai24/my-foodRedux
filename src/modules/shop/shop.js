@@ -7,7 +7,7 @@ import MenuShop from "./menuShop/menuShop";
 import Layout from "../../layout/layout";
 
 function Shop() {
-  const { products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.product);
 
   return (
     <>

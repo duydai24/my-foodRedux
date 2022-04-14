@@ -13,3 +13,4 @@ export const DELETE_ALL_CART = 'DELETE_ALL_CART';
 export const UPDATE_CART = 'UPDATE_CART';
 export const ADD_ORDER = 'ADD_ORDER';
 export const HANDLE_ORDER = 'HANDLE_ORDER';
+export const QUANTITY_PRODUCTS = 'QUANTITY_PRODUCTS';

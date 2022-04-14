@@ -5,6 +5,7 @@ import { createWrapper } from "next-redux-wrapper";
 import store from "../src/redux/store";
 import { cartReducer } from "../src/redux/reducer/cartReducer";
 import Layout from "../src/layout/layout";
+import OnscrollTop from "../src/layout/onScrollTop";
 
 const TITLE = "My Food";
 
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }) {
       </Helmet>
       <Provider store={store}>
         <Layout>
+          <OnscrollTop>
           <Component {...pageProps} />
+          </OnscrollTop>
         </Layout>
       </Provider>
     </>

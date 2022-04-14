@@ -10,13 +10,8 @@ function Cart({ className, onClick }) {
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
 
-  const handleAddQuantity = (id) => {
-    let filterCartItem = cartItem.filter((e) => {
-      return e.id === id;    
-    });
-    let keys = cartItem.indexOf(...filterCartItem);
-    cartItem[keys].quantity = cartItem[keys].quantity + 1;
-
+  const handleAddQuantity = (id, key) => {
+    cartItem[key].quantity = cartItem[key].quantity + 1;
     let totalQuantity = 0;
     let totalPrice = 0;
     cartItem.map(
@@ -29,11 +24,7 @@ function Cart({ className, onClick }) {
     dispatch(updateCart(cartItem, totalQuantity, totalPrice));
   };
   const handleTruQuantity = (id, key) => {
-    let filterCartItem = cartItem.filter((e) => {
-      return e.id === id;
-    });
-    let keys = cartItem.indexOf(...filterCartItem);
-    cartItem[keys].quantity = cartItem[keys].quantity - 1;
+    cartItem[key].quantity = cartItem[key].quantity - 1;
 
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -47,7 +38,6 @@ function Cart({ className, onClick }) {
     dispatch(updateCart(cartItem, totalQuantity, totalPrice));
   };
   const handleDeleteCartItem = (id, key) => {
-    console.log(key, "id");
     cartItem.splice(key, 1);
     let totalQuantity = 0;
     let totalPrice = 0;

@@ -1,4 +1,5 @@
-import { combineReducers, autoMergeLevel2 } from "redux";
+import { combineReducers } from "redux";
+// import { combineReducers, autoMergeLevel2 } from "redux";
 import { persistReducer } from "redux-persist";
 import { cartReducer } from "./cartReducer";
 import { categoryReducer } from "./categoryReducer";
@@ -9,7 +10,7 @@ import { orderReducer } from "./orderReduce";
 const reduxStore = combineReducers({
   user: userReducer,
   cart: cartReducer,
-  products: productsReducer,
+  product: productsReducer,
   categorys: categoryReducer,
   orders: orderReducer
 });
@@ -17,7 +18,7 @@ const reduxStore = combineReducers({
 const persistConfig = {
   key: "root",
   storage: storage,
-  stateReconciler: autoMergeLevel2,
+  // stateReconciler: autoMergeLevel2,
 };
 const pReducer = persistReducer(persistConfig, reduxStore);
 export default pReducer;
