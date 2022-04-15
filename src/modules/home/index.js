@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Layout from "../../layout/layout";
 import BannerSlide from "./banerSlide/banerSlide";
 import BestFood from "./bestFood/bestFood";
@@ -8,25 +8,26 @@ import Delivery from "./delivery/delivery";
 import FeedBack from "./feedBack/feedBack";
 import Footer from "./footer/footer";
 import Order from "./order/order";
+import SanwichVideo from "./sanwichVideo/sanwichVideo";
 
 function index() {
   
 
   
   return (
-    <div className="relative">
+    <>
       <Layout>
         <BannerSlide />
         <Order />
         <BestFood />
         <Delivery />
-        <SanwichVideo /> 
+        {/* <SanwichVideo />  */}
         <CountDown />
         <FeedBack />
         <Footer />
         <CopyRight />
       </Layout>
-    </div>
+    </>
   );
 }
 export default index;

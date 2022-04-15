@@ -21,7 +21,7 @@ function OrderContent() {
       {order &&
         order.map((value, key) => {
           return (
-            <div className="flex justify-between mt-14 border-b-[1px] border-gray-600 pb-5">
+            <div id={key} className="flex justify-between mt-14 border-b-[1px] border-gray-600 pb-5">
               <p className="text-center w-[250px]">{value.name}</p>
               <p className="text-center w-[100px]">{value.address}</p>
               <p className="text-center w-[100px]">{value.phone}</p>

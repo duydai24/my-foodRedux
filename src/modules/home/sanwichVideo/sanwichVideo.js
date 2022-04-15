@@ -38,7 +38,7 @@ function SanwichVideo() {
             className={"absolute -bottom-10 -left-36 z-30 hidden " + _open}
             onClick={onOpenYoutubeClass}
           >
-            <iframe
+            {/* <iframe
               width="560"
               height="315"
               src="https://www.youtube.com/embed/exeuLwv57nU"
@@ -46,7 +46,7 @@ function SanwichVideo() {
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
-            ></iframe>
+            ></iframe> */}
           </div>
         </div>
       </div>
