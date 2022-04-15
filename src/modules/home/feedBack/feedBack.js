@@ -17,7 +17,7 @@ function FeedBack() {
       <div className="my-20 px-5 z-7">
         <Slider {...settings}>
           <FeedBackSlide
-            img={"dai.JPG"}
+            img={"dai.jpg"}
             name={"Duy Đại"}
             title={"Developer"}
             text={

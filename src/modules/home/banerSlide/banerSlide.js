@@ -15,7 +15,7 @@ function BannerSlide() {
   return (
     <div className="z-20">
       <Slider {...settings}>
-        <SlideHomeItem img={'bgHome.png'}/>
+        <SlideHomeItem img={'bgHome.jpg'}/>
         <SlideHomeItem img={'bg2Home.jpg'}/>
         <SlideHomeItem img={'bg3Home.jpg'}/>
       </Slider>
