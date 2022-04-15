@@ -17,15 +17,27 @@ function OrderProduct() {
 
   const router = useRouter();
   const { orderProduct } = router.query;
+  // let new_Order = order.filter((e) => {
+  //   e.id === orderProduct
+  // })
+  // console.log(new_Order, "k");
   let { cartItem } = order[orderProduct];
-
-  const handleOrderProduct = (key) => {
-    order[key].status = "Đã huỷ đơn hàng";
+  console.log(cartItem, "cartItem");
+  console.log(order[orderProduct], "order");
+  // const {cartItem} = order[]
+ 
+  const handleOrderProduct = (id) => {
+    order[id].status = "Đã huỷ đơn hàng";
     dispatch(handelOrder(order));
     alert("Huỷ đơn hàng thành công");
     Router.push("/Order");
   };
-  let statusLength = order[orderProduct].status;
+  let statusLength = order[orderProduct].status
+  // let statusLength;
+  // new_Order && new_Order.map((value)=> {
+  //   
+  // })
+
 
   return (
     <>
