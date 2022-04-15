@@ -53,22 +53,22 @@ function Login() {
     }
   }, [isLogin]);
   return (
-    <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] mt-[30%] shadow-2xl rounded-lg flex justify-evenly">
+    <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
       <Link href="/">
         <img className="hidden lg:block w-[40%]" src="logoRemove.png" />
       </Link>
       <div className="">
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
-          Don't have an account?
+          Don't have an account? 
           <Link href="/Register">
             <span className="text-red-redd font-bold cursor-pointer">
-              {""}
+              {" "}
               Create an account
             </span>
           </Link>
         </p>
-        <div className="">
+        <div className=" py-5">
           <InputLogin
             title={"Email:"}
             name={"email"}

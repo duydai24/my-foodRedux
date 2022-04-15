@@ -1,10 +1,9 @@
 import react from "react";
-import ButtonOderNow from '../../../lib/buttonOderNow/buttonOderNow';
-
+import ButtonOderNow from "../../../lib/buttonOderNow/buttonOderNow";
 
 function Delivery() {
   return (
-    <div className="container md:flex justify-between z-20 pb-20">    
+    <div className="container md:flex justify-between z-20 pb-20">
       <div className="px-5 md:w-2/5">
         <p className="text-[#fbb403] font-bold text-3xl">Delivery</p>
         <p className="text-black font-bold text-4xl mt-3">
@@ -23,7 +22,9 @@ function Delivery() {
             <p className="">Delivery Order Num</p>
             <span className="text-[#ff514e] font-bold">0964247999</span>
           </div>
-          <ButtonOderNow />
+          <div className="hidden lg:block">
+            <ButtonOderNow />
+          </div>
         </div>
       </div>
       <div className="hidden md:block w-3/5">

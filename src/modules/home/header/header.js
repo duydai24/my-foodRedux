@@ -43,7 +43,7 @@ function Header({ onClick, onClick2 }) {
           <div className="flex items-center">
             <Link href="/">
               <img
-                className="w-24 md:w-[120px] h-auto md:pr-10"
+                className="w-24 md:w-[120px] h-auto md:pr-10 cursor-pointer"
                 src="/logoRemove.png"
               />
             </Link>
