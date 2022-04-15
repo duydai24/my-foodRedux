@@ -15,13 +15,6 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         order: action.payload.order,
       };
-
-
-    // case "HANDLE_ORDER":
-    //   let { id, dataOrder } = action.payload;
-    //   state.splice(id, 1, dataOrder);
-    //   return state;
-
     default:
       return state;
   }
