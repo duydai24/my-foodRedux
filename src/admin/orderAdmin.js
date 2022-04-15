@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handelOrder } from "../redux/action/oderAction";
 
 function OrderAdmin() {

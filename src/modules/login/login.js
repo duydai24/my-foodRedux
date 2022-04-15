@@ -1,7 +1,7 @@
 import react, { useState, useEffect, useRouter } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { BiLock } from "react-icons/bi";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
 import { userLogin } from "../../redux/action/userAction";
@@ -144,16 +144,6 @@ function InputLogin({
   );
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    GET_USERS: (results) => dispatch(getUser(results)),
-    ACOUNT_LOGIN: (results) => dispatch(userLogin(results)),
-  };
-};
-let mapStateToProps = (state) => {
-  return {
-    user: state.user.user,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default Login

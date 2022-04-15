@@ -1,9 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useSelector } from "react-redux";
 import Link from "next/link";
 
 function OrderContent() {
-  const dispatch = useDispatch();
   const { order } = useSelector((state) => state.orders);
 
   return (
@@ -40,13 +39,6 @@ function OrderContent() {
   );
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {};
-};
-let mapStateToProps = (state) => {
-  return {
-    order: state.user.order,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderContent);
+
+export default OrderContent

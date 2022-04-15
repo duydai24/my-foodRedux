@@ -4,7 +4,7 @@ import { FaRegAddressCard } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { GiNotebook } from "react-icons/gi";
 import Router from "next/router";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../redux/action/cartAction";
 import { addOrder } from "../../redux/action/oderAction";
 
@@ -158,17 +158,4 @@ function InputCheckOut({
   );
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    ADD_ORDER: (order, cartItem) => dispatch(addOrder(order, cartItem)),
-    DELETE_ALL_CART: () => dispatch(removeAllCart()),
-  };
-};
-let mapStateToProps = (state) => {
-  return {
-    order: state.order,
-    cart: state.cart,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default Checkout

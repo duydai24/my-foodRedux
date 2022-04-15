@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../home/header/header";
 import Footer from "../home/footer/footer";
 import CopyRight from "../home/copyRight/copyRight";
@@ -104,15 +104,6 @@ function OrderProduct() {
   );
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    HANDLE_ORDER: (order) => dispatch(handelOrder(order)),
-  };
-};
-let mapStateToProps = (state) => {
-  return {
-    order: state.user.order,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderProduct);
+
+export default OrderProduct
