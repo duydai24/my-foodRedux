@@ -52,10 +52,10 @@ function Cart({ className, onClick }) {
   return (
     <div className={"hidden " + className}>
       <div
-        className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-10 opacity-50 overPlayCart "
+        className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-60 opacity-50 overPlayCart "
         onClick={onClick}
       ></div>
-      <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-10 overflow-scroll">
+      <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-60 overflow-scroll">
         <HeadingCart onClick={onClick} />
         {cartItem &&
           cartItem.map((value, key) => (
