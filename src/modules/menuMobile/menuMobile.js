@@ -26,7 +26,7 @@ function MenuMobile({ className, onClick }) {
           className
         }
       >
-        <div className="border-[1px] border-white">
+        <div className="">
           <div className="flex justify-between items-center">
             {accountLogin.length > 0 ? (
               <div className="flex items-center">
@@ -68,7 +68,7 @@ function MenuMobile({ className, onClick }) {
             </span>
           </div>
         </div>
-        <div className="border-t-[1px] border-white">
+        <div className="border-t-[1px] border-gray-400">
           <Link href="/">
             <div
               onClick={onClick}

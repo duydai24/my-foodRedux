@@ -6,8 +6,8 @@ function BannerSlide() {
   const settings = {
     dots: false,
     infinite: true,
-    autoplaySpeed: 3000,
-    speed: 3000,
+    autoplaySpeed: 6000,
+    speed: 6000,
     autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -20,14 +20,14 @@ function BannerSlide() {
         <SlideHomeItem img={"bg2Home.jpg"} />
         <SlideHomeItem img={"bg3Home.jpg"} />
       </Slider>
-      <div className="container">
-      <div className="flex flex-col items-start absolute top-[30%] max-w-4xl">
+      <div className="container lg:block md:hidden">
+      <div className="flex flex-col items-start absolute top-[30%]  max-w-4xl">
         <p className="uppercase text-white font-bold text-lg">
           ENJOY YOUR MEAL
         </p>
-        <p className="font-bold text-8xl text-white py-10">
+        <p className="font-bold lg:text-8xl md:text-4xl text-xl text-white py-10">
           Good food is wise{" "}
-          <span className="font-bold text-8xl text-red-redd">
+          <span className="font-bold lg:text-8xl md:text-4xl text-xl text-red-redd">
             {" "}
             medicine
           </span>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getBase64 } from "../lib/getBase64";
 import {
   addProducts,
   deleteProducts,
@@ -9,8 +10,9 @@ import {
 function ProductsAdmin() {
   const [buttonAdd, setButtonAdd] = useState(false);
   const [editItem, setEditItem] = useState({});
+  const [nameImage, setNameImage] = useState();
+  const [imageFile, setImageFile] = useState("");
   const [index, setIndex] = useState(0);
-  const { product } = useSelector((state) => state);
   const { products } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
@@ -38,10 +40,11 @@ function ProductsAdmin() {
       setEditItem({
         name: "",
         price: "",
+        editItem: "",
         image: "",
         description: "",
         quantity: "",
-        categoryId: ""
+        categoryId: "",
       });
       alert("Thêm mới sản phẩm thành công");
     } else {
@@ -57,9 +60,33 @@ function ProductsAdmin() {
     const { name, value } = e.target;
     setEditItem({ ...editItem, [name]: value });
   };
+  const onImageChange = (e) => {
+    let file = e.target.files;
+
+    setImageFile({
+      image: URL.createObjectURL(file[0]),
+    });
+    if (file) {
+      if (
+        file[0].type == "image/png" ||
+        file[0].type == "image/jpeg" ||
+        file[0].type == "image/jpg"
+      ) {
+        getBase64(file[0]).then((res) => {
+          setEditItem({ ...editItem, image: res });
+          setNameImage(file[0]?.name);
+        });
+      } else {
+        return toast.warning(
+          "The file is not in the correct format(must be jpg, jpeg, png)"
+        );
+      }
+    }
+  };
   const handleEditProduct = (value, key, index) => {
     setButtonAdd(true);
     setEditItem(value);
+    setImageFile(value.image);
     index = key;
     setIndex(index);
   };
@@ -91,7 +118,7 @@ function ProductsAdmin() {
         image: "",
         description: "",
         quantity: "",
-        categoryId: ""
+        categoryId: "",
       });
       alert("Update sản phẩm thành công");
     } else {
@@ -100,6 +127,14 @@ function ProductsAdmin() {
   };
   const handlCancelProducts = () => {
     setButtonAdd(false);
+    setEditItem({
+      name: "",
+      price: "",
+      image: "",
+      description: "",
+      quantity: "",
+      categoryId: "",
+    });
   };
   return (
     <>
@@ -143,14 +178,17 @@ function ProductsAdmin() {
         <div className="w-[45%]">
           <div className="mb-5">
             <p className="m-0">Ảnh sản phẩm:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
-              type="text"
-              name="image"
-              value={editItem.image}
-              onChange={onChange}
-              placeholder="Nhập ảnh sản phẩm..."
-            />
+            <div className="flex justify-between">
+              <input
+                className="bg-[#F8F8FF] py-1 w-full border-none outline-none"
+                type="file"
+                name="image"
+                // value={editItem.image}
+                onChange={onImageChange}
+                placeholder="Nhập ảnh sản phẩm..."
+              />
+              <img height={50} width={50} src={editItem.image} />
+            </div>
           </div>
           <div className="mb-5">
             <p className="m-0">Loại sản phẩm:</p>
@@ -210,7 +248,7 @@ function ProductsAdmin() {
       <div className="py-24">
         <div className="flex justify-between mb-5">
           <p className="font-bold w-[200px] text-center">Tên sản phẩm</p>
-          <p className="font-bold w-[200px] text-center">Ảnh sản phẩm</p>
+          <p className="font-bold h-28 w-[200px] text-center">Ảnh sản phẩm</p>
           <p className="font-bold w-[150px] text-center">Giá sản phẩm</p>
           <p className="font-bold w-[150px] text-center">Số lượng sản phẩm</p>
           <p className="font-bold w-[150px] text-center">Loại sản phẩm</p>
@@ -223,8 +261,8 @@ function ProductsAdmin() {
               <div id={key} className="flex justify-between items-center mb-5">
                 <p className=" w-[200px] text-center">{value.name}</p>
                 <img
-                  src={value.image}
-                  className="font-bold w-[200px] text-center"
+                  src={value.image} height={100}
+                  className="font-bold h-[100px] w-[200px] text-center"
                 />
                 <p className=" w-[150px] text-center">{value.price}</p>
                 <p className=" w-[150px] text-center">{value.quantity}</p>

@@ -57,20 +57,23 @@ function Cart({ className, onClick }) {
       ></div>
       <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-60 overflow-scroll">
         <HeadingCart onClick={onClick} />
-        {cartItem &&
-          cartItem.map((value, key) => (
-            <CartItems
-              id={key}
-              key={key}
-              img={value.image}
-              name={value.name}
-              price={value.price}
-              quantity={value.quantity}
-              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
-            />
-          ))}
+        {cartItem.length > 0
+          ? cartItem &&
+            cartItem.map((value, key) => (
+              <CartItems
+                id={key}
+                key={key}
+                img={value.image}
+                name={value.name}
+                price={value.price}
+                quantity={value.quantity}
+                addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+                truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+                deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+              />
+            ))
+          : <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>}
+
         <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
       </div>
     </div>
@@ -136,11 +139,11 @@ function CartItems({
 }
 
 function CartHanldle({ totalPrice, id, onClick }) {
-  
   const { accountLogin } = useSelector((state) => state.user);
   let accountLoginLength = accountLogin.length;
   return (
     <div className="border-t-[1px] border-gray-200" key={id}>
+      <button className="rounded-lg bg-slate-300 w-32 h-3 ml-[38%]"/>
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
         <span className="font-bold text-red-redd text-xl">
@@ -156,10 +159,10 @@ function CartHanldle({ totalPrice, id, onClick }) {
           </Link>
         ) : (
           <Link href="/Checkout">
-        <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
-          Checkout
-        </button>
-        </Link>
+            <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+              Checkout
+            </button>
+          </Link>
         )}
 
         <Link href="/Shop">

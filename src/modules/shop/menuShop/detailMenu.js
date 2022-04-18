@@ -1,23 +1,41 @@
 import react, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
-import { FaThList } from "react-icons/fa";
-import { FaTh } from "react-icons/fa";
+import { BsFileArrowUpFill } from "react-icons/bs";
+import { BsFileArrowDownFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import ProductsMenu from "./productsMenu";
 
 function DetailMenu({ products, filterId }) {
+  const [lowToHigh, setLowToHigh] = useState();
+  const [highTolow, setHighTolow] = useState();
+
+  const HandleLowToHigh = () => {
+    setLowToHigh(!lowToHigh);
+  };
+  const HandleHighTolow = () => {
+    setHighTolow(!highTolow);
+  };
+  const _lowToHigh = lowToHigh ? "active" : " ";
+  const _highTolow = highTolow ? "active" : " ";
+
+
   return (
     <div className="">
       <div className="py-5 flex justify-between">
         <HandleMenu products={products} />
-        <StylesHandleMenu />
+        <StylesHandleMenu
+          className={_lowToHigh}
+          className2={_highTolow}
+          handleLowToHigh={() => HandleLowToHigh()}
+          handleHighTolow={() => HandleHighTolow()}
+        />
       </div>
       <ProductsMenu products={products} filterId={filterId} />
     </div>
   );
 }
 
-function HandleMenu({products}) {
+function HandleMenu({ products }) {
   const [inputShare, setInputShare] = useState("");
   let searchString = inputShare;
   let shareProducts;
@@ -43,14 +61,17 @@ function HandleMenu({products}) {
   );
 }
 
-function StylesHandleMenu() {
+function StylesHandleMenu({ handleHighTolow, handleLowToHigh, className, className2 }) {
   return (
     <div className="flex items-center mr-2">
-      <span className="text-red-redd text-3xl lg:mr-5 mr-2">
-        <FaThList />
+      <span
+        onClick={handleLowToHigh}
+        className={"text-3xl lg:mr-5 mr-2 " + className}
+      >
+        <BsFileArrowUpFill />
       </span>
-      <span className="text-3xl">
-        <FaTh />
+      <span onClick={handleHighTolow} className={"text-3xl " + className2}>
+        <BsFileArrowDownFill />
       </span>
     </div>
   );
