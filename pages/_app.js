@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
 import { createWrapper } from "next-redux-wrapper";
 import store from "../src/redux/store";
-import { cartReducer } from "../src/redux/reducer/cartReducer";
 import Layout from "../src/layout/layout";
 import OnscrollTop from "../src/layout/onScrollTop";
 

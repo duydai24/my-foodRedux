@@ -150,13 +150,13 @@ function CartHanldle({ totalPrice, id, onClick }) {
       <div className="flex m-5 justify-between">
         {accountLoginLength === 0 ? (
           <Link href="/Login">
-            <button className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+            <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
               Checkout
             </button>
           </Link>
         ) : (
           <Link href="/Checkout">
-        <button className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+        <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
           Checkout
         </button>
         </Link>

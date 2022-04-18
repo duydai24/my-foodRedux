@@ -68,7 +68,7 @@ function ProductsMenuItems({
       };
       cartItem = [...cartItem, new_cartItem];
       let totalQuantity = 0;
-      let totalPrice = 0
+      let totalPrice = 0;
       cartItem.map(
         (value) => (
           (totalQuantity += value.quantity),
@@ -93,42 +93,38 @@ function ProductsMenuItems({
       dispatch(addCart(cartItem, totalQuantity, totalPrice));
     }
     alert("Thêm vào giỏ hàng thành công");
-  }
+  };
   return (
     <div
-      key={id}
-      className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
-      onClick={() => handleDetail(id)}
-    >
+    key={id}
+    className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
+    onClick={() => handleDetail(id)}
+  >
+    <Link href={`/ProductsShop/${id}`}>
+      <img className="h-32 w-full" src={img} />
+    </Link>
+    <img className="h-5 absolute top-2 rounded-xl" src={gif} />
+    <div className="p-2">
       <Link href={`/ProductsShop/${id}`}>
-        <img className="h-32 w-full" src={img} />
+        <p className="font-bold text-black text-2xl">{name}</p>
       </Link>
-      <img className="h-5 absolute top-2 rounded-xl" src={gif} />
-      <div className="p-2">
-        <Link href={`/ProductsShop/${id}`}>
-          <p className="font-bold text-black text-2xl">{name}</p>
-        </Link>
-        <p className="">{description}</p>
-      </div>
-      <span className="font-bold text-red-redd text-2xl float-right mr-3">
-        {price}
-        {/* {""} */}
-        <span className="font-bold text-red-redd text-2xl float-right mr-3">
-          $
-        </span>
-      </span>
-      <div className="lg:invisible absolute top-0 right-10 lg:right-2 SpanProductsMenuItemsHover">
-        <span className="absolute top-1  rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
-          <MdFavorite />
-        </span>
-        <span
-          onClick={() => addToCart(id, name, img, price)}
-          className="absolute top-10 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
-        >
-          <BsFillCartPlusFill />
-        </span>
-      </div>
+      <p className="">{description}</p>
     </div>
+    <span className="font-bold text-red-redd text-2xl float-right mr-3">
+      $ {price}
+    </span>
+    <div className="lg:invisible absolute top-0 right-10 lg:right-2 SpanProductsMenuItemsHover">
+      <span className="absolute top-1  rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
+        <MdFavorite />
+      </span>
+      <span
+        onClick={() => addToCart(id, name, img, price)}
+        className="absolute top-10 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
+      >
+        <BsFillCartPlusFill />
+      </span>
+    </div>
+  </div>
   );
 }
 

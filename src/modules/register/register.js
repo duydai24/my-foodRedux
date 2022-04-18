@@ -112,7 +112,7 @@ function InputLogin({
       <div className="flex">
         <span className="bg-[#F8F8FF] p-3 text-xl">{icon}</span>
         <input
-          className="bg-[#F8F8FF] py-3 pr-32 border-none outline-none"
+          className="bg-[#F8F8FF] py-3 lg:pr-32 pr-20 border-none outline-none"
           type={type}
           id={id}
           name={text}

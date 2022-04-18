@@ -6,32 +6,69 @@ import { BsNewspaper } from "react-icons/bs";
 import { FaStore } from "react-icons/fa";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { HiUserCircle } from "react-icons/hi";
 
 function MenuMobile({ className, onClick }) {
   const { accountLogin } = useSelector((state) => state.user);
 
   let accountLoginRole;
+  let accountLoginName;
   accountLogin &&
     accountLogin.map((value) => {
       accountLoginRole = value.role;
+      accountLoginName = value.userName;
     });
   return (
     <div>
       <div
         className={
-          "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full mt-[64px] z-50 fixed menuMobile " +
+          "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] menuMobile " +
           className
         }
       >
         <div className="border-[1px] border-white">
-          <span
-            onClick={onClick}
-            className="float-right text-2xl text-white m-5 "
-          >
-            <FiDelete />
-          </span>
+          <div className="flex justify-between items-center">
+            {accountLogin.length > 0 ? (
+              <div className="flex items-center">
+                <span className="text-white text-5xl md:text-white md:text-4xl mx-5">
+                  <HiUserCircle />
+                </span>
+                <div className="flex flex-col">
+                  <span className=" text-white text-xl">UserName:{' '}
+                    {accountLoginName}
+                  </span>
+                  <span className=" text-white">Role: {' '}
+                    {accountLoginRole}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="flex">
+                <Link href="/Login">
+                  <a
+                    onClick={onClick}
+                    className="bg-red-redd text-white py-4 px-8 font-bold text-xl"
+                  >
+                    Login
+                  </a>
+                </Link>
+                <Link href="/Register">
+                  <a
+                    onClick={onClick}
+                    className="bg-white text-red-redd py-4 px-8 font-bold text-xl"
+                  >
+                    Register
+                  </a>
+                </Link>
+              </div>
+            )}
+
+            <span onClick={onClick} className="text-2xl text-white m-5 ">
+              <FiDelete />
+            </span>
+          </div>
         </div>
-        <div className="border-t-[1px] border-white mt-16">
+        <div className="border-t-[1px] border-white">
           <Link href="/">
             <div
               onClick={onClick}
@@ -71,12 +108,12 @@ function MenuMobile({ className, onClick }) {
         </div>
       </div>
       <div
-          className={
-            "fixed top-[64px] right-0 bg-red-redd w-[30%] h-screen transition-all translate-x-full z-10 opacity-90 " +
-            className
-          }
-          onClick={onClick}
-        ></div>
+        className={
+          "fixed top-[64px] right-0 bg-red-redd w-[30%] h-screen transition-all translate-x-full z-10 opacity-90 " +
+          className
+        }
+        onClick={onClick}
+      ></div>
     </div>
   );
 }

@@ -111,13 +111,13 @@ function ProductsShopDetailContentItems({
   const { product } = useSelector((state) => state);
   return (
     <div key={id} className="flex lg:flex-row flex-col items-center py-24">
-      <div className="lg:w-1/2 w-3/4">
+      <div className="lg:w-1/2 w-10/12">
         <img
-          className="rounded-md shadow-xlanh cursor-zoom-in overflow-hidden"
+          className="rounded-md shadow-xl w-full cursor-pointer overflow-hidden"
           src={img}
         />
       </div>
-      <div className="lg:w-1/2 w-11/12 px-10">
+      <div className="lg:w-1/2 w-11/12 px-5">
         <div className="">
           <p className="font-bold text-2xl">{name}</p>
           <div className="flex py-5">
@@ -128,7 +128,7 @@ function ProductsShopDetailContentItems({
             <Star />
             <p className="ml-5">Reviews</p>
           </div>
-          <p className="font-bold text-red-redd text-2xl mr-3 pb-5">{price}</p>
+          <p className="font-bold text-red-redd text-2xl mr-3 pb-5">$ {price}</p>
           <p>{description}</p>
         </div>
         <div className="border-y-[1px] border-gray-600 py-5 flex justify-around lg:mt-24 mt-5">
@@ -151,7 +151,7 @@ function ProductsShopDetailContentItems({
           </div>
           <button
             onClick={addToCart}
-            className="bg-[#ff514e] rounded-3xl font-bold text-white py-1 lg:px-20 px-2 md:px-16 shadow-lg uppercase border-2 border-[#ff514e] hover:bg-white hover:text-[#ff514e] flex"
+            className="bg-[#ff514e] rounded-3xl font-bold text-white p-2 lg:px-20 text-xs lg:text-xl md:px-16 shadow-lg uppercase border-2 border-[#ff514e] hover:bg-white hover:text-[#ff514e] flex"
           >
             <span className="text-xl">
               <BsFillCartPlusFill />

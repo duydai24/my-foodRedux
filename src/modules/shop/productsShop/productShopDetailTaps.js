@@ -18,7 +18,7 @@ function ProductsShopDetailTaps() {
           </Tab>
         </TabList>
 
-        <TabPanel className="mt-10 h-[300px]">
+        <TabPanel className="mt-10 h-[30%] px-5">
           <h2>
             Although the legendary Double Burger really needs no introduction,
             please allow us… Tucked in between three soft buns are two all-beef

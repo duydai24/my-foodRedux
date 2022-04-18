@@ -78,7 +78,7 @@ function Header({ onClick, onClick2 }) {
           <div className="flex items-center max-w-[70px] xs:max-w-[80px] md:max-w-[96px] mr-3">
             <a
               onClick={onClick}
-              className="text-white text-2xl mr-5 md:text-3xl md:mr-8 relative"
+              className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative"
             >
               <FaShoppingCart />
               <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5">
@@ -91,17 +91,17 @@ function Header({ onClick, onClick2 }) {
                   <div className="md:mr-3 md:flex lg:flex">
                     <a
                       onClick={() => setOnActive(!active)}
-                      className="text-white text-2xl md:text-white md:text-4xl lg:text-white lg:text-4xl"
+                      className="text-white text-3xl md:text-white md:text-4xl lg:text-white lg:text-4xl"
                     >
                       <HiUserCircle />
                     </a>
-                    <a className="text-white cursor-pointer md:ml-2 lg:ml-2 md:mt-2 ">
+                    <a className="text-white cursor-pointer md:ml-2 lg:ml-2 md:mt-2 hidden lg:block ">
                       {accountLogin[0].userName}
                     </a>
                   </div>
                   <div
                     className={
-                      "absolute top-14 md:top-16 -right-6 md:left-[2rem] md:w-32 md:h-20 rounded bg-white hidden " +
+                      "absolute top-14 lg:top-12 md:top-16 lg:-right-6 -right-4 md:left-[2rem] md:w-32 md:h-20 rounded bg-white hidden " +
                       _className
                     }
                   >
