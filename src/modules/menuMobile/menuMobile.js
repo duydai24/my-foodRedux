@@ -109,7 +109,7 @@ function MenuMobile({ className, onClick }) {
       </div>
       <div
         className={
-          "fixed top-[64px] right-0 bg-red-redd w-[30%] h-screen transition-all translate-x-full z-10 opacity-90 " +
+          "fixed top-[64px] right-0 bg-red-redd w-[30%] h-screen transition-all translate-x-full z-30 opacity-90 " +
           className
         }
         onClick={onClick}
