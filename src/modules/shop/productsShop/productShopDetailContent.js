@@ -14,17 +14,19 @@ function ProductsShopDetailContent() {
   const { products } = useSelector((state) => state.product);
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
+  const  quantityNumber2 = useSelector((state) => state.product.quantityNumber);
   const router = useRouter();
   const { productShopDetailContent } = router.query;
   let new_product = products.filter((e) => {
     return e.id == productShopDetailContent;
   });
-
+// console.log(quantityNumber);
   let quantityNumber = 1;
 
   const handleAddQuantity = (id, key) => {
     quantityNumber += product.quantityNumber;
     dispatch(quantityNumberProducts(product, quantityNumber));
+    console.log("q", quantityNumber);
   };
 
   const handleTruQuantity = (id, key) => {
@@ -59,7 +61,8 @@ function ProductsShopDetailContent() {
         return e.id === id;
       });
       let key = cartItem.indexOf(...filterCart);
-      cartItem[key].quantity = cartItem[key].quantity + 1;
+      console.log("quantityNumber", quantityNumber2);
+      cartItem[key].quantity = cartItem[key].quantity + quantityNumber2;
       let totalQuantity = 0;
       let totalPrice = 0;
       cartItem.map(

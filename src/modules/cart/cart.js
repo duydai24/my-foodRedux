@@ -142,8 +142,8 @@ function CartHanldle({ totalPrice, id, onClick }) {
   const { accountLogin } = useSelector((state) => state.user);
   let accountLoginLength = accountLogin.length;
   return (
-    <div className="border-t-[1px] border-gray-200" key={id}>
-      <button className="rounded-lg bg-slate-300 w-32 h-3 ml-[38%]"/>
+    <div className="border-t-[1px] border-gray-200 relative" key={id}>
+      <button className="rounded-lg bg-slate-300 w-32 h-2 left-50% top-1 -translate-x-1/2 absolute"/>
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
         <span className="font-bold text-red-redd text-xl">

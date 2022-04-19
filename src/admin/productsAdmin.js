@@ -27,14 +27,17 @@ function ProductsAdmin() {
       quantity: Number(editItem.quantity),
       categoryId: Number(editItem.categoryId),
     };
+    console.log(editItem, "h");
     if (
-      editItem.name !== "" &&
-      editItem.description !== "" &&
-      editItem.image !== "" &&
-      editItem.price !== "" &&
-      editItem.quantity !== "" &&
-      editItem.categoryId !== ""
+      editItem.name  &&
+      editItem.description  &&
+      editItem.image  &&
+      editItem.price  &&
+      editItem.quantity  &&
+      editItem.categoryId 
+
     ) {
+      console.log(editItem, "edit");
       products = [...products, new_products];
       dispatch(addProducts(products));
       setEditItem({
@@ -103,12 +106,12 @@ function ProductsAdmin() {
     };
     products.splice(idd, 1, new_products);
     if (
-      editItem.name !== "" &&
-      editItem.description !== "" &&
-      editItem.image !== "" &&
-      editItem.price !== "" &&
-      editItem.quantity !== "" &&
-      editItem.categoryId !== ""
+      editItem.name &&
+      editItem.description &&
+      editItem.image &&
+      editItem.price &&
+      editItem.quantity &&
+      editItem.categoryId
     ) {
       dispatch(updateProducts(products));
       setButtonAdd(false);
