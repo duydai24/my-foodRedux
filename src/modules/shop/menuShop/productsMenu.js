@@ -5,39 +5,69 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../../redux/action/cartAction";
 
-function ProductsMenu({ products, filterId }) {
+function ProductsMenu({ products, filterId, inputSearch }) {
   if (filterId !== null) {
     products = products.filter((e) => {
       return e.categoryId === filterId + 1;
     });
   }
 
-  return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 pb-24 mx-3">
-      {products !== "" ? (
-        products &&
-        products.map((value, key) => (
-          <ProductsMenuItems
-            img={value.image}
-            name={value.name}
-            description={value.description}
-            price={value.price}
-            gif={"sale.gif"}
-            id={key}
-            key={key}
-            products={products}
-          />
-        ))
-      ) : (
-        <img
-          src="noData.png"
-          className="rounded-xl w-full col-start-1 col-end-5"
-        />
-      )}
-    </div>
-  );
-}
+  if (inputSearch.length > 0) {
+    products = products.filter((val) =>
+      val.name.toLowerCase().includes(inputSearch.toLowerCase())
+    );
 
+    return (
+      <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 pb-24 mx-3">p
+        {products !== "" ? (
+          products &&
+          products.map((value, key) => (
+            <ProductsMenuItems
+              img={value.image}
+              name={value.name}
+              description={value.description}
+              price={value.price}
+              gif={"sale.gif"}
+              id={key}
+              key={key}
+              products={products}
+            />
+          ))
+        ) : (
+          <img
+            src="noData.png"
+            className="rounded-xl w-full col-start-1 col-end-5"
+          />
+        )}
+      </div>
+    );
+  } else {
+    return (
+      <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 pb-24 mx-3">
+        {products !== "" ? (
+          products &&
+          products.map((value, key) => (
+            <ProductsMenuItems
+              img={value.image}
+              name={value.name}
+              description={value.description}
+              price={value.price}
+              gif={"sale.gif"}
+              id={key}
+              key={key}
+              products={products}
+            />
+          ))
+        ) : (
+          <img
+            src="noData.png"
+            className="rounded-xl w-full col-start-1 col-end-5"
+          />
+        )}
+      </div>
+    );
+  }
+}
 function ProductsMenuItems({
   img,
   name,
@@ -96,35 +126,35 @@ function ProductsMenuItems({
   };
   return (
     <div
-    key={id}
-    className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
-    onClick={() => handleDetail(id)}
-  >
-    <Link href={`/ProductsShop/${id}`}>
-      <img className="h-32 w-full" src={img} />
-    </Link>
-    <img className="h-5 absolute top-2 rounded-xl" src={gif} />
-    <div className="p-2">
+      key={id}
+      className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
+      onClick={() => handleDetail(id)}
+    >
       <Link href={`/ProductsShop/${id}`}>
-        <p className="font-bold text-black text-2xl">{name}</p>
+        <img className="h-32 w-full" src={img} />
       </Link>
-      <p className="">{description}</p>
-    </div>
-    <span className="font-bold text-red-redd text-2xl float-right mr-3">
-      $ {price}
-    </span>
-    <div className="lg:invisible absolute top-0 right-10 lg:right-2 SpanProductsMenuItemsHover">
-      <span className="absolute top-1  rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
-        <MdFavorite />
+      <img className="h-5 absolute top-2 rounded-xl" src={gif} />
+      <div className="p-2">
+        <Link href={`/ProductsShop/${id}`}>
+          <p className="font-bold text-black text-2xl">{name}</p>
+        </Link>
+        <p className="">{description}</p>
+      </div>
+      <span className="font-bold text-red-redd text-2xl float-right mr-3">
+        $ {price}
       </span>
-      <span
-        onClick={() => addToCart(id, name, img, price)}
-        className="absolute top-10 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
-      >
-        <BsFillCartPlusFill />
-      </span>
+      <div className="lg:invisible absolute top-0 right-10 lg:right-2 SpanProductsMenuItemsHover">
+        <span className="absolute top-1  rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
+          <MdFavorite />
+        </span>
+        <span
+          onClick={() => addToCart(id, name, img, price)}
+          className="absolute top-10 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
+        >
+          <BsFillCartPlusFill />
+        </span>
+      </div>
     </div>
-  </div>
   );
 }
 

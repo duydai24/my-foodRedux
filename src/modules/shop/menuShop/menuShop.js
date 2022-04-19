@@ -10,7 +10,7 @@ function MenuShop({ products }) {
   
 
   return (
-    <div className="container lg:px-20  mt-24 flex justify-between">
+    <div className="container lg:px-20  pt-24 flex justify-between">
       <div className="lg:w-[15%]">
         <NavMenu filterr={_filterr} />
       </div>

@@ -136,6 +136,10 @@ function ProductsAdmin() {
       categoryId: "",
     });
   };
+  const handleDeleteImage = () => {
+    editItem.image = ""
+    setEditItem(editItem.image)
+  };
   return (
     <>
       <h2 className="font-bold mb-10">Products</h2>
@@ -180,14 +184,29 @@ function ProductsAdmin() {
             <p className="m-0">Ảnh sản phẩm:</p>
             <div className="flex justify-between">
               <input
-                className="bg-[#F8F8FF] py-1 w-full border-none outline-none"
+                className=" py-1 w-[15%] border-none outline-none"
                 type="file"
                 name="image"
                 // value={editItem.image}
                 onChange={onImageChange}
                 placeholder="Nhập ảnh sản phẩm..."
               />
-              <img height={50} width={50} src={editItem.image} />
+              {editItem.image !== undefined ? (
+                <button
+                  onClick={() => handleDeleteImage()}
+                  className="bg-gray-200 px-2 h-8 rounded"
+                >
+                  Deltete Image
+                </button>
+              ) : (
+                ""
+              )}
+              <img
+                className="max-h-24"
+                height={50}
+                width={100}
+                src={editItem.image}
+              />
             </div>
           </div>
           <div className="mb-5">
@@ -261,7 +280,8 @@ function ProductsAdmin() {
               <div id={key} className="flex justify-between items-center mb-5">
                 <p className=" w-[200px] text-center">{value.name}</p>
                 <img
-                  src={value.image} height={100}
+                  src={value.image}
+                  height={100}
                   className="font-bold h-[100px] w-[200px] text-center"
                 />
                 <p className=" w-[150px] text-center">{value.price}</p>

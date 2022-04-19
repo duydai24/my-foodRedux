@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {BsArrowUpCircleFill} from 'react-icons/bs'
 
 function OnscrollTop({children}) {
   const [stickyDown, setStickyDown] = useState(false);
@@ -38,11 +39,11 @@ function OnscrollTop({children}) {
     <button
       onClick={() => handleOnTop()}
       className={
-        "w-10 h-10 rounded-full bg-red-redd text-3xl fixed bottom-20 right-5 hidden text-white text-center " +
+        "text-red-redd text-4xl fixed bottom-20 right-5 hidden text-center " +
         _stickyDown
       }
     >
-      ^
+     <BsArrowUpCircleFill/>
     </button>
     </>
   );

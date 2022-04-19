@@ -1,54 +1,44 @@
 import react, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
-import { BsFileArrowUpFill } from "react-icons/bs";
-import { BsFileArrowDownFill } from "react-icons/bs";
+import { BsHeart } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import ProductsMenu from "./productsMenu";
 
 function DetailMenu({ products, filterId }) {
-  const [lowToHigh, setLowToHigh] = useState();
-  const [highTolow, setHighTolow] = useState();
+  const [love, setLove] = useState();
 
-  const HandleLowToHigh = () => {
-    setLowToHigh(!lowToHigh);
+  const handleLove = () => {
+    setLove(!love);
   };
-  const HandleHighTolow = () => {
-    setHighTolow(!highTolow);
+  const _love = love ? "active" : " ";
+
+  const [inputSearch, setInputSearch] = useState("");
+  const onChangeSearch = (e) => {
+    setInputSearch(e.target.value);
   };
-  const _lowToHigh = lowToHigh ? "active" : " ";
-  const _highTolow = highTolow ? "active" : " ";
-
-
   return (
     <div className="">
-      <div className="py-5 flex justify-between">
-        <HandleMenu products={products} />
-        <StylesHandleMenu
-          className={_lowToHigh}
-          className2={_highTolow}
-          handleLowToHigh={() => HandleLowToHigh()}
-          handleHighTolow={() => HandleHighTolow()}
-        />
+      <div className="py-5 flex justify-between items-center">
+        <HandleMenu onChangeSearch={onChangeSearch} />
+        <span onClick={() => handleLove()} className={"text-4xl mr-10 " + _love}>
+          <BsHeart />
+        </span>
       </div>
-      <ProductsMenu products={products} filterId={filterId} />
+      <ProductsMenu
+        products={products}
+        inputSearch={inputSearch}
+        filterId={filterId}
+      />
     </div>
   );
 }
 
-function HandleMenu({ products }) {
-  const [inputShare, setInputShare] = useState("");
-  let searchString = inputShare;
-  let shareProducts;
-  if (searchString.length > 0) {
-    shareProducts = products.filter((value) => {
-      console.log(value.name.toLowerCase().match(searchString));
-    });
-  }
+function HandleMenu({ onChangeSearch }) {
   return (
     <form className="flex rounded-full py-1 px-4 items-center border-[1px] border-black w-[85%] mx-3">
       <input
         id="filter"
-        onChange={(e) => setInputShare(e.target.value)}
+        onChange={onChangeSearch}
         className="outline-none border-none w-full"
         placeholder="Search your product"
       />
@@ -61,19 +51,4 @@ function HandleMenu({ products }) {
   );
 }
 
-function StylesHandleMenu({ handleHighTolow, handleLowToHigh, className, className2 }) {
-  return (
-    <div className="flex items-center mr-2">
-      <span
-        onClick={handleLowToHigh}
-        className={"text-3xl lg:mr-5 mr-2 " + className}
-      >
-        <BsFileArrowUpFill />
-      </span>
-      <span onClick={handleHighTolow} className={"text-3xl " + className2}>
-        <BsFileArrowDownFill />
-      </span>
-    </div>
-  );
-}
 export default DetailMenu;
