@@ -58,7 +58,6 @@ function UserAdmin() {
           passWord: editItem.passWord,
           role: option,
         };
-
         user.push(results);
         dispatch(fetchUser(user));
         setEditItem({

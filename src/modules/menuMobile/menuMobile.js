@@ -129,12 +129,16 @@ function MenuMobile({ className, onClick }) {
               ""
             )}
           </div>
-          <span
-            onClick={() => handleLogOut()}
-            className="bg-slate-100 text-center absolute left-0 bottom-0 py-5 w-full text-2xl text-red-redd"
-          >
-            Log Out
-          </span>
+          {accountLogin.length > 0 ? (
+            <span
+              onClick={() => handleLogOut()}
+              className="bg-slate-100 text-center absolute left-0 bottom-0 py-5 w-full text-2xl text-red-redd"
+            >
+              Log Out
+            </span>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div
