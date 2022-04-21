@@ -1,5 +1,5 @@
-// import { combineReducers } from "redux";
-import { combineReducers, autoMergeLevel2 } from "redux";
+import { combineReducers } from "redux";
+// import { combineReducers, autoMergeLevel2 } from "redux";
 import { persistReducer } from "redux-persist";
 import { cartReducer } from "./cartReducer";
 import { categoryReducer } from "./categoryReducer";
@@ -15,14 +15,14 @@ const reduxStore = combineReducers({
   product: productsReducer,
   categorys: categoryReducer,
   orders: orderReducer,
-  db: testReducer
+  db: testReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage: storage,
   // storage: AsyncStorage,
-  stateReconciler: autoMergeLevel2,
+  // stateReconciler: autoMergeLevel2,
 };
 const pReducer = persistReducer(persistConfig, reduxStore);
 export default pReducer;
