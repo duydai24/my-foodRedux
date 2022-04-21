@@ -13,6 +13,7 @@ function ProductsAdmin() {
   const [nameImage, setNameImage] = useState();
   const [imageFile, setImageFile] = useState("");
   const [index, setIndex] = useState(0);
+  const [option, setOption] = useState();
   const { products } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function ProductsAdmin() {
       image: editItem.image,
       price: Number(editItem.price),
       quantity: Number(editItem.quantity),
-      categoryId: Number(editItem.categoryId),
+      categoryId: Number(option),
     };
     if (
       editItem.name &&
@@ -33,7 +34,7 @@ function ProductsAdmin() {
       editItem.image &&
       editItem.price &&
       editItem.quantity &&
-      editItem.categoryId
+      option
     ) {
       products = [...products, new_products];
       dispatch(addProducts(products));
@@ -59,6 +60,9 @@ function ProductsAdmin() {
   const onChange = (e) => {
     const { name, value } = e.target;
     setEditItem({ ...editItem, [name]: value });
+  };
+  const onChangeOption = (e) => {
+    setOption(e.target.value);
   };
   const onImageChange = (e) => {
     let file = e.target.files;
@@ -98,7 +102,7 @@ function ProductsAdmin() {
       image: editItem.image,
       price: editItem.price,
       quantity: editItem.quantity,
-      categoryId: Number(editItem.categoryId),
+      categoryId: Number(option),
     };
     products.splice(idd, 1, new_products);
     if (
@@ -107,7 +111,7 @@ function ProductsAdmin() {
       editItem.image &&
       editItem.price &&
       editItem.quantity &&
-      editItem.categoryId
+      option
     ) {
       dispatch(updateProducts(products));
       setButtonAdd(false);
@@ -210,20 +214,17 @@ function ProductsAdmin() {
           </div>
           <div className="mb-5">
             <p className="m-0">Loại sản phẩm:</p>
-            <input
+            <select
+              name="option"
+              onChange={onChangeOption}
               className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
-              type="number"
-              name="categoryId"
-              value={editItem.categoryId}
-              onChange={onChange}
-              placeholder="Nhập loại sản phẩm..."
-            />
-            {/* <select>
-                    <option value={categoryId}>1: Hamberger</option>
-                    <option value={categoryId}>2: Drink</option>
-                    <option value={categoryId}>3: Sanwich</option>
-                    <option value={categoryId}>4: Piza</option>
-                  </select> */}
+            >
+              <option>{editItem.categoryId}</option>
+              <option value={1}>1: Hamberger</option>
+              <option value={2}>2: Drink</option>
+              <option value={3}>3: Sanwich</option>
+              <option value={4}>4: Piza</option>
+            </select>
           </div>
           <div className="mb-5">
             <p className="m-0">Chi tiết sản phẩm:</p>

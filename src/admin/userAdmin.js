@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getBase64 } from "../lib/getBase64";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createUser,
-  deleteUser,
-  editLogin,
-  fetchUser,
-  updateUser,
-} from "../redux/action/userAction";
+import { deleteUser, fetchUser, updateUser } from "../redux/action/userAction";
 
 function UserAdmin() {
   const [imageFile, setImageFile] = useState("");
@@ -15,6 +9,7 @@ function UserAdmin() {
   const [buttonEdit, setButtonEdit] = useState(false);
   const [buttonAdd, setButtonAdd] = useState(false);
   const [index, setIndex] = useState(0);
+  const [option, setOption] = useState();
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -36,13 +31,15 @@ function UserAdmin() {
         getBase64(file[0]).then((res) => {
           setEditItem({ ...editItem, image: res });
         });
-        console.log(editItem, "edit");
       } else {
         return toast.warning(
           "The file is not in the correct format(must be jpg, jpeg, png)"
         );
       }
     }
+  };
+  const onChangeOption = (e) => {
+    setOption(e.target.value);
   };
   const handleView = (value) => {
     setEditItem(value);
@@ -53,13 +50,13 @@ function UserAdmin() {
     let checkAccount =
       user && user.some((e) => e.userName == editItem.userName);
     if (!checkAccount) {
-      if (editItem.userName && editItem.passWord && editItem.role) {
+      if (editItem.userName && editItem.passWord && option) {
         let results = {
           id: user.length,
           image: editItem.image,
           userName: editItem.userName,
           passWord: editItem.passWord,
-          role: editItem.role,
+          role: option,
         };
 
         user.push(results);
@@ -106,7 +103,7 @@ function UserAdmin() {
       image: editItem.image,
       userName: editItem.userName,
       passWord: editItem.passWord,
-      role: editItem.role,
+      role: option,
     };
     user.splice(id, 1, new_User);
     if (editItem.userName && editItem.passWord && editItem.role) {
@@ -232,19 +229,20 @@ function UserAdmin() {
             placeholder="Nhập mật khẩu..."
           />
           <p className="m-0 font-bold">Role:</p>
-          <input
-            className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-            type="text"
-            value={editItem.role}
-            name="role"
-            onChange={onChange}
-            placeholder="Phân quyền..."
-          />
+          <select
+            name="option"
+            onChange={onChangeOption}
+            className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
+          >
+            <option>{editItem.role}</option>
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+          </select>
         </div>
         {buttonAdd !== false ? (
           <button
             onClick={() => handleAdd()}
-            className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+            className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
           >
             Thêm mới
           </button>
@@ -255,7 +253,7 @@ function UserAdmin() {
         {buttonEdit === false ? (
           ""
         ) : (
-          <div className="flex">
+          <div className="flex mt-14">
             <button
               onClick={() => handlUpdate(index)}
               className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"

@@ -44,7 +44,6 @@ function UserCustom() {
         getBase64(file[0]).then((res) => {
           setEditItem({ ...editItem, image: res });
         });
-        console.log(editItem, "edit");
       } else {
         return toast.warning(
           "The file is not in the correct format(must be jpg, jpeg, png)"
