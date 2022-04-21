@@ -10,7 +10,7 @@ function Shop() {
   const { products } = useSelector((state) => state.product);
 
   return (
-    <>
+    <div>
       <Layout>
         <BannerShop />
         <div className="container">
@@ -19,7 +19,7 @@ function Shop() {
         <Footer />
         <CopyRight />
       </Layout>
-    </>
+    </div>
   );
 }
 export default Shop;

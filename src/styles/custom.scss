@@ -1,7 +1,3 @@
-// .container {
-//     margin: auto;
-//     max-width: 1280px;
-// }
 .onCart {
     display: block;
 }
@@ -98,6 +94,24 @@
         }
     }
 }
+.activeHeader {
+    .hoverHeader1 {
+        color: #ff514e !important;
+    }
+    .hoverHeader2 {
+        color: #ff514e;
+    }
+}
+.hoverHeader {
+    &:hover {
+        .hoverHeader1 {
+            color: #ff514e;
+        }
+        .hoverHeader2 {
+            color: #ff514e;
+        }
+    }
+}
 .SpanProductsMenuItemsHover {
     transition: all 0.15s linear;
 }
@@ -116,8 +130,11 @@
 .onLogout {
     display: block !important;
 }
-.react-tabs__tab--selected {
+.react-tabs__tab--selected {   
     background: #ff514e !important;
+}
+.react-tabs__tab-panel--selected{
+    display: block !important;
 }
 .menuMobile {
     height: calc(100vh - 64px);
@@ -126,7 +143,6 @@
     display: block;
     transform: translateX(0);
 }
-.onTop{
+.onTop {
     display: block;
 }
-

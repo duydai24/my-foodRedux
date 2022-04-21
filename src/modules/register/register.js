@@ -54,9 +54,7 @@ function Register() {
       </Link>
       <div className="">
         <p className="text-black uppercase font-bold text-2xl">REGISTER</p>
-        <p className="text-gray-500">
-          Don't have an account?
-        </p>
+        <p className="text-gray-500">Don't have an account?</p>
         <div className="">
           <InputLogin
             title={"Email:"}
@@ -124,6 +122,4 @@ function InputLogin({
   );
 }
 
-
-
-export default Register
+export default Register;

@@ -24,8 +24,9 @@ function Login() {
   const handleSubmit = () => {
     let checkUser = user.some((el) => el.userName === userName);
     if (checkUser === true) {
-      let checkPass = user.some((el) => el.passWord === passWord);
-      if (checkPass === true) {
+      let UserLogin = user.filter((e) => e.userName === userName);
+      let checkPass = UserLogin.some((el) => el.passWord === passWord);
+      if (checkPass === true && checkUser === true) {
         setIsLogin(true);
         alert("Đăng nhập thành công");
         let idLogin = user.filter((e) => {
@@ -34,7 +35,9 @@ function Login() {
         const results = [
           {
             id: idLogin[0].id,
+            image: idLogin[0].image,
             userName,
+            passWord,
             role: idLogin[0].role,
           },
         ];
@@ -60,7 +63,7 @@ function Login() {
       <div className="">
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
-          Don't have an account? 
+          Don't have an account?
           <Link href="/Register">
             <span className="text-red-redd font-bold cursor-pointer">
               {" "}
@@ -144,6 +147,4 @@ function InputLogin({
   );
 }
 
-
-
-export default Login
+export default Login;

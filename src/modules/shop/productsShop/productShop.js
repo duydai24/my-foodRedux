@@ -7,13 +7,13 @@ import ProductsShopDetail from "./productShopDetail";
 
 function ProductsShop() {
   return (
-    <>
+    <div>
     <Header/>
     <BannerShop/>
     <ProductsShopDetail/>
     <Footer/>
     <CopyRight/>
-    </>
+    </div>
   );
 }
 export default ProductsShop;

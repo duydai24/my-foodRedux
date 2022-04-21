@@ -13,6 +13,6 @@ function TextRedux() {
     dispatch(fetchcart());
   }, []);
 
-  return <>{cart && cart.map((value, key) => <h1 key={key}>{value.totalPrice}</h1>)}</>;
+  return <div>{cart && cart.map((value, key) => <h1 key={key}>{value.totalPrice}</h1>)}</div>;
 }
 export default TextRedux;

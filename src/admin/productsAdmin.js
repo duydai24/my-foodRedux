@@ -27,17 +27,14 @@ function ProductsAdmin() {
       quantity: Number(editItem.quantity),
       categoryId: Number(editItem.categoryId),
     };
-    console.log(editItem, "h");
     if (
-      editItem.name  &&
-      editItem.description  &&
-      editItem.image  &&
-      editItem.price  &&
-      editItem.quantity  &&
-      editItem.categoryId 
-
+      editItem.name &&
+      editItem.description &&
+      editItem.image &&
+      editItem.price &&
+      editItem.quantity &&
+      editItem.categoryId
     ) {
-      console.log(editItem, "edit");
       products = [...products, new_products];
       dispatch(addProducts(products));
       setEditItem({
@@ -93,7 +90,6 @@ function ProductsAdmin() {
     index = key;
     setIndex(index);
   };
-
   const handlUpdateProducts = (idd) => {
     let new_products = {
       id: editItem.id,
@@ -140,11 +136,11 @@ function ProductsAdmin() {
     });
   };
   const handleDeleteImage = () => {
-    editItem.image = ""
-    setEditItem(editItem.image)
+    editItem.image = "";
+    setEditItem(editItem.image);
   };
   return (
-    <>
+    <div>
       <h2 className="font-bold mb-10">Products</h2>
       <div className="flex w-full justify-between">
         <div className="w-[45%]">
@@ -280,7 +276,7 @@ function ProductsAdmin() {
         {products &&
           products.map((value, key) => {
             return (
-              <div id={key} className="flex justify-between items-center mb-5">
+              <div key={key} className="flex justify-between items-center mb-5">
                 <p className=" w-[200px] text-center">{value.name}</p>
                 <img
                   src={value.image}
@@ -309,7 +305,7 @@ function ProductsAdmin() {
             );
           })}
       </div>
-    </>
+    </div>
   );
 }
 export default ProductsAdmin;

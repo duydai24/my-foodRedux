@@ -11,7 +11,7 @@ function Layout({ children }) {
   const _className2 = onMobileMenu ? "offMobileMenu" : " ";
 
   return (
-    <>
+    <div>
       <Header
         className={_className}
         onClick={() => setOnCart(!onCart)}
@@ -24,7 +24,7 @@ function Layout({ children }) {
       />
       <Cart className={_className} onClick={() => setOnCart(!onCart)} />
       <main>{children}</main>
-    </>
+    </div>
   );
 }
 export default Layout;

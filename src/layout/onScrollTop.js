@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {BsArrowUpCircleFill} from 'react-icons/bs'
+import { BsArrowUpCircleFill } from "react-icons/bs";
 
-function OnscrollTop({children}) {
+function OnscrollTop({ children }) {
   const [stickyDown, setStickyDown] = useState(false);
-  const [stickyUp, setStickyUp] = useState(false)
+  const [stickyUp, setStickyUp] = useState(false);
 
   const [pageoffset, setPageoffset] = useState(0);
 
@@ -24,28 +24,28 @@ function OnscrollTop({children}) {
   }, [pageoffset]);
   const handleOnTop = (e) => {
     window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth"
-      });
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   const _stickyDown = stickyDown ? "onTop" : "";
   const _stickyUp = stickyUp ? "onTop" : "";
-  
+
   return (
-      <>
+    <div>
       <main>{children}</main>
-    <button
-      onClick={() => handleOnTop()}
-      className={
-        "text-red-redd text-4xl fixed bottom-20 right-5 hidden text-center " +
-        _stickyDown
-      }
-    >
-     <BsArrowUpCircleFill/>
-    </button>
-    </>
+      <button
+        onClick={() => handleOnTop()}
+        className={
+          "text-red-redd text-4xl fixed bottom-20 right-5 hidden text-center " +
+          _stickyDown
+        }
+      >
+        <BsArrowUpCircleFill />
+      </button>
+    </div>
   );
 }
 export default OnscrollTop;

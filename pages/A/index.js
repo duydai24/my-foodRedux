@@ -33,7 +33,7 @@ function A() {
       {dbFOr.map((value, key) => {
         dataItem = value.data;
         return (
-          <>
+          <div>
             <p className="bg-blue-900 pl-5 py-2 text-white">{value.month}</p>
             {dataItem.map((val, key) => (
               <B
@@ -46,7 +46,7 @@ function A() {
                 teamTwo={val.extra.teamTwo}
               />
             ))}
-          </>
+          </div>
         );
       })}
     </div>

@@ -17,7 +17,7 @@ function Checkout() {
   const { cartItem } = useSelector((state) => state.cart);
   const { orders } = useSelector((state) => state);
   const { order } = useSelector((state) => state.orders);
-
+  const {accountLogin} = useSelector((state) => state.user)
   const dispatch = useDispatch();
 
   const handleName = (name) => {
@@ -32,6 +32,8 @@ function Checkout() {
   const handleNote = (note) => {
     setNote(note);
   };
+  let userId
+accountLogin.map((value)=> userId = value.id)
   const handleCheckout = () => {
     if (name && address && phone) {
       const status = "Đang chờ xác nhận đơn hàng";
@@ -39,6 +41,7 @@ function Checkout() {
         let order = [
           {
             id,
+            userId: userId,
             name: name,
             address: address,
             phone: phone,
@@ -51,6 +54,7 @@ function Checkout() {
       } else {
         let newOrder = {
           id: Math.floor(Math.random() * 999999),
+          userId: userId,
           name,
           address,
           phone,

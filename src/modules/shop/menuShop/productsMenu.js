@@ -103,7 +103,7 @@ function ProductsMenuItems({
       // onClick={() => handleDetail(id)}
     >
       <Link href={`/ProductsShop/${id}`}>
-        <img className="h-32 w-full" src={img} />
+        <img className="h-32 w-full border-white border-8 rounded" src={img} />
       </Link>
       <img className="h-5 absolute top-2 rounded-xl" src={gif} />
       <div className="p-2">

@@ -7,13 +7,13 @@ import Layout from "../../layout/layout";
 function Order() {
 
   return (
-    <>
+    <div>
       <Layout>
         <OrderContent />
         <Footer/>
         <CopyRight/>
       </Layout>
-    </>
+    </div>
   );
 }
 export default Order;

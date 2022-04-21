@@ -4,6 +4,11 @@ import Link from "next/link";
 
 function OrderContent() {
   const { order } = useSelector((state) => state.orders);
+  const {accountLogin} = useSelector((state) => state.user)
+  let userID
+  accountLogin.map((value)=> userID = value.id)
+
+  let new_Order = order.filter((val) =>  val.userId === userID)
 
   return (
     <div className="container py-24">
@@ -19,20 +24,20 @@ function OrderContent() {
         <p className="font-bold text-center w-[100px]">Tuỳ chọn</p>
       </div>
 
-      {order.length > 0 ? (
-        order &&
-        order.map((value, key) => {
+      {new_Order.length > 0 ? (
+        new_Order &&
+        new_Order.map((value, key) => {
           return (
             <div
-              id={key}
-              className="flex justify-between mt-14 border-b-[1px] border-gray-600 pb-5"
+              key={key}
+              className="flex justify-between shadow-xl mt-14 bg-gray-200 rounded-xl py-5 pr-5"
             >
               <p className="text-center w-[250px]">{value.name}</p>
               <p className="text-center w-[100px]">{value.address}</p>
               <p className="text-center w-[100px]">{value.phone}</p>
               <p className="text-center w-[100px]">{value.note}</p>
               <p className="text-center w-[300px]">{value.status}</p>
-              <Link href={"/Order/orderProduct/" + key}>
+              <Link href={"/Order/orderProduct/" + value.id}>
                 <p className="text-blue-700 cursor-pointer">Xem chi tiết</p>
               </Link>
             </div>

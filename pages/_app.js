@@ -10,7 +10,7 @@ const TITLE = "My Food";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <div>
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
           </OnscrollTop>
         </Layout>
       </Provider>
-    </>
+    </div>
   );
 }
 
