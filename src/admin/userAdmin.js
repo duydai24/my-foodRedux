@@ -145,7 +145,7 @@ function UserAdmin() {
         <div className="flex flex-col justify-start mt-5">
           {user.map((value, key) => {
             return (
-              <div className="flex justify-between items-center">
+              <div key={key} className="flex justify-between items-center">
                 <p className="p-1 bg-gray-100 rounded-lg my-2 px-5">
                   - {value.userName}
                 </p>

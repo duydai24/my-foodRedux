@@ -205,6 +205,7 @@ function UserCustom() {
         )}
         {accountLogin.map((value, key) => (
           <button
+            key={key}
             onClick={() => handleEdit(value, key, index)}
             className="bg-red-redd text-white px-2 rounded-lg mt-10"
           >
