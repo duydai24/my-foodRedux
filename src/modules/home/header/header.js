@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { BiBarcodeReader } from "react-icons/bi";
@@ -6,10 +6,10 @@ import { BsNewspaper } from "react-icons/bs";
 import { FaStore } from "react-icons/fa";
 import { HiUserCircle } from "react-icons/hi";
 import { BiMenuAltLeft } from "react-icons/bi";
-
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { LogOut, userLogin } from "../../../redux/action/userAction";
+import Router from "next/router";
+import { userLogin } from "../../../redux/action/userAction";
 
 function Header({ onClick, onClick2 }) {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ function Header({ onClick, onClick2 }) {
   const handleLogOut = () => {
     const results = [];
     dispatch(userLogin(results));
+    Router.push("/");
   };
   let userNameIsLogin = accountLogin.length;
 
@@ -25,9 +26,11 @@ function Header({ onClick, onClick2 }) {
   const _className = active ? "onLogout" : " ";
 
   let accountLoginRole;
+  let accountLoginImage;
   accountLogin &&
     accountLogin.map((value) => {
       accountLoginRole = value.role;
+      accountLoginImage = value.image;
     });
 
   return (
@@ -48,34 +51,25 @@ function Header({ onClick, onClick2 }) {
               />
             </Link>
             <div className="hidden md:flex lg:flex">
-              <Link href="/">
-                <div>
-                  <IconsHeader text={"Home"} icon={<FaHome />} />
-                </div>
-              </Link>
-              <Link href="/Order">
-                <div>
-                  <IconsHeader text={"Order"} icon={<BiBarcodeReader />} />
-                </div>
-              </Link>
+              <IconsHeader source={"/"} text={"Home"} icon={<FaHome />} />
+              <IconsHeader
+                source={"/Order"}
+                text={"Order"}
+                icon={<BiBarcodeReader />}
+              />
               {accountLoginRole === "admin" ? (
-                <Link href="/Admin">
-                  <div>
-                    <IconsHeader text={"Admin"} icon={<BsNewspaper />} />
-                  </div>
-                </Link>
+                <IconsHeader
+                  source={"/Admin"}
+                  text={"Admin"}
+                  icon={<BsNewspaper />}
+                />
               ) : (
                 ""
               )}
-
-              <Link href="/Shop">
-                <div>
-                  <IconsHeader text={"Store"} icon={<FaStore />} />
-                </div>
-              </Link>
+              <IconsHeader source={"/Shop"} text={"Store"} icon={<FaStore />} />
             </div>
           </div>
-          <div className="flex items-center max-w-[70px] xs:max-w-[80px] md:max-w-[96px] mr-3">
+          <div className="flex items-center max-w-[80px] md:max-w-[115px] lg:max-w-[145px] mr-3">
             <a
               onClick={onClick}
               className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative"
@@ -87,37 +81,47 @@ function Header({ onClick, onClick2 }) {
             </a>
             <div className="flex items-center relative UserHover">
               {userNameIsLogin > 0 ? (
-                <>
+                <div>
                   <div className="md:mr-3 md:flex lg:flex">
-                    <a
-                      onClick={() => setOnActive(!active)}
-                      className="text-white text-3xl md:text-white md:text-4xl lg:text-white lg:text-4xl"
-                    >
-                      <HiUserCircle />
-                    </a>
+                    {accountLoginImage !== undefined ? (
+                      <img
+                        src={accountLoginImage}
+                        onClick={() => setOnActive(!active)}
+                        className="rounded-full lg:w-10 lg:h-10 md:w-10 md:h-10 w-8 h-8 border-2 border-red-redd"
+                      />
+                    ) : (
+                      <a
+                        onClick={() => setOnActive(!active)}
+                        className="text-white text-3xl md:text-white md:text-4xl lg:text-white lg:text-4xl"
+                      >
+                        <HiUserCircle />
+                      </a>
+                    )}
                     <a className="text-white cursor-pointer md:ml-2 lg:ml-2 md:mt-2 hidden lg:block ">
                       {accountLogin[0].userName}
                     </a>
                   </div>
                   <div
                     className={
-                      "absolute top-14 lg:top-12 md:top-16 lg:-right-6 -right-4 md:left-[2rem] md:w-32 md:h-20 rounded bg-white hidden " +
+                      "absolute top-14 lg:top-14 shadow-xl md:top-16 lg:-right-6 right-1 md:w-32 md:h-20 lg:w-40 lg:h-28 rounded hidden " +
                       _className
                     }
                   >
-                    <span className="flex flex-col justify-center items-center">
-                      <span className="bg-white rounded px-3 py-1">
-                        {accountLogin[0].role}
-                      </span>
+                    <span className="flex flex-col justify-center items-center py-3">
+                      <Link href="/UserCustom">
+                        <span className="bg-white lg:block md:block hidden rounded px-3 py-1 cursor-pointer mb-3 border-[1px] border-gray-500">
+                          User Profile
+                        </span>
+                      </Link>
                       <button
                         onClick={() => handleLogOut()}
-                        className="bg-red-redd text-white px-3 py-1 rounded"
+                        className="bg-red-redd text-white lg:block md:block hidden px-3 py-1 rounded"
                       >
                         LogOut
                       </button>
                     </span>
                   </div>
-                </>
+                </div>
               ) : (
                 <Link href="/Login">
                   <a className="text-white text-4xl">
@@ -133,14 +137,19 @@ function Header({ onClick, onClick2 }) {
   );
 }
 
-function IconsHeader({ text, icon }) {
+function IconsHeader({ text, icon, source }) {
+  const [activeHeader, setActiveHeader] = useState();
+  const _className = activeHeader ? "activeHeader" : "";
   return (
-    <div className="flex cursor-pointer">
-      <span className="text-white text-[20px] mr-2 hover:text-red-redd">
-        {icon}
-      </span>
-      <a className="text-white pr-8 hover:text-red-redd">{text}</a>
-    </div>
+    <Link href={source}>
+      <div
+        onClick={() => setActiveHeader(!activeHeader)}
+        className={"flex cursor-pointer hoverHeader " + _className}
+      >
+        <span className="text-white text-[20px] mr-2 hoverHeader1">{icon}</span>
+        <a className="text-white pr-8 hoverHeader2 ">{text}</a>
+      </div>
+    </Link>
   );
 }
 
