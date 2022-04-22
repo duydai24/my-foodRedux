@@ -10,25 +10,34 @@ function Order() {
             Mechanism of action
           </p>
         </div>
-        <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row items-center md:justify-items-center lg:justify-between mt-16">
+        <div className="flex flex-col md:grid md:grid-cols-2 animate-bounceInRight lg:flex lg:flex-row items-center md:justify-items-center lg:justify-between mt-16">
           <OrderItem
             img={"oder1.jpg"}
             lable={"01 STEP"}
             text={"Choose Your Favorite"}
           />
-          <img className="hidden lg:block w-20 h-5 mb-10" src="arrow1Oder.png" />
+          <img
+            className="hidden lg:block w-20 h-5 mb-10"
+            src="arrow1Oder.png"
+          />
           <OrderItem
             img={"oder2.jpg"}
             lable={"02 STEP"}
             text={"We Deliver Your Meals"}
           />
-          <img className="hidden lg:block w-20 h-5 mb-10" src="arrow2Oder.png" />
+          <img
+            className="hidden lg:block w-20 h-5 mb-10"
+            src="arrow2Oder.png"
+          />
           <OrderItem
             img={"oder3.jpg"}
             lable={"03 STEP"}
             text={"Cash on Delivery"}
           />
-          <img className="hidden lg:block w-20 h-5 mb-10" src="arrow1Oder.png" />
+          <img
+            className="hidden lg:block w-20 h-5 mb-10"
+            src="arrow1Oder.png"
+          />
           <OrderItem
             img={"oder4.jpg"}
             lable={"04 STEP"}

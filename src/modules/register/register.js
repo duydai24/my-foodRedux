@@ -12,6 +12,7 @@ function Register() {
 
   const [userName, setUserName] = useState();
   const [passWord, setPassWord] = useState();
+  const [checkPassWord, setCheckPassWord] = useState();
   const [isRegister, setIsRegister] = useState(false);
 
   const dispatch = useDispatch();
@@ -22,20 +23,27 @@ function Register() {
   const handlePass = (pass) => {
     setPassWord(pass);
   };
+  const handleCheckPass = (pass) => {
+    setCheckPassWord(pass);
+  };
 
   const handleRegister = () => {
     let checkAccount = user && user.some((el) => el.userName == userName);
     if (!checkAccount) {
-      let results = {
-        id: user.length,
-        userName,
-        passWord,
-        role: "user",
-      };
-      user.push(results);
-      dispatch(fetchUser(user));
-      setIsRegister(true);
-      alert("Đăng kí thành công");
+      if (passWord === checkPassWord) {
+        let results = {
+          id: user.length,
+          userName,
+          passWord,
+          role: "user",
+        };
+        user.push(results);
+        dispatch(fetchUser(user));
+        setIsRegister(true);
+        alert("Đăng kí thành công");
+      } else {
+        alert("Nhập lại mật khẩu không đúng");
+      }
     } else {
       alert("Tên tài khoản đã tồn tại");
     }
@@ -73,6 +81,15 @@ function Register() {
             type={"password"}
             value={passWord}
             onChange={handlePass}
+          />
+          <InputLogin
+            title={"Check Password:"}
+            placeholder={"Your Password"}
+            icon={<BiLock />}
+            name={"checkPassword"}
+            type={"password"}
+            value={checkPassWord}
+            onChange={handleCheckPass}
           />
           <div className="mt-5">
             <input

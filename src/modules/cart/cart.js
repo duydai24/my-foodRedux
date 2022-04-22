@@ -52,27 +52,30 @@ function Cart({ className, onClick }) {
   return (
     <div className={"hidden " + className}>
       <div
-        className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-60 opacity-50 overPlayCart "
+        className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-60 opacity-50 h-[calc(100vh-4rem)] w-[calc(100vw-35rem)] "
         onClick={onClick}
       ></div>
       <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-60 overflow-scroll">
         <HeadingCart onClick={onClick} />
-        {cartItem.length > 0
-          ? cartItem &&
-            cartItem.map((value, key) => (
-              <CartItems
-                id={key}
-                key={key}
-                img={value.image}
-                name={value.name}
-                price={value.price}
-                quantity={value.quantity}
-                addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-                truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-                deleteCartItem={() => handleDeleteCartItem(value.id, key)}
-              />
-            ))
-          : <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>}
+        {cartItem.length > 0 ? (
+          cartItem &&
+          cartItem.map((value, key) => (
+            <CartItems
+              id={key}
+              key={key}
+              s
+              img={value.image}
+              name={value.name}
+              price={value.price}
+              quantity={value.quantity}
+              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+            />
+          ))
+        ) : (
+          <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>
+        )}
 
         <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
       </div>
@@ -143,7 +146,7 @@ function CartHanldle({ totalPrice, id, onClick }) {
   let accountLoginLength = accountLogin.length;
   return (
     <div className="border-t-[1px] border-gray-200 relative" key={id}>
-      <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute"/>
+      <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
         <span className="font-bold text-red-redd text-xl">

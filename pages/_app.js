@@ -15,11 +15,11 @@ function MyApp({ Component, pageProps }) {
         <title>{TITLE}</title>
       </Helmet>
       <Provider store={store}>
-        <Layout>
-          <OnscrollTop>
+        {/* <Layout> */}
+        <OnscrollTop>
           <Component {...pageProps} />
-          </OnscrollTop>
-        </Layout>
+        </OnscrollTop>
+        {/* </Layout> */}
       </Provider>
     </div>
   );

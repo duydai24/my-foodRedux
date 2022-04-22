@@ -8,14 +8,14 @@ import { userReducer } from "./userReducer";
 import storage from "redux-persist/lib/storage";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { orderReducer } from "./orderReduce";
-import { testReducer } from "./testRedu";
+import { dbReducer } from "./dbReduce";
 const reduxStore = combineReducers({
   user: userReducer,
   cart: cartReducer,
   product: productsReducer,
   categorys: categoryReducer,
   orders: orderReducer,
-  db: testReducer,
+  db: dbReducer,
 });
 
 const persistConfig = {

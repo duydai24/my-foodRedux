@@ -6,6 +6,68 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      keyframes: {
+        wiggle: {
+          "0%, 100%": {
+            transform: "rotate(0deg)",
+          },
+          "50%": {
+            transform: "rotate(5deg)",
+          },
+        },
+        bounceInRight: {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(2000px)",
+          },
+          "60%": {
+            opacity: "1",
+            transform: "translateX(-30px)",
+          },
+          "80%": {
+            opacity: "1",
+            transform: "translateX(10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        bounceInLeft: {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-2000px)",
+          },
+          "60%": {
+            opacity: "1",
+            transform: "translateX(30px)",
+          },
+          "80%": {
+            opacity: "1",
+            transform: "translateX(-10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        fadeInUp: {
+          from: {
+            transform: "translateY(200px)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
+      },
+      animation: {
+        wiggle: "wiggle 3s ease-in-out both",
+        bounceInRight: "bounceInRight 3s ease-in-out both",
+        bounceInLeft: "bounceInLeft 3s ease-in-out both",
+        fadeInUp: "fadeInUp 3s ease-in-out both",
+      },
       backgroundImage: {
         bgMenuFood: "url(/public/bgMenuFood.jpg)",
       },
@@ -26,8 +88,8 @@ module.exports = {
           blue: "#2B3990",
         },
         red: {
-          redd: "#ff514e"
-        }
+          redd: "#ff514e",
+        },
       },
       height: {
         200: "200px",
@@ -42,11 +104,10 @@ module.exports = {
       zIndex: {
         60: "60",
       },
-       screens: {
-          xs: "430px",
-        },
+      screens: {
+        xs: "430px",
+      },
     },
-   
   },
 
   plugins: [require("@tailwindcss/line-clamp")],

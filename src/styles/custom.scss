@@ -118,10 +118,6 @@
 .shadowbtn {
     box-shadow: 0px 3px 8px rgb(0 0 0 / 20%) !important;
 }
-.overPlayCart {
-    height: calc(100vh - 4rem);
-    width: calc(100vw - 35rem);
-}
 .hoverr {
     &:hover {
         color: #ff514e;
@@ -130,14 +126,11 @@
 .onLogout {
     display: block !important;
 }
-.react-tabs__tab--selected {   
+.react-tabs__tab--selected {
     background: #ff514e !important;
 }
-.react-tabs__tab-panel--selected{
+.react-tabs__tab-panel--selected {
     display: block !important;
-}
-.menuMobile {
-    height: calc(100vh - 64px);
 }
 .offMobileMenu {
     display: block;

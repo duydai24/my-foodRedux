@@ -33,7 +33,7 @@ function MenuMobile({ className, onClick }) {
       <div className="relative">
         <div
           className={
-            "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] menuMobile " +
+            "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-64x)] " +
             className
           }
         >
@@ -130,12 +130,12 @@ function MenuMobile({ className, onClick }) {
             )}
           </div>
           {accountLogin.length > 0 ? (
-            <span
+            <button
               onClick={() => handleLogOut()}
               className="bg-slate-100 text-center absolute left-0 bottom-0 py-5 w-full text-2xl text-red-redd"
             >
               Log Out
-            </span>
+            </button>
           ) : (
             ""
           )}

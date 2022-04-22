@@ -11,7 +11,7 @@ function SanwichVideo() {
 
   return (
     <div
-      className="bg-[url('/bgVideoSanwich.jpg')] bg-cover flex min-h-[40rem] "
+      className="bg-[url('/bgVideoSanwich.jpg')] bg-cover flex min-h-[30rem] bg-fixed "
       onClick={onOpenYoutubeClass}
     >
       <div className="flex flex-grow flex-shrink basis-0 items-center justify-center">
@@ -23,7 +23,7 @@ function SanwichVideo() {
           <div
             onClick={onOpenYoutubeClass}
             className={
-              "absolute bottom-0 right-10 bg-[#ff514e] rounded-full p-3 playerSandwich z-20 " +
+              "absolute bottom-0 right-10 bg-[#ff514e] rounded-full p-3 playerSandwich z-20 animate-pulse" +
               _open
             }
           >
@@ -38,15 +38,15 @@ function SanwichVideo() {
             className={"absolute -bottom-10 -left-36 z-30 hidden " + _open}
             onClick={onOpenYoutubeClass}
           >
-            {/* <iframe
+            <iframe
               width="560"
               height="315"
               src="https://www.youtube.com/embed/exeuLwv57nU"
               title="YouTube video player"
-              frameborder="0"
+              // frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe> */}
+              // allowFullscreen
+            ></iframe>
           </div>
         </div>
       </div>

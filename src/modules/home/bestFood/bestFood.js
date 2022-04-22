@@ -121,7 +121,7 @@ function BestFood() {
 
 function BestFoodItems({ lable, text, number }) {
   return (
-    <div className="relative top-0 left-0 max-w-[400px] BestFoodItems">
+    <div className="relative top-0 left-0 max-w-[400px] animate-fadeInUp BestFoodItems">
       {/* <span className="bg-white font-bold text-black text-xl absolute -top-7 p-5 left-6 w-16 h-16 shadow-lg rounded-full text-center numberFoodItem">
         {number}
       </span> */}

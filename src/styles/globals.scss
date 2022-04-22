@@ -64,8 +64,9 @@
 
 html {
     scroll-behavior: smooth;
-    font-family: 'SairaBlack', 'Saira-Light', 'SairaBold', sans-serif;
+    font-family: "SairaBlack", "Saira-Light", "SairaBold", sans-serif;
     padding-bottom: env(safe-area-inset-bottom);
-  }
+}
 
 @import "../styles/custom.scss";
+@import "../styles//config.scss";

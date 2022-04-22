@@ -4,7 +4,7 @@ import ButtonOderNow from "../../../lib/buttonOderNow/buttonOderNow";
 function Delivery() {
   return (
     <div className="container md:flex justify-between z-20 pb-20">
-      <div className="px-5 md:w-2/5">
+      <div className="px-5 md:w-2/5 animate-bounceInLeft">
         <p className="text-[#fbb403] font-bold text-3xl">Delivery</p>
         <p className="text-black font-bold text-4xl mt-3">
           A Moments Of Delivered
@@ -27,7 +27,7 @@ function Delivery() {
           </div>
         </div>
       </div>
-      <div className="hidden md:block w-3/5">
+      <div className="hidden md:block w-3/5 animate-bounceInRight">
         <img className="h-3/4 w-3/4 lg:ml-44 md:ml-24" src="bgDelivery.png" />
       </div>
     </div>

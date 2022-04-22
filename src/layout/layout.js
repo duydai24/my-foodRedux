@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Cart from "../modules/cart/cart";
 import MenuMobile from "../modules/menuMobile/menuMobile";
 import Header from "../modules/home/header/header";
+import CopyRight from "../modules/home/copyRight/copyRight";
+import Footer from "..//modules/home/footer/footer";
 
 function Layout({ children }) {
   const [onCart, setOnCart] = useState(false);
@@ -24,6 +26,8 @@ function Layout({ children }) {
       />
       <Cart className={_className} onClick={() => setOnCart(!onCart)} />
       <main>{children}</main>
+      <Footer />
+      <CopyRight />
     </div>
   );
 }

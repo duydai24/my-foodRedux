@@ -3,7 +3,7 @@ import CountUp from "react-countup";
 
 function CountDown() {
   return (
-    <div className="bg-red-redd">
+    <div className="bg-red-redd animate-wiggle">
       <div className="container sm:grid md:grid-cols-2 flex flex-col lg:flex lg:flex-row lg:justify-between">
         <CountDownItems number={"350"} span={"+"} text={"Cups of Coffee"} />
         <CountDownItems number={"2678"} span={"+"} text={"Orders Everyday"} />

@@ -60,7 +60,7 @@ function Login() {
       <Link href="/">
         <img className="hidden lg:block w-[40%]" src="logoRemove.png" />
       </Link>
-      <div className="">
+      <div className="relative">
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
           Don't have an account?
@@ -90,15 +90,6 @@ function Login() {
             value={passWord}
             onChange={handlePass}
           />
-          {/* <InputLogin
-            title={"Check Password:"}
-            placeholder={"Your Check Password"}
-            icon={<BiLock />}
-            name={"checkPassword"}
-            type={"password"}
-            value={checkPassWord}
-            onChange={handleCheckPass}
-          /> */}
           <div className="mt-5">
             <input
               className="w-5 h-5"
@@ -110,7 +101,7 @@ function Login() {
         </div>
         <button
           onClick={handleSubmit}
-          className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 px-6 mt-5 ml-32 uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
+          className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 px-6 mt-5 absolute left-1/2 -translate-x-1/2 uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
         >
           LOG IN
         </button>
