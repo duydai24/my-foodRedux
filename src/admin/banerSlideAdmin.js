@@ -175,6 +175,7 @@ function BannerSlideAdmin() {
 function BannerItem({ key, img, handleDelete, handleEdit, handleAdd }) {
   return (
     <div key={key} className="flex mb-10">
+      <p className="mr-5 font-bold">Banner: </p>
       <img src={img} width={400} height={200} />
       <div className="flex flex-col ml-10">
         <button

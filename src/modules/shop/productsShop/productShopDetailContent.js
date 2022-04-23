@@ -14,7 +14,7 @@ function ProductsShopDetailContent() {
   const { products } = useSelector((state) => state.product);
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
-  const  quantityNumber2 = useSelector((state) => state.product.quantityNumber);
+  const quantityNumber2 = useSelector((state) => state.product.quantityNumber);
   const router = useRouter();
   const { productShopDetailContent } = router.query;
   let new_product = products.filter((e) => {
@@ -25,7 +25,6 @@ function ProductsShopDetailContent() {
   const handleAddQuantity = (id, key) => {
     quantityNumber += product.quantityNumber;
     dispatch(quantityNumberProducts(product, quantityNumber));
-    console.log("q", quantityNumber);
   };
 
   const handleTruQuantity = (id, key) => {
@@ -54,13 +53,12 @@ function ProductsShopDetailContent() {
       );
       dispatch(addCart(cartItem, totalQuantity, totalPrice));
       quantityNumber = 1;
-     dispatch(quantityNumberProducts(product, quantityNumber));
+      dispatch(quantityNumberProducts(product, quantityNumber));
     } else {
       let filterCart = cartItem.filter((e) => {
         return e.id === id;
       });
       let key = cartItem.indexOf(...filterCart);
-      console.log("quantityNumber", quantityNumber2);
       cartItem[key].quantity = cartItem[key].quantity + quantityNumber2;
       let totalQuantity = 0;
       let totalPrice = 0;
@@ -130,7 +128,9 @@ function ProductsShopDetailContentItems({
             <Star />
             <p className="ml-5">Reviews</p>
           </div>
-          <p className="font-bold text-red-redd text-2xl mr-3 pb-5">$ {price}</p>
+          <p className="font-bold text-red-redd text-2xl mr-3 pb-5">
+            $ {price}
+          </p>
           <p>{description}</p>
         </div>
         <div className="border-y-[1px] border-gray-600 py-5 flex justify-around lg:mt-24 mt-5">

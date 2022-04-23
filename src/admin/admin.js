@@ -9,6 +9,7 @@ import Layout from "../layout/layout";
 import UserAdmin from "./userAdmin";
 import BannerSlideAdmin from "./banerSlideAdmin";
 import BannerTitle from "./banerTitle";
+import StatisticalAdmin from "./statisticalAdmin";
 
 function Admin() {
   return (
@@ -37,7 +38,7 @@ function Admin() {
           </TabList>
 
           <TabPanel className="px-[50px] w-full hidden">
-            <h2>No data</h2>
+            <StatisticalAdmin />
           </TabPanel>
           <TabPanel className="px-[50px] w-full hidden">
             <UserAdmin />

@@ -7,6 +7,7 @@ import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../redux/action/cartAction";
 import { addOrder } from "../../redux/action/oderAction";
+import { getStatistica } from "../../redux/action/statisticaAction";
 
 function Checkout() {
   const [name, setName] = useState();
@@ -17,7 +18,8 @@ function Checkout() {
   const { cartItem } = useSelector((state) => state.cart);
   const { orders } = useSelector((state) => state);
   const { order } = useSelector((state) => state.orders);
-  const {accountLogin} = useSelector((state) => state.user)
+  const { statisticaItem } = useSelector((state) => state.statistica);
+  const { accountLogin } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleName = (name) => {
@@ -32,8 +34,11 @@ function Checkout() {
   const handleNote = (note) => {
     setNote(note);
   };
-  let userId
-accountLogin.map((value)=> userId = value.id)
+
+  let userId;
+  let totalQuantity = 0;
+  let totalPrice = 0;
+  accountLogin.map((value) => (userId = value.id));
   const handleCheckout = () => {
     if (name && address && phone) {
       const status = "Đang chờ xác nhận đơn hàng";
@@ -62,9 +67,15 @@ accountLogin.map((value)=> userId = value.id)
           status,
           cartItem,
         };
-       order = [...order, newOrder]
+        order = [...order, newOrder];
         dispatch(addOrder(order, cartItem));
       }
+      statisticaItem = [...statisticaItem, ...cartItem];
+      statisticaItem.map((val) => {
+        totalQuantity += val.quantity;
+        totalPrice += val.price * val.quantity;
+      });
+      dispatch(getStatistica(statisticaItem, totalQuantity, totalPrice));
       cartItem = [];
       dispatch(addCart(cartItem));
       setIsCheckout(true);
@@ -162,4 +173,4 @@ function InputCheckOut({
   );
 }
 
-export default Checkout
+export default Checkout;

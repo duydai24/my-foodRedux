@@ -40,7 +40,7 @@ export const initialState = {
     },
     {
       id: 4,
-      name: "Sandwitch",
+      name: "Sandwitch2",
       description: "ngon",
       image: "/sandwich2.jpg",
       price: 200,
@@ -49,7 +49,7 @@ export const initialState = {
     },
     {
       id: 5,
-      name: "Humberger",
+      name: "Humberger2",
       description: "ngon",
       image: "/hamber2.jpg",
       price: 100,
@@ -58,7 +58,7 @@ export const initialState = {
     },
     {
       id: 6,
-      name: "Sandwitch",
+      name: "Sandwitch3",
       description: "re",
       image: "/sandwich3.jpg",
       price: 100,
@@ -67,7 +67,7 @@ export const initialState = {
     },
     {
       id: 7,
-      name: "Drink",
+      name: "Drink2",
       description: "ngon",
       image: "/drink2.png",
       price: 100,
@@ -76,7 +76,7 @@ export const initialState = {
     },
     {
       id: 8,
-      name: "Piza",
+      name: "Piza2",
       description: "ngon",
       image: "/piza2.jpg",
       price: 3000,
@@ -94,23 +94,23 @@ export const productsReducer = (state = initialState, action) => {
         product: action.payload.state,
         products: action.payload.products,
       };
-      case types.DELETE_PRODUCTS:
+    case types.DELETE_PRODUCTS:
       return {
         ...state,
         product: action.payload.state,
         products: action.payload.products,
       };
-      case types.UPDATE_PRODUCTS:
+    case types.UPDATE_PRODUCTS:
       return {
         ...state,
         product: action.payload.state,
         products: action.payload.products,
       };
-      case types.QUANTITY_PRODUCTS:
+    case types.QUANTITY_PRODUCTS:
       return {
         ...state,
         product: action.payload.state,
-        quantityNumber:action.payload.quantityNumber
+        quantityNumber: action.payload.quantityNumber,
       };
     default:
       return state;

@@ -12,33 +12,32 @@ function ProductsMenu({ products, filterId, inputSearch }) {
     });
   }
   products = products.filter((val) =>
-  val.name.toLowerCase().includes(inputSearch.toLowerCase())
-);
+    val.name.toLowerCase().includes(inputSearch.toLowerCase())
+  );
 
-    return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 pb-24 mx-3">
-        {products.length > 0 ?
-          products.map((value, key) => (
-            <ProductsMenuItems
-              img={value.image}
-              name={value.name}
-              description={value.description}
-              price={value.price}
-              gif={"sale.gif"}
-              id={key}
-              key={key}
-              products={products}
-            />
-          ))
-         : (
-          <img
-            src="noData.png"
-            className="rounded-xl w-full col-start-1 col-end-5"
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 pb-24 mx-3">
+      {products.length > 0 ? (
+        products.map((value, key) => (
+          <ProductsMenuItems
+            img={value.image}
+            name={value.name}
+            description={value.description}
+            price={value.price}
+            gif={"sale.gif"}
+            id={key}
+            key={key}
+            products={products}
           />
-        )}
-      </div>
-    );
-  
+        ))
+      ) : (
+        <img
+          src="noData.png"
+          className="rounded-xl w-full col-start-1 col-end-5"
+        />
+      )}
+    </div>
+  );
 }
 function ProductsMenuItems({
   img,
@@ -52,11 +51,6 @@ function ProductsMenuItems({
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
 
-  // const handleDetail = (id) => {
-  //   let detailProduct = products.filter((e) => {
-  //     return e.id === id;
-  //   });
-  // };
   const addToCart = (id, name, img, price) => {
     const checkCart = cartItem.some((el) => el.id === id);
     if (!checkCart) {
@@ -100,7 +94,6 @@ function ProductsMenuItems({
     <div
       key={id}
       className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
-      // onClick={() => handleDetail(id)}
     >
       <Link href={`/ProductsShop/${id}`}>
         <img className="h-32 w-full border-white border-8 rounded" src={img} />
