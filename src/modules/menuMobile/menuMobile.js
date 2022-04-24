@@ -91,7 +91,7 @@ function MenuMobile({ className, onClick }) {
               </span>
             </div>
           </div>
-          <div className="border-t-[1px] border-gray-400">
+          <div className="border-t-[1px] border-gray-400 h-[calc(100vh-128px)]">
             <Link href="/">
               <div
                 onClick={onClick}
