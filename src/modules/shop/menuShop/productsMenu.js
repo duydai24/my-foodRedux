@@ -4,38 +4,116 @@ import { BsFillCartPlusFill } from "react-icons/bs";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../../redux/action/cartAction";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { BiFirstPage } from "react-icons/bi";
+import { BiLastPage } from "react-icons/bi";
 
-function ProductsMenu({ products, filterId, inputSearch }) {
-  if (filterId !== null) {
-    products = products.filter((e) => {
-      return e.categoryId === filterId + 1;
-    });
+function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
+  if (filterId !== 0) {
+    products = products.filter((e) => e.categoryId === filterId);
   }
   products = products.filter((val) =>
     val.name.toLowerCase().includes(inputSearch.toLowerCase())
   );
+  products = products.filter((val) => val.price < priceHandle);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(products.length / 8); i++) {
+    pageNumbers.push(i);
+  }
+  products = products.slice((currentPage - 1) * 8, currentPage * 8);
+
+  const [index, setIndex] = useState(currentPage);
+  const handlePage = (key) => {
+    setCurrentPage(key + 1);
+    setIndex(key + 1);
+  };
+  const handleFirstPage = () => {
+    setCurrentPage(1);
+  };
+  const handleLastPage = () => {
+    setCurrentPage(pageNumbers.length);
+  };
+  const handlePrePage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else {
+      setCurrentPage(currentPage);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < pageNumbers.length) {
+      setCurrentPage(currentPage + 1);
+    } else {
+      setCurrentPage(currentPage);
+    }
+  };
+  handleNextPage;
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 pb-24 mx-3">
-      {products.length > 0 ? (
-        products.map((value, key) => (
-          <ProductsMenuItems
-            img={value.image}
-            name={value.name}
-            description={value.description}
-            price={value.price}
-            gif={"sale.gif"}
-            id={key}
-            key={key}
-            products={products}
+    <div className="pb-24 items-center flex flex-col">
+      <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 pb-10 gap-4 mx-3">
+        {products.length > 0 ? (
+          products.map((value, key) => (
+            <ProductsMenuItems
+              img={value.image}
+              name={value.name}
+              description={value.description}
+              price={value.price}
+              gif={"sale.gif"}
+              id={key}
+              key={key}
+              products={products}
+            />
+          ))
+        ) : (
+          <img
+            src="noData.png"
+            className="rounded-xl w-full col-start-1 col-end-5"
           />
-        ))
-      ) : (
-        <img
-          src="noData.png"
-          className="rounded-xl w-full col-start-1 col-end-5"
-        />
-      )}
+        )}
+      </div>
+      <div className="flex items-center">
+        <button
+          onClick={() => handleFirstPage()}
+          className="w-10 h-10 text-3xl hover:text-red-redd"
+        >
+          <BiFirstPage />
+        </button>
+        <button
+          onClick={() => handlePrePage()}
+          className="w-10 h-10  text-xl hover:text-red-redd"
+        >
+          <AiOutlineArrowLeft />
+        </button>
+        {pageNumbers.map((val, key) => (
+          <button
+            key={key}
+            onClick={() => handlePage(key)}
+            className={
+              key + 1 === currentPage
+                ? "w-10 h-10 font-bold hover:text-red-redd active"
+                : "w-10 h-10 font-bold hover:text-red-redd"
+            }
+          >
+            {val}
+          </button>
+        ))}
+        <button
+          onClick={() => handleNextPage()}
+          className="w-10 h-10 text-xl hover:text-red-redd"
+        >
+          <AiOutlineArrowRight />
+        </button>
+        <button
+          onClick={() => handleLastPage()}
+          className="w-10 h-10 text-3xl hover:text-red-redd"
+        >
+          <BiLastPage />
+        </button>
+      </div>
     </div>
   );
 }

@@ -24,7 +24,7 @@ function BannerSlide() {
           <SlideHomeItem key={key} img={value.image} />
         ))}
       </Slider>
-
+      <span className="w-screen h-[17rem] md:h-[35rem] lg:h-[50rem] bg-slate-200 opacity-20 absolute top-0 right-0" />
       <div className="container lg:block">
         {textSlide.map((value, key) => (
           <div
@@ -53,13 +53,11 @@ function BannerSlide() {
 
 function SlideHomeItem({ img, key }) {
   return (
-    <div>
-      <img
-        key={key}
-        className="w-screen h-[17rem] md:h-[35rem] lg:h-[50rem]"
-        src={img}
-      />
-    </div>
+    <img
+      key={key}
+      className="w-screen h-[17rem] md:h-[35rem] lg:h-[50rem]"
+      src={img}
+    />
   );
 }
 export default BannerSlide;

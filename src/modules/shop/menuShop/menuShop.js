@@ -3,19 +3,32 @@ import DetailMenu from "./detailMenu";
 import NavMenu from "./navMenu";
 
 function MenuShop({ products }) {
-  const [filterId, setFilterId] = useState(null);
-  const _filterr = (key) => {
-    setFilterId(key);
+  const [filterId, setFilterId] = useState(0);
+  const _filterr = (id) => {
+    setFilterId(id);
   };
-  
+
+  const [priceHandle, setPriceHandle] = useState(150);
+  const handleInput = (e) => {
+    setPriceHandle(e.target.value);
+  };
 
   return (
     <div className="container lg:px-20  pt-24 flex justify-between">
       <div className="lg:w-[15%]">
-        <NavMenu filterr={_filterr} />
+        <NavMenu
+          filterr={_filterr}
+          priceHandle={priceHandle}
+          handleInput={handleInput}
+        />
       </div>
       <div className="w-full lg:w-[80%]">
-        <DetailMenu products={products} filterId={filterId} />
+        <DetailMenu
+          priceHandle={priceHandle}
+          products={products}
+          filterId={filterId}
+          handleInput={handleInput}
+        />
       </div>
     </div>
   );

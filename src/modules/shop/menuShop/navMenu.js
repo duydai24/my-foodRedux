@@ -2,18 +2,20 @@ import react, { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdFastfood } from "react-icons/md";
 
-function NavMenu({ filterr }) {
-  const [active, setActive] = useState();
-  const handleCategory = (key) => {
-    setActive(key);
-    filterr(key);
-  };
+function NavMenu({ filterr, handleInput, priceHandle }) {
   const { category } = useSelector((state) => state.categorys);
+
+  const [active, setActive] = useState(0);
+  const handleCategory = (id) => {
+    setActive(id);
+    filterr(id);
+  };
+
   return (
     <div className="hidden lg:block">
-      <h2 className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
+      <p className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
         Popular
-      </h2>
+      </p>
       <ul className="list-none">
         {category &&
           category.map((value, key) => (
@@ -22,20 +24,30 @@ function NavMenu({ filterr }) {
               key={key}
               icon={<MdFastfood />}
               text={value.name}
-              className={key === active ? "active" : ""}
-              onClick={() => handleCategory(key)}
+              className={value.id === active ? "active" : ""}
+              onClick={() => handleCategory(value.id, key)}
             />
           ))}
       </ul>
-      <h2 className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
+      <p className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
         Price
-      </h2>
-      <form>
-        <FormNavMenu text={"Under $100"} />
-        <FormNavMenu text={"$50 to $100"} />
-        <FormNavMenu text={"Under $50"} />
-        <FormNavMenu text={"Above $100"} />
-      </form>
+      </p>
+      <div className="py-5 flex flex-col items-center relative">
+        <div className="flex items-center py-3">
+          <span className="text-xs">0</span>
+          <span className="text-xs px-16">150</span>
+          <span className="text-xs">200</span>
+        </div>
+        <input
+          className="w-44 text-red-redd cursor-pointer"
+          min="1"
+          max="200"
+          type="range"
+          onInput={handleInput}
+        />
+
+        <p className="text-red-redd font-bold pt-5">Price: {priceHandle}</p>
+      </div>
     </div>
   );
 }
@@ -44,28 +56,12 @@ function LiNavMenu({ icon, text, onClick, className, id }) {
   return (
     <li
       key={id}
-      className={
-        "flex items-center py-3 cursor-pointer hover:text-red-redd " + className
-      }
+      className={"flex items-center py-3 cursor-pointer " + className}
       onClick={onClick}
     >
       <a className="text-3xl mr-5">{icon}</a>
       <span className="fob">{text}</span>
     </li>
-  );
-}
-
-function FormNavMenu({ value, text }) {
-  return (
-    <label className="flex items-center py-3">
-      <input
-        className="text-4xl mr-5"
-        type="radio"
-        name="radio"
-        value={value}
-      />
-      <span className="">{text}</span>
-    </label>
   );
 }
 export default NavMenu;

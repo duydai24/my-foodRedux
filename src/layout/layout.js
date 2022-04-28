@@ -15,9 +15,8 @@ function Layout({ children }) {
   return (
     <div>
       <Header
-        className={_className}
+        // className={_stickyDown}
         onClick={() => setOnCart(!onCart)}
-        className2={_className2}
         onClick2={() => setOnMobileMenu(!onMobileMenu)}
       />
       <MenuMobile

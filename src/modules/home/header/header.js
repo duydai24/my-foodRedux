@@ -10,10 +10,13 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
 import { userLogin } from "../../../redux/action/userAction";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import CartHover from "../../cart/cartHover";
 
 function Header({ onClick, onClick2 }) {
   const dispatch = useDispatch();
   const { accountLogin } = useSelector((state) => state.user);
+  const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
   const handleLogOut = () => {
     const results = [];
@@ -32,9 +35,8 @@ function Header({ onClick, onClick2 }) {
       accountLoginRole = value.role;
       accountLoginImage = value.image;
     });
-
   return (
-    <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black opacity-80">
+    <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black opacity-80 ">
       <div className="container">
         <div className="flex justify-between h-16">
           <span
@@ -70,16 +72,19 @@ function Header({ onClick, onClick2 }) {
             </div>
           </div>
           <div className="flex items-center max-w-[80px] md:max-w-[115px] lg:max-w-[145px] mr-3">
-            <a
-              onClick={onClick}
-              className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative"
-            >
-              <FaShoppingCart />
-              <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5">
-                {cart.totalQuantity}
-              </span>
-            </a>
-            <div className="flex items-center relative UserHover">
+            <div className="headerHover">
+              <div
+                onClick={onClick}
+                className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative"
+              >
+                <FaShoppingCart />
+                <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5 a">
+                  {cart.totalQuantity}
+                </span>
+              </div>
+              <CartHover className={"hoverCart"} />
+            </div>
+            <div className="flex items-center relative">
               {userNameIsLogin > 0 ? (
                 <div>
                   <div className="md:mr-3 md:flex lg:flex">
@@ -150,6 +155,50 @@ function IconsHeader({ text, icon, source }) {
         <a className="text-white pr-8 hoverHeader2 ">{text}</a>
       </div>
     </Link>
+  );
+}
+
+function CartItems({
+  name,
+  img,
+  price,
+  quantity,
+  id,
+  truQuantityOnClick,
+  addQuantityOnClick,
+  deleteCartItem,
+}) {
+  return (
+    <div className="flex m-5 items-center justify-between" key={id}>
+      <div className="flex">
+        <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" />
+        <div className="ml-5">
+          <h2 className="font-bold">{name}</h2>
+          <span className="font-bold text-red-redd">
+            $<span className="font-bold text-red-redd">{price}</span>
+          </span>
+          <div className="flex mt-5">
+            <span
+              onClick={truQuantityOnClick}
+              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+            >
+              -
+            </span>
+            <span className="w-8 h-8 text-center mt-1">{quantity}</span>
+            <span
+              onClick={addQuantityOnClick}
+              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+            >
+              +
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <span onClick={deleteCartItem} className="text-3xl text-gray-400">
+        <MdOutlineDeleteForever />
+      </span>
+    </div>
   );
 }
 

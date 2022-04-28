@@ -139,3 +139,12 @@
 .onTop {
     display: block;
 }
+.headerHover {
+    &:hover {
+        .hoverCart {
+            top: 4.5rem;
+            display: block !important;
+            transform: translateY(0);
+        }
+    }
+}

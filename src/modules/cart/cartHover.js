@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
 
-function Cart({ className, onClick }) {
+function CartHover({ className }) {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
@@ -50,48 +50,35 @@ function Cart({ className, onClick }) {
   };
 
   return (
-    <div className={"hidden " + className}>
-      <div
-        className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-60 opacity-50 h-[calc(100vh-4rem)] w-[calc(100vw-35rem)] "
-        onClick={onClick}
-      ></div>
-      <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-60 overflow-scroll">
-        <HeadingCart onClick={onClick} />
-        {cartItem.length > 0 ? (
-          cartItem &&
-          cartItem.map((value, key) => (
-            <CartItems
-              id={key}
-              key={key}
-              img={value.image}
-              name={value.name}
-              price={value.price}
-              quantity={value.quantity}
-              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
-            />
-          ))
-        ) : (
-          <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>
-        )}
-
-        <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
-      </div>
-    </div>
-  );
-}
-
-function HeadingCart({ onClick }) {
-  return (
     <div
-      className="flex justify-between m-5 border-b-[1px] border-gray-200
-    pb-5"
+      className={
+        "fixed -top-[4.5rem] right-40 h-auto pb-10 w-[30%] bg-[#FFFBD1] shadow-2xl z-60 rounded-xl transition-all -translate-y-full " +
+        className
+      }
     >
-      <h2 className="uppercase font-bold text-2xl">Shopping Cart</h2>
-      <span className="text-3xl" onClick={onClick}>
-        <RiDeleteBack2Line />
-      </span>
+      <h2 className="uppercase font-bold text-2xl text-center py-3 pt-5 border-y-[1px] border-gray-300">
+        Shopping Cart
+      </h2>
+      {cartItem.length > 0 ? (
+        cartItem &&
+        cartItem.map((value, key) => (
+          <CartItems
+            id={key}
+            key={key}
+            img={value.image}
+            name={value.name}
+            price={value.price}
+            quantity={value.quantity}
+            addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+            truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+            deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+          />
+        ))
+      ) : (
+        <p className="text-center font-bold p-3">Giỏ hàng trống ^^</p>
+      )}
+
+      <CartHanldle totalPrice={cart.totalPrice} />
     </div>
   );
 }
@@ -140,7 +127,7 @@ function CartItems({
   );
 }
 
-function CartHanldle({ totalPrice, id, onClick }) {
+function CartHanldle({ totalPrice, id }) {
   const { accountLogin } = useSelector((state) => state.user);
   let accountLoginLength = accountLogin.length;
   return (
@@ -155,23 +142,20 @@ function CartHanldle({ totalPrice, id, onClick }) {
       <div className="flex m-5 justify-between">
         {accountLoginLength === 0 ? (
           <Link href="/Login">
-            <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+            <button className="bg-red-redd rounded-full px-5 py-0 lg:px-20 md:px-28 text-base text-white font-bold uppercase shadowbtn">
               Checkout
             </button>
           </Link>
         ) : (
           <Link href="/Checkout">
-            <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+            <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-base text-white font-bold uppercase shadowbtn">
               Checkout
             </button>
           </Link>
         )}
 
         <Link href="/Shop">
-          <button
-            onClick={onClick}
-            className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn"
-          >
+          <button className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn">
             buy more
           </button>
         </Link>
@@ -180,4 +164,4 @@ function CartHanldle({ totalPrice, id, onClick }) {
   );
 }
 
-export default Cart;
+export default CartHover;

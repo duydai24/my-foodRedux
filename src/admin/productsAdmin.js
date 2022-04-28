@@ -190,7 +190,6 @@ function ProductsAdmin() {
                 className=" py-1 w-[15%] border-none outline-none"
                 type="file"
                 name="image"
-                // value={editItem.image}
                 onChange={onImageChange}
                 placeholder="Nhập ảnh sản phẩm..."
               />
