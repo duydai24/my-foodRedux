@@ -31,7 +31,7 @@ function OrderProduct() {
 
   return (
     <Layout>
-      <div className="container py-24 mx-2 lg:mx-0">
+      <div className="container py-24 mx-2">
         {status == "Đang chờ xác nhận đơn hàng" && (
           <h1 className="uppercase text-center font-bold">Chi tiết đơn hàng</h1>
         )}

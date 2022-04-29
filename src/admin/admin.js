@@ -10,10 +10,16 @@ import UserAdmin from "./userAdmin";
 import BannerSlideAdmin from "./banerSlideAdmin";
 import BannerTitle from "./banerTitle";
 import StatisticalAdmin from "./statisticalAdmin";
+import { Helmet } from "react-helmet";
+
+const TITLE = "My Food - Admin";
 
 function Admin() {
   return (
     <Layout>
+      <Helmet>
+        <title>{TITLE}</title>
+      </Helmet>
       <div className="pt-20 pb-32">
         <Tabs className="flex">
           <TabList className="pl-0">

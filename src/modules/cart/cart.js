@@ -6,6 +6,9 @@ import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
 import Router from "next/router";
 import Layout from "../../layout/layout";
+import { Helmet } from "react-helmet";
+
+const TITLE = "My Food - Cart";
 
 function Cart({ className, onClick }) {
   const dispatch = useDispatch();
@@ -53,6 +56,9 @@ function Cart({ className, onClick }) {
 
   return (
     <Layout>
+      <Helmet>
+        <title>{TITLE}</title>
+      </Helmet>
       <div className="container pb-24 pt-40">
         <div className="transition-all bg-white shadow-2xl z-60">
           <h2 className="uppercase font-bold text-2xl text-center">

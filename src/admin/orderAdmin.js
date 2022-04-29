@@ -23,7 +23,7 @@ function OrderAdmin() {
     <div>
       <h2>Order</h2>
       <div>
-        <div className="container py-24 mx-2 lg:mx-0">
+        <div className="container py-24 lg:pl-24 mx-2">
           <h1 className="uppercase text-center font-bold">
             Danh sách sản phẩm đã mua
           </h1>
