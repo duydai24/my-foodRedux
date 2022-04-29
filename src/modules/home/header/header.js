@@ -13,10 +13,9 @@ import { userLogin } from "../../../redux/action/userAction";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import CartHover from "../../cart/cartHover";
 
-function Header({ onClick, onClick2 }) {
+function Header({ onClick }) {
   const dispatch = useDispatch();
   const { accountLogin } = useSelector((state) => state.user);
-  const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
   const handleLogOut = () => {
     const results = [];
@@ -36,11 +35,11 @@ function Header({ onClick, onClick2 }) {
       accountLoginImage = value.image;
     });
   return (
-    <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black opacity-80 ">
+    <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black ">
       <div className="container">
         <div className="flex justify-between h-16">
           <span
-            onClick={onClick2}
+            onClick={onClick}
             className="text-white text-6xl text-center w-24 md:hidden"
           >
             <BiMenuAltLeft />
@@ -73,15 +72,14 @@ function Header({ onClick, onClick2 }) {
           </div>
           <div className="flex items-center max-w-[80px] md:max-w-[115px] lg:max-w-[145px] mr-3">
             <div className="headerHover">
-              <div
-                onClick={onClick}
-                className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative"
-              >
-                <FaShoppingCart />
-                <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5 a">
-                  {cart.totalQuantity}
-                </span>
-              </div>
+              <Link href="/Cart">
+                <div className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative">
+                  <FaShoppingCart />
+                  <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5 a">
+                    {cart.totalQuantity}
+                  </span>
+                </div>
+              </Link>
               <CartHover className={"hoverCart"} />
             </div>
             <div className="flex items-center relative">

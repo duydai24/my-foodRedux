@@ -5,21 +5,16 @@ import Header from "../../home/header/header";
 import Footer from "../../home/footer/footer";
 import CopyRight from "../../home/copyRight/copyRight";
 import Cart from "../../cart/cart";
+import Layout from "../../../layout/layout";
 
 function ProductsShopDetail() {
-  const [onCart, setOnCart] = useState(false);
-  const _className = onCart ? "onCart" : " ";
   return (
-    <div>
-      <Header className={_className} onClick={() => setOnCart(!onCart)} />
-      <Cart className={_className} onClick={() => setOnCart(!onCart)} />
+    <Layout>
       <div className="container py-12">
         <ProductsShopDetailContent />
         <ProductsShopDetailTaps />
       </div>
-      <Footer />
-      <CopyRight />
-    </div>
+    </Layout>
   );
 }
 export default ProductsShopDetail;

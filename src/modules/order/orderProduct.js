@@ -7,13 +7,11 @@ import Cart from "../cart/cart";
 import { useRouter } from "next/router";
 import { handelOrder } from "../../redux/action/oderAction";
 import Router from "next/router";
+import Layout from "../../layout/layout";
 
 function OrderProduct() {
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state.orders);
-
-  const [onCart, setOnCart] = useState(false);
-  const _className = onCart ? "onCart" : " ";
 
   const router = useRouter();
   const { orderProduct } = router.query;
@@ -25,17 +23,15 @@ function OrderProduct() {
   new_Order.map((value) => (status = value.status));
 
   const handleOrderProduct = (id) => {
-    new_Order.map((value) => value.status = "Đã huỷ đơn hàng")
+    new_Order.map((value) => (value.status = "Đã huỷ đơn hàng"));
     dispatch(handelOrder(order));
     alert("Huỷ đơn hàng thành công");
     Router.push("/Order");
   };
 
   return (
-    <div>
-      <Header className={_className} onClick={() => setOnCart(!onCart)} />
-      <Cart className={_className} onClick={() => setOnCart(!onCart)} />
-      <div className="container py-24">
+    <Layout>
+      <div className="container py-24 mx-2 lg:mx-0">
         {status == "Đang chờ xác nhận đơn hàng" && (
           <h1 className="uppercase text-center font-bold">Chi tiết đơn hàng</h1>
         )}
@@ -100,9 +96,7 @@ function OrderProduct() {
           ""
         )}
       </div>
-      <Footer />
-      <CopyRight />
-    </div>
+    </Layout>
   );
 }
 

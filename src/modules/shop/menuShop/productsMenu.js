@@ -26,10 +26,8 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
   }
   products = products.slice((currentPage - 1) * 8, currentPage * 8);
 
-  const [index, setIndex] = useState(currentPage);
   const handlePage = (key) => {
     setCurrentPage(key + 1);
-    setIndex(key + 1);
   };
   const handleFirstPage = () => {
     setCurrentPage(1);
@@ -63,8 +61,8 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
               description={value.description}
               price={value.price}
               gif={"sale.gif"}
-              id={key}
-              key={key}
+              id={value.id}
+              keys={key}
               products={products}
             />
           ))
@@ -90,7 +88,7 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
         </button>
         {pageNumbers.map((val, key) => (
           <button
-            key={key}
+            key={val}
             onClick={() => handlePage(key)}
             className={
               key + 1 === currentPage
@@ -124,6 +122,7 @@ function ProductsMenuItems({
   price,
   gif,
   id,
+  keys,
   products,
 }) {
   const dispatch = useDispatch();
@@ -170,7 +169,7 @@ function ProductsMenuItems({
   };
   return (
     <div
-      key={id}
+      key={keys}
       className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems"
     >
       <Link href={`/ProductsShop/${id}`}>

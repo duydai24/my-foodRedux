@@ -4,6 +4,7 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
+import Router from "next/router";
 
 function CartHover({ className }) {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ function CartHover({ className }) {
   return (
     <div
       className={
-        "fixed -top-[4.5rem] right-40 h-auto pb-10 w-[30%] bg-[#FFFBD1] shadow-2xl z-60 rounded-xl transition-all -translate-y-full " +
+        "fixed -top-[8.5rem] right-40 h-auto pb-10 w-[30%] bg-white shadow-2xl z-60 rounded-xl transition-all hidden lg:block -translate-y-full " +
         className
       }
     >
@@ -129,7 +130,16 @@ function CartItems({
 
 function CartHanldle({ totalPrice, id }) {
   const { accountLogin } = useSelector((state) => state.user);
+  const { cartItem } = useSelector((state) => state.cart);
   let accountLoginLength = accountLogin.length;
+  const handleCheckout = () => {
+    if (cartItem.length === 0) {
+      alert("Vui lòng thêm sản phẩm vào giỏ hàng");
+      Router.push("/Shop");
+    } else {
+      Router.push("/Checkout");
+    }
+  };
   return (
     <div className="border-t-[1px] border-gray-200 relative" key={id}>
       <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
@@ -147,11 +157,12 @@ function CartHanldle({ totalPrice, id }) {
             </button>
           </Link>
         ) : (
-          <Link href="/Checkout">
-            <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-base text-white font-bold uppercase shadowbtn">
-              Checkout
-            </button>
-          </Link>
+          <button
+            onClick={() => handleCheckout()}
+            className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-base text-white font-bold uppercase shadowbtn"
+          >
+            Checkout
+          </button>
         )}
 
         <Link href="/Shop">

@@ -25,11 +25,11 @@ function BannerSlide() {
         ))}
       </Slider>
       <span className="w-screen h-[17rem] md:h-[35rem] lg:h-[50rem] bg-slate-200 opacity-20 absolute top-0 right-0" />
-      <div className="container lg:block">
+      <div className="container lg:block hidden">
         {textSlide.map((value, key) => (
           <div
             key={key}
-            className="flex flex-col items-start absolute top-[30%] max-w-4xl"
+            className="flex flex-col lg:items-start md:items-center items-center absolute top-[30%] max-w-4xl"
           >
             <p className="uppercase text-white font-bold text-lg animate-bounceInRight">
               {value.lable}

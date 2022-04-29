@@ -40,7 +40,7 @@ function Checkout() {
   let totalPrice = 0;
   accountLogin.map((value) => (userId = value.id));
   const handleCheckout = () => {
-    if (name && address && phone) {
+    if (name && address && phone && phone.length > 9) {
       const status = "Đang chờ xác nhận đơn hàng";
       if (orders.length === 0) {
         let order = [

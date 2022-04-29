@@ -1,9 +1,11 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
+import Router from "next/router";
+import Layout from "../../layout/layout";
 
 function Cart({ className, onClick }) {
   const dispatch = useDispatch();
@@ -50,49 +52,35 @@ function Cart({ className, onClick }) {
   };
 
   return (
-    <div className={"hidden " + className}>
-      <div
-        className="fixed top-[4rem] left-0 bg-slate-400 transition-all z-60 opacity-50 h-[calc(100vh-4rem)] w-[calc(100vw-35rem)] "
-        onClick={onClick}
-      ></div>
-      <div className="fixed top-[4rem] right-0 h-screen w-[90%] lg:w-[30%] transition-all bg-white shadow-2xl z-60 overflow-scroll">
-        <HeadingCart onClick={onClick} />
-        {cartItem.length > 0 ? (
-          cartItem &&
-          cartItem.map((value, key) => (
-            <CartItems
-              id={key}
-              key={key}
-              img={value.image}
-              name={value.name}
-              price={value.price}
-              quantity={value.quantity}
-              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
-            />
-          ))
-        ) : (
-          <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>
-        )}
+    <Layout>
+      <div className="container pb-24 pt-40">
+        <div className="transition-all bg-white shadow-2xl z-60">
+          <h2 className="uppercase font-bold text-2xl text-center">
+            Shopping Cart
+          </h2>
+          {cartItem.length > 0 ? (
+            cartItem &&
+            cartItem.map((value, key) => (
+              <CartItems
+                id={key}
+                key={key}
+                img={value.image}
+                name={value.name}
+                price={value.price}
+                quantity={value.quantity}
+                addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+                truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+                deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+              />
+            ))
+          ) : (
+            <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>
+          )}
 
-        <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
+          <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
+        </div>
       </div>
-    </div>
-  );
-}
-
-function HeadingCart({ onClick }) {
-  return (
-    <div
-      className="flex justify-between m-5 border-b-[1px] border-gray-200
-    pb-5"
-    >
-      <h2 className="uppercase font-bold text-2xl">Shopping Cart</h2>
-      <span className="text-3xl" onClick={onClick}>
-        <RiDeleteBack2Line />
-      </span>
-    </div>
+    </Layout>
   );
 }
 
@@ -107,44 +95,56 @@ function CartItems({
   deleteCartItem,
 }) {
   return (
-    <div className="flex m-5 items-center justify-between" key={id}>
-      <div className="flex">
-        <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" />
-        <div className="ml-5">
-          <h2 className="font-bold">{name}</h2>
-          <span className="font-bold text-red-redd">
-            $<span className="font-bold text-red-redd">{price}</span>
-          </span>
-          <div className="flex mt-5">
-            <span
-              onClick={truQuantityOnClick}
-              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
-            >
-              -
+    <div className="container">
+      <div className="flex m-5 items-center justify-between" key={id}>
+        <div className="flex">
+          <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" />
+          <div className="ml-5">
+            <h2 className="font-bold">{name}</h2>
+            <span className="font-bold text-red-redd">
+              $<span className="font-bold text-red-redd">{price}</span>
             </span>
-            <span className="w-8 h-8 text-center mt-1">{quantity}</span>
-            <span
-              onClick={addQuantityOnClick}
-              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
-            >
-              +
-            </span>
+            <div className="flex mt-5">
+              <span
+                onClick={truQuantityOnClick}
+                className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+              >
+                -
+              </span>
+              <span className="w-8 h-8 text-center mt-1">{quantity}</span>
+              <span
+                onClick={addQuantityOnClick}
+                className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+              >
+                +
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <span onClick={deleteCartItem} className="text-3xl text-gray-400">
-        <MdOutlineDeleteForever />
-      </span>
+        <span onClick={deleteCartItem} className="text-3xl text-gray-400">
+          <MdOutlineDeleteForever />
+        </span>
+      </div>
     </div>
   );
 }
 
 function CartHanldle({ totalPrice, id, onClick }) {
   const { accountLogin } = useSelector((state) => state.user);
+  const { cartItem } = useSelector((state) => state.cart);
   let accountLoginLength = accountLogin.length;
+  const handleCheckout = () => {
+    if (cartItem.length < 1) {
+      alert("Vui lòng thêm sản phẩm vào giỏ hàng");
+      Router.push("/Shop");
+    } else {
+      Router.push("/Checkout");
+    }
+  };
+
   return (
-    <div className="border-t-[1px] border-gray-200 relative" key={id}>
+    <div className="border-t-[1px] border-gray-200 relative pb-5" key={id}>
       <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>
@@ -152,21 +152,23 @@ function CartHanldle({ totalPrice, id, onClick }) {
           $<span className="font-bold text-red-redd text-xl">{totalPrice}</span>
         </span>
       </div>
-      <div className="flex m-5 justify-between">
+      <div className="flex m-5 justify-evenly">
         {accountLoginLength === 0 ? (
-          <Link href="/Login">
-            <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
-              Checkout
-            </button>
-          </Link>
+          <div className="">
+            <Link href="/Login">
+              <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+                Checkout
+              </button>
+            </Link>
+          </div>
         ) : (
-          <Link href="/Checkout">
-            <button className="bg-red-redd rounded-full px-20 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
-              Checkout
-            </button>
-          </Link>
+          <button
+            onClick={() => handleCheckout()}
+            className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn"
+          >
+            Checkout
+          </button>
         )}
-
         <Link href="/Shop">
           <button
             onClick={onClick}

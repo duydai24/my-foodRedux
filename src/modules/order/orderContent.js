@@ -4,14 +4,14 @@ import Link from "next/link";
 
 function OrderContent() {
   const { order } = useSelector((state) => state.orders);
-  const {accountLogin} = useSelector((state) => state.user)
-  let userID
-  accountLogin.map((value)=> userID = value.id)
+  const { accountLogin } = useSelector((state) => state.user);
+  let userID;
+  accountLogin.map((value) => (userID = value.id));
 
-  let new_Order = order.filter((val) =>  val.userId === userID)
+  let new_Order = order.filter((val) => val.userId === userID);
 
   return (
-    <div className="container py-24">
+    <div className="container py-24 mx-2 lg:mx-0">
       <h1 className="uppercase text-center font-bold">
         Danh sách sản phẩm đã mua
       </h1>

@@ -22,31 +22,35 @@ function Login() {
   };
 
   const handleSubmit = () => {
-    let checkUser = user.some((el) => el.userName === userName);
-    if (checkUser === true) {
-      let UserLogin = user.filter((e) => e.userName === userName);
-      let checkPass = UserLogin.some((el) => el.passWord === passWord);
-      if (checkPass === true && checkUser === true) {
-        setIsLogin(true);
-        alert("Đăng nhập thành công");
-        let idLogin = user.filter((e) => {
-          return e.userName === userName;
-        });
-        const results = [
-          {
-            id: idLogin[0].id,
-            image: idLogin[0].image,
-            userName,
-            passWord,
-            role: idLogin[0].role,
-          },
-        ];
-        dispatch(userLogin(results));
+    if (userName && passWord) {
+      let checkUser = user.some((el) => el.userName === userName);
+      if (checkUser === true) {
+        let UserLogin = user.filter((e) => e.userName === userName);
+        let checkPass = UserLogin.some((el) => el.passWord === passWord);
+        if (checkPass === true && checkUser === true) {
+          setIsLogin(true);
+          alert("Đăng nhập thành công");
+          let idLogin = user.filter((e) => {
+            return e.userName === userName;
+          });
+          const results = [
+            {
+              id: idLogin[0].id,
+              image: idLogin[0].image,
+              userName,
+              passWord,
+              role: idLogin[0].role,
+            },
+          ];
+          dispatch(userLogin(results));
+        } else {
+          alert("Mật khẩu không đúng");
+        }
       } else {
-        alert("Mật khẩu không đúng");
+        alert("Tài khoản không tồn tại");
       }
     } else {
-      alert("Tài khoản không tồn tại");
+      alert("Vui lòng nhập các trường");
     }
   };
 

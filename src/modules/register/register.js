@@ -28,24 +28,28 @@ function Register() {
   };
 
   const handleRegister = () => {
-    let checkAccount = user && user.some((el) => el.userName == userName);
-    if (!checkAccount) {
-      if (passWord === checkPassWord) {
-        let results = {
-          id: user.length,
-          userName,
-          passWord,
-          role: "user",
-        };
-        user.push(results);
-        dispatch(fetchUser(user));
-        setIsRegister(true);
-        alert("Đăng kí thành công");
+    if (userName && passWord && checkPassWord) {
+      let checkAccount = user && user.some((el) => el.userName == userName);
+      if (!checkAccount) {
+        if (passWord === checkPassWord) {
+          let results = {
+            id: user.length,
+            userName,
+            passWord,
+            role: "user",
+          };
+          user.push(results);
+          dispatch(fetchUser(user));
+          setIsRegister(true);
+          alert("Đăng kí thành công");
+        } else {
+          alert("Nhập lại mật khẩu không đúng");
+        }
       } else {
-        alert("Nhập lại mật khẩu không đúng");
+        alert("Tên tài khoản đã tồn tại");
       }
     } else {
-      alert("Tên tài khoản đã tồn tại");
+      alert("Vui lòng nhập các trường");
     }
   };
 
