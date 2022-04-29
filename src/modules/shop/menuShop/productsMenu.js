@@ -92,8 +92,8 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
             onClick={() => handlePage(key)}
             className={
               key + 1 === currentPage
-                ? "w-10 h-10 font-bold hover:text-red-redd active"
-                : "w-10 h-10 font-bold hover:text-red-redd"
+                ? "w-8 h-8 font-bold hover:text-red-redd text-white bg-red-redd rounded-full"
+                : "w-8 h-8 font-bold hover:text-red-redd"
             }
           >
             {val}
