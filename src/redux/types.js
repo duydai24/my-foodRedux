@@ -21,6 +21,6 @@ export const DELETE_BANNER = "DELETE_BANNER";
 export const UPDATE_BANNER = "UPDATE_BANNER";
 export const ADD_BANNER = "ADD_BANNER";
 export const GET_STATISTICA = "GET_STATISTICA";
-// export const UPDATE_BANNER = "UPDATE_BANNER";
+export const UPDATE_USERS = "UPDATE_USERS";
 // export const ADD_BANNER = "ADD_BANNER";
 // export const GET_STATISTICA = 'GET_STATISTICA';
