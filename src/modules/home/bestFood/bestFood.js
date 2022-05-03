@@ -3,7 +3,7 @@ import ButtonOderNow from "../../../lib/buttonOderNow/buttonOderNow";
 
 function BestFood() {
   return (
-    <div className="pb-24 z-20">
+    <div className="pb-24 z-20 overflow-hidden">
       <div className="bg-[url('/bgBestFood.jpg')] bg-cover">
         <div className="hidden lg:block">
           <div className="flex justify-between">

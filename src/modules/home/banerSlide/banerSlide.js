@@ -29,15 +29,14 @@ function BannerSlide() {
         {textSlide.map((value, key) => (
           <div
             key={key}
-            className="flex flex-col lg:items-start md:items-center items-center absolute top-[30%] max-w-4xl"
+            className="flex flex-col lg:items-start md:items-center items-center absolute top-[30%] max-w-4xl overflow-hidden"
           >
             <p className="uppercase text-white font-bold text-lg animate-bounceInRight">
               {value.lable}
             </p>
             <p className="font-bold animate-bounceInLeft lg:text-8xl md:text-4xl text-xl text-white py-10">
-              {value.text1}{" "}
+              {value.text1}
               <span className="font-bold animate-bounceInRight lg:text-8xl md:text-4xl text-xl text-red-redd">
-                {" "}
                 {value.text2}
               </span>
             </p>

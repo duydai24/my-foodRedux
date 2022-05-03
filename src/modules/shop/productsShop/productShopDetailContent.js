@@ -153,9 +153,9 @@ function ProductsShopDetailContentItems({
           </div>
           <button
             onClick={addToCart}
-            className="bg-[#ff514e] rounded-3xl font-bold text-white p-2 lg:px-20 text-xs lg:text-[20px] md:px-16 shadow-lg uppercase border-2 border-[#ff514e] hover:bg-white hover:text-[#ff514e] flex"
+            className="bg-[#ff514e] items-center rounded-3xl font-bold text-white p-2 lg:px-20 text-xs lg:text-[20px] md:px-16 shadow-lg uppercase border-2 border-[#ff514e] hover:bg-white hover:text-[#ff514e] flex"
           >
-            <span className="text-xl">
+            <span className="text-xl mr-1">
               <BsFillCartPlusFill />
             </span>
             ADD TO CART

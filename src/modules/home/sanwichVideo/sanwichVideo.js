@@ -11,7 +11,7 @@ function SanwichVideo() {
 
   return (
     <div
-      className="bg-[url('/bgVideoSanwich.jpg')] bg-cover flex min-h-[30rem] bg-fixed "
+      className="bg-[url('/bgVideoSanwich.jpg')] bg-cover flex min-h-[30rem] bg-fixed overflow-hidden "
       onClick={onOpenYoutubeClass}
     >
       <div className="flex flex-grow flex-shrink basis-0 items-center justify-center">

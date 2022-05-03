@@ -76,13 +76,13 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
       <div className="flex items-center">
         <button
           onClick={() => handleFirstPage()}
-          className="w-10 h-10 text-3xl hover:text-red-redd"
+          className="p-1 text-3xl hover:text-red-redd"
         >
           <BiFirstPage />
         </button>
         <button
           onClick={() => handlePrePage()}
-          className="w-10 h-10  text-xl hover:text-red-redd"
+          className="p-1 mr-2 text-xl hover:text-red-redd"
         >
           <AiOutlineArrowLeft />
         </button>
@@ -101,13 +101,13 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
         ))}
         <button
           onClick={() => handleNextPage()}
-          className="w-10 h-10 text-xl hover:text-red-redd"
+          className="p-1 ml-2 text-xl hover:text-red-redd"
         >
           <AiOutlineArrowRight />
         </button>
         <button
           onClick={() => handleLastPage()}
-          className="w-10 h-10 text-3xl hover:text-red-redd"
+          className="p-1 text-3xl hover:text-red-redd"
         >
           <BiLastPage />
         </button>

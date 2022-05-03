@@ -3,7 +3,7 @@ import ButtonOderNow from "../../../lib/buttonOderNow/buttonOderNow";
 
 function Delivery() {
   return (
-    <div className="container md:flex justify-between z-20 pb-20">
+    <div className="container md:flex justify-between z-20 pb-20 overflow-hidden">
       <div className="px-5 md:w-2/5 animate-bounceInLeft">
         <p className="text-[#fbb403] font-bold text-3xl">Delivery</p>
         <p className="text-black font-bold text-4xl mt-3">

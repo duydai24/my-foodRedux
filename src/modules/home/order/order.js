@@ -2,7 +2,7 @@ import react from "react";
 
 function Order() {
   return (
-    <div className="py-24 z-20">
+    <div className="py-24 z-20 overflow-hidden">
       <div className="container">
         <div className="text-center">
           <p className="text-[#fbb403] font-bold text-3xl">Order Now!</p>
