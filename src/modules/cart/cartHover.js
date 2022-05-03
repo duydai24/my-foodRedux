@@ -53,7 +53,7 @@ function CartHover({ className }) {
   return (
     <div
       className={
-        "fixed -top-[8.5rem] right-40 h-auto pb-10 w-[30%] bg-white shadow-2xl z-60 rounded-xl transition-all hidden lg:block -translate-y-full " +
+        "fixed top-[4.5rem] right-40 h-auto pb-10 w-[30%] bg-white shadow-2xl z-60 rounded-xl transition-all hidden lg:block invisible translate-y-1/4 opacity-0 " +
         className
       }
     >
@@ -64,7 +64,6 @@ function CartHover({ className }) {
         cartItem &&
         cartItem.map((value, key) => (
           <CartItems
-            id={key}
             key={key}
             img={value.image}
             name={value.name}
@@ -128,7 +127,7 @@ function CartItems({
   );
 }
 
-function CartHanldle({ totalPrice, id }) {
+function CartHanldle({ totalPrice }) {
   const { accountLogin } = useSelector((state) => state.user);
   const { cartItem } = useSelector((state) => state.cart);
   let accountLoginLength = accountLogin.length;
@@ -141,7 +140,7 @@ function CartHanldle({ totalPrice, id }) {
     }
   };
   return (
-    <div className="border-t-[1px] border-gray-200 relative" key={id}>
+    <div className="border-t-[1px] border-gray-200 relative">
       <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
       <div className="flex mx-8 my-5 justify-between">
         <h2 className="font-bold text-xl">Total</h2>

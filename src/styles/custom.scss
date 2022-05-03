@@ -142,8 +142,10 @@
 .headerHover {
     &:hover {
         .hoverCart {
-            top: 4.5rem;
-            display: block !important;
+            opacity: 1;
+            visibility: visible;
+            top: 4rem;
+            // display: block !important;
             transform: translateY(0);
         }
     }

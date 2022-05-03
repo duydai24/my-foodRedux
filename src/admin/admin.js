@@ -21,7 +21,7 @@ function Admin() {
         <title>{TITLE}</title>
       </Helmet>
       <div className="pt-20 pb-32">
-        <Tabs className="flex">
+        <Tabs className="flex flex-col lg:flex-row">
           <TabList className="pl-0">
             <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
               Home
