@@ -19,8 +19,6 @@ function OrderAdmin() {
     dispatch(handelOrder(order));
     alert("Xác nhận đơn hàng thành công");
   };
-  let status;
-  order.map((value) => (status = value.status));
   return (
     <div>
       <h2>Order</h2>
