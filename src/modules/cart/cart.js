@@ -7,6 +7,7 @@ import Link from "next/link";
 import Router from "next/router";
 import Layout from "../../layout/layout";
 import { Helmet } from "react-helmet";
+import { useAlert } from "react-alert";
 
 const TITLE = "My Food - Cart";
 
@@ -14,6 +15,7 @@ function Cart({ className, onClick }) {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
   const { cart } = useSelector((state) => state);
+  // const { googleUser } = useSelector((state) => state.user);
 
   const handleAddQuantity = (id, key) => {
     cartItem[key].quantity = cartItem[key].quantity + 1;
@@ -104,7 +106,11 @@ function CartItems({
     <div className="container">
       <div className="flex m-5 items-center justify-between" key={id}>
         <div className="flex">
-          <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" />
+          <img
+            alt="img"
+            src={img}
+            className="lg:w-36 lg:h-28 w-24 h-24 rounded-md"
+          />
           <div className="ml-5">
             <h2 className="font-bold">{name}</h2>
             <span className="font-bold text-red-redd">
@@ -113,14 +119,14 @@ function CartItems({
             <div className="flex mt-5">
               <span
                 onClick={truQuantityOnClick}
-                className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+                className="border-gray-200 border-[1px] rounded-md w-8 h-8 text-center text-xl cursor-pointer hover:border-red-redd hover:text-red-redd"
               >
                 -
               </span>
               <span className="w-8 h-8 text-center mt-1">{quantity}</span>
               <span
                 onClick={addQuantityOnClick}
-                className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+                className="border-gray-200 border-[1px] rounded-md w-8 h-8 text-center text-xl cursor-pointer hover:border-red-redd hover:text-red-redd"
               >
                 +
               </span>
@@ -139,7 +145,10 @@ function CartItems({
 function CartHanldle({ totalPrice, id, onClick }) {
   const { accountLogin } = useSelector((state) => state.user);
   const { cartItem } = useSelector((state) => state.cart);
+  // const { googleUser } = useSelector((state) => state.user);
+
   let accountLoginLength = accountLogin.length;
+  // let googleUserLoginLength = googleUser.length;
   const handleCheckout = () => {
     if (cartItem.length < 1) {
       alert("Vui lòng thêm sản phẩm vào giỏ hàng");

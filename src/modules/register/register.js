@@ -60,9 +60,13 @@ function Register() {
   }, [isRegister]);
 
   return (
-    <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] mt-[30%] shadow-2xl rounded-lg flex justify-evenly">
+    <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
       <Link href="/">
-        <img className="hidden lg:block w-[40%]" src="logoRemove.png" />
+        <img
+          alt="img"
+          className="hidden lg:block w-[40%]"
+          src="logoRemove.png"
+        />
       </Link>
       <div className="">
         <p className="text-black uppercase font-bold text-2xl">REGISTER</p>
@@ -128,7 +132,7 @@ function InputLogin({
   return (
     <div className="mt-5">
       <p className="">{title}</p>
-      <div className="flex">
+      <div className="flex items-center">
         <span className="bg-[#F8F8FF] p-3 text-xl">{icon}</span>
         <input
           className="bg-[#F8F8FF] py-3 lg:pr-32 pr-20 border-none outline-none"

@@ -1,14 +1,21 @@
 import react, { useState, useEffect, useRouter } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { BiLock } from "react-icons/bi";
+import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
-import { userLogin } from "../../redux/action/userAction";
+import {
+  userLogin,
+  googleUserLogin,
+  fetchUser,
+} from "../../redux/action/userAction";
+import { useGoogleLogin } from "react-google-login";
 
 function Login() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  const { googleUser } = useSelector((state) => state.user);
 
   const [userName, setUserName] = useState();
   const [passWord, setPassWord] = useState();
@@ -30,6 +37,7 @@ function Login() {
         if (checkPass === true && checkUser === true) {
           setIsLogin(true);
           alert("Đăng nhập thành công");
+          Router.push("/");
           let idLogin = user.filter((e) => {
             return e.userName === userName;
           });
@@ -53,16 +61,61 @@ function Login() {
       alert("Vui lòng nhập các trường");
     }
   };
-
-  useEffect(() => {
-    if (isLogin) {
-      Router.push("/");
-    }
-  }, [isLogin]);
+  const clientId =
+    "295032336816-21451obqs8cpbmhkhaaadp26q7d1d86e.apps.googleusercontent.com";
+  const onSuccess = (res) => {
+    console.log("[Login Success ] currentUser:", res.profileObj);
+    googleUser = [...googleUser, res.profileObj];
+    dispatch(googleUserLogin(googleUser));
+    alert("Đăng nhập bằng Google thành công");
+    googleUser.map((val) => {
+      let checkAccount = user.some((e) => e.userName == val.email);
+      if (!checkAccount) {
+        let results = {
+          id: val.googleId,
+          image: val.imageUrl,
+          userName: val.email,
+          passWord: "******",
+          role: "user",
+        };
+        user.push(results);
+        dispatch(fetchUser(user));
+      }
+      let idLogin = user.filter((e) => {
+        return e.userName === val.email;
+      });
+      const results = [
+        {
+          id: idLogin[0].id,
+          image: idLogin[0].image,
+          userName: val.email,
+          passWord: "******",
+          role: idLogin[0].role,
+        },
+      ];
+      dispatch(userLogin(results));
+    });
+    Router.push("/");
+  };
+  const onFailure = (res) => {
+    console.log("[Login Failed ] res:", res);
+  };
+  const { signIn } = useGoogleLogin({
+    onSuccess,
+    onFailure,
+    clientId,
+    isSignedIn: false,
+    accessType: "offline",
+    cookiePolicy: "single_host_origin",
+  });
   return (
-    <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] mt-[30%] shadow-2xl rounded-lg flex justify-evenly">
+    <div className="pt-20 pb-44 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
       <Link href="/">
-        <img className="hidden lg:block w-[40%]" src="logoRemove.png" />
+        <img
+          alt="img"
+          className="hidden lg:block w-[40%]"
+          src="logoRemove.png"
+        />
       </Link>
       <div className="relative">
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
@@ -103,12 +156,24 @@ function Login() {
             <span className="ml-5">Save your password</span>
           </div>
         </div>
-        <button
-          onClick={handleSubmit}
-          className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 px-6 mt-5 absolute left-1/2 -translate-x-1/2 uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
-        >
-          LOG IN
-        </button>
+
+        <div className="flex flex-col items-center">
+          <button
+            onClick={handleSubmit}
+            className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 px-6 mt-5 uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
+          >
+            LOG IN
+          </button>
+          <button
+            onClick={signIn}
+            className="font-bold bg-slate-200 text-base px-5 py-3 mt-5 rounded-full shadow-slate-200 flex items-center justify-around"
+          >
+            <span className="text-2xl">
+              <FcGoogle />
+            </span>
+            Login With Google
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -127,7 +192,7 @@ function InputLogin({
   return (
     <div className="mt-5">
       <p className="">{title}</p>
-      <div className="flex">
+      <div className="flex items-center">
         <span className="bg-[#F8F8FF] p-3 text-xl">{icon}</span>
         <input
           className="bg-[#F8F8FF] py-3 lg:pr-32 pr-20 border-none outline-none"

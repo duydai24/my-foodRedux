@@ -1,11 +1,10 @@
-import Document, {Head, Html, Main, NextScript} from 'next/document';
-import React from 'react';
+import Document, { Head, Html, Main, NextScript } from "next/document";
+import React from "react";
 
 export default class MyDocument extends Document {
-
   render() {
     return (
-      <Html lang="vi"  >
+      <Html lang="vi">
         <Head>
           <meta content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0" />
           <link
@@ -39,7 +38,6 @@ export default class MyDocument extends Document {
             crossOrigin=""
           />
           {this.helmetHeadComponents}
-
         </Head>
 
         <body {...this.helmetBodyAttrComponents}>

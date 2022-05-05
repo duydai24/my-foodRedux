@@ -8,7 +8,7 @@ export const initialState = {
       description: "ngon vuu vua",
       image: "/hamber1.jpg",
       price: 10,
-      quantity: 120,
+      quantity: 20,
       categoryId: 1,
     },
     {
@@ -24,7 +24,7 @@ export const initialState = {
       id: 2,
       name: "Drink",
       description: "ngon",
-      image: "/drink1.jpg",
+      image: "/drink0.jpg",
       price: 5,
       quantity: 10,
       categoryId: 2,
@@ -53,7 +53,7 @@ export const initialState = {
       description: "ngon",
       image: "/hamber2.jpg",
       price: 20,
-      quantity: 100,
+      quantity: 50,
       categoryId: 1,
     },
     {
@@ -62,7 +62,7 @@ export const initialState = {
       description: "re",
       image: "/sandwich3.jpg",
       price: 90,
-      quantity: 100,
+      quantity: 70,
       categoryId: 3,
     },
     {
@@ -80,7 +80,7 @@ export const initialState = {
       description: "ngon",
       image: "/piza2.jpg",
       price: 60,
-      quantity: 100,
+      quantity: 20,
       categoryId: 4,
     },
     {
@@ -89,7 +89,7 @@ export const initialState = {
       description: "ngon vuu vua",
       image: "/hamber3.jpg",
       price: 40,
-      quantity: 120,
+      quantity: 20,
       categoryId: 1,
     },
     {
@@ -134,7 +134,7 @@ export const initialState = {
       description: "ngon",
       image: "/hamber4.jpg",
       price: 25,
-      quantity: 100,
+      quantity: 45,
       categoryId: 1,
     },
     {
@@ -143,7 +143,7 @@ export const initialState = {
       description: "re",
       image: "/sandwich3.jpg",
       price: 90,
-      quantity: 100,
+      quantity: 55,
       categoryId: 3,
     },
     {
@@ -161,11 +161,27 @@ export const initialState = {
       description: "ngon",
       image: "/piza4.jpg",
       price: 45,
-      quantity: 100,
+      quantity: 10,
+      categoryId: 4,
+    },
+    {
+      id: 18,
+      name: "Piza4",
+      description: "ngon",
+      image: "/piza3.jpg",
+      price: 30,
+      quantity: 67,
       categoryId: 4,
     },
   ],
   quantityNumber: 1,
+  sale: [
+    {
+      id: 1,
+      gif: "sale25.gif",
+      saleNumber: 25,
+    },
+  ],
 };
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -192,6 +208,22 @@ export const productsReducer = (state = initialState, action) => {
         ...state,
         product: action.payload.state,
         quantityNumber: action.payload.quantityNumber,
+      };
+    case types.UPDATE_QUANTITY:
+      return {
+        ...state,
+        product: action.payload.state,
+        quantity: action.payload.products.quantity,
+      };
+    case types.ADD_SALE:
+      return {
+        ...state,
+        sale: action.payload.sale,
+      };
+    case types.DELETE_SALE:
+      return {
+        ...state,
+        sale: action.payload.sale,
       };
     default:
       return state;

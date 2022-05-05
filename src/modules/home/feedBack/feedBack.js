@@ -17,7 +17,7 @@ function FeedBack() {
       <div className="my-20 px-5 z-7">
         <Slider {...settings}>
           <FeedBackSlide
-            img={"dai.jpg"}
+            img={"userDai.webp"}
             name={"Duy Đại"}
             title={"Developer"}
             text={
@@ -33,7 +33,7 @@ function FeedBack() {
             }
           />
           <FeedBackSlide
-            img={"son.jpg"}
+            img={"son.webp"}
             name={"Trọng Sơn"}
             title={"Design"}
             text={
@@ -51,6 +51,7 @@ function FeedBackSlide({ img, name, title, text }) {
     <div className="flex flex-col items-center relative pt-6">
       <span className="w-[7rem] h-[7rem] md:w-[10rem] md:h-[10rem] lg:w-[15rem] lg:h-[15rem] bg-[#fbb403] spanFeedback" />
       <img
+        alt="img"
         className="w-[7rem] h-[7rem] md:w-[10rem] md:h-[10rem] lg:w-[15rem] lg:h-[15rem] absolute imgFeedback"
         src={img}
       />

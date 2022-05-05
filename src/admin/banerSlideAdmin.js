@@ -6,6 +6,7 @@ import {
   deleteBannerSlide,
   updateBannerSlide,
 } from "../redux/action/dbAction";
+import { useAlert } from "react-alert";
 
 function BannerSlideAdmin() {
   const [buttonEdit, setButtonEdit] = useState(false);
@@ -111,6 +112,7 @@ function BannerSlideAdmin() {
       </div>
       <div className="">
         <img
+          alt="img"
           className="w-[500px] h-[300px]"
           src={imageFile.image}
           width={500}
@@ -176,7 +178,7 @@ function BannerItem({ key, img, handleDelete, handleEdit, handleAdd }) {
   return (
     <div key={key} className="flex mb-10">
       <p className="mr-5 font-bold">Banner: </p>
-      <img src={img} width={400} height={200} />
+      <img alt="img" src={img} width={400} height={200} />
       <div className="flex flex-col ml-10">
         <button
           onClick={handleAdd}

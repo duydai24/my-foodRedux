@@ -1,9 +1,9 @@
 import * as types from "../types";
 export const initialState = {
   banerSlide: [
-    { image: "/bgHome.jpg" },
+    { image: "/bgHome.webp" },
     { image: "/bg5Home.jpg" },
-    { image: "/bg3Home.jpg" },
+    { image: "/bg3Home.webp" },
   ],
   textSlide: [
     {

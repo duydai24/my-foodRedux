@@ -13,6 +13,7 @@ function StatisticalAdmin() {
   products.map((val) => {
     quantityTotal += val.quantity;
   });
+  // statistica.totalQuantity = 0;
   return (
     <div className="grid grid-cols-2 px-20 gap-10">
       <UserStatistica
@@ -22,7 +23,7 @@ function StatisticalAdmin() {
       />
       <ProductsStatistica
         quantityCategory={products.length}
-        quantityTotal={quantityTotal - statistica.totalQuantity}
+        quantityTotal={quantityTotal}
         quantityHot={statistica.totalQuantity}
         quantityOut={statistica.totalPrice}
       />
@@ -88,7 +89,13 @@ function A1() {
     <div className="bg-slate-100 p-5">
       <p className="font-bold pb-10">Thống kê sản phẩm bán chạy</p>
       <p>Sản phẩm bán chạy nhất: {max[0].name}</p>
-      <img className="pt-10" src={max[0].image} width={300} h={100} />
+      <img
+        alt="img"
+        className="mt-10 rounded-md"
+        src={max[0].image}
+        width={300}
+        h={100}
+      />
     </div>
   );
 }

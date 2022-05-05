@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getBase64 } from "../lib/getBase64";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, fetchUser, updateUser } from "../redux/action/userAction";
+import { useAlert } from "react-alert";
 
 function UserAdmin() {
   const [imageFile, setImageFile] = useState("");
@@ -135,8 +136,8 @@ function UserAdmin() {
     setButtonEdit(false);
   };
   return (
-    <div className="flex px-32 justify-evenly">
-      <div className="w-1/4">
+    <div className="flex px-32 justify-around">
+      <div className="w-2/5">
         <p className="font-bold text-center text-xl">User information</p>
         <div className="flex flex-col justify-start mt-5">
           {user.map((value, key) => {
@@ -178,6 +179,7 @@ function UserAdmin() {
       </div>
       <div className="w-1/4">
         <img
+          alt="img"
           className="w-full h-auto rounded-md shadow-md"
           src={editItem.image}
           width={200}

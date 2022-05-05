@@ -144,9 +144,15 @@
         .hoverCart {
             opacity: 1;
             visibility: visible;
-            top: 4rem;
+            top: 3.3rem;
             // display: block !important;
             transform: translateY(0);
         }
     }
+}
+.block {
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 40;
+    visibility: visible;
 }

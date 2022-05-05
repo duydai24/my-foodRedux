@@ -51,34 +51,36 @@ function CartHover({ className }) {
   };
 
   return (
-    <div
-      className={
-        "fixed top-[4.5rem] right-40 h-auto pb-10 w-[30%] bg-white shadow-2xl z-60 rounded-xl transition-all hidden lg:block invisible translate-y-1/4 opacity-0 " +
-        className
-      }
-    >
-      <h2 className="uppercase font-bold text-2xl text-center py-3 pt-5 border-y-[1px] border-gray-300">
-        Shopping Cart
-      </h2>
-      {cartItem.length > 0 ? (
-        cartItem &&
-        cartItem.map((value, key) => (
-          <CartItems
-            key={key}
-            img={value.image}
-            name={value.name}
-            price={value.price}
-            quantity={value.quantity}
-            addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-            truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-            deleteCartItem={() => handleDeleteCartItem(value.id, key)}
-          />
-        ))
-      ) : (
-        <p className="text-center font-bold p-3">Giỏ hàng trống ^^</p>
-      )}
+    <div className="">
+      <div
+        className={
+          "fixed top-[3rem] right-40 h-auto pb-10 w-auto bg-white shadow-2xl z-60 rounded-xl transition-all hidden lg:block invisible translate-y-1/4 opacity-90 " +
+          className
+        }
+      >
+        <h2 className="uppercase font-bold text-2xl text-center py-3 pt-5 border-y-[1px] border-gray-300">
+          Shopping Cart
+        </h2>
+        {cartItem.length > 0 ? (
+          cartItem &&
+          cartItem.map((value, key) => (
+            <CartItems
+              key={key}
+              img={value.image}
+              name={value.name}
+              price={value.price}
+              quantity={value.quantity}
+              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+            />
+          ))
+        ) : (
+          <p className="text-center font-bold p-3">Giỏ hàng trống ^^</p>
+        )}
 
-      <CartHanldle totalPrice={cart.totalPrice} />
+        <CartHanldle totalPrice={cart.totalPrice} />
+      </div>
     </div>
   );
 }
@@ -130,6 +132,8 @@ function CartItems({
 function CartHanldle({ totalPrice }) {
   const { accountLogin } = useSelector((state) => state.user);
   const { cartItem } = useSelector((state) => state.cart);
+  // const { googleUser } = useSelector((state) => state.user);
+  // let googleUserLoginLength = googleUser.length;
   let accountLoginLength = accountLogin.length;
   const handleCheckout = () => {
     if (cartItem.length === 0) {

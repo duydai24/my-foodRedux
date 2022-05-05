@@ -17,7 +17,7 @@ function Delivery() {
           London inteon.
         </p>
         <div className="flex mt-10 items-center">
-          <img className="w-32" src="shiperDelivery.png" />
+          <img alt="img" className="w-32" src="shiperDelivery.png" />
           <div className="ml-3 mr-10">
             <p className="">Delivery Order Num</p>
             <span className="text-[#ff514e] font-bold">0964247999</span>
@@ -28,7 +28,11 @@ function Delivery() {
         </div>
       </div>
       <div className="hidden md:block w-3/5 animate-bounceInRight">
-        <img className="h-3/4 w-3/4 lg:ml-44 md:ml-24" src="bgDelivery.png" />
+        <img
+          alt="img"
+          className="h-3/4 w-3/4 lg:ml-44 md:ml-24"
+          src="bgDelivery.png"
+        />
       </div>
     </div>
   );

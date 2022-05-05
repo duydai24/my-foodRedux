@@ -5,62 +5,8 @@ function BestFood() {
   return (
     <div className="pb-24 z-20 overflow-hidden">
       <div className="bg-[url('/bgBestFood.jpg')] bg-cover">
-        <div className="hidden lg:block">
-          <div className="flex justify-between">
-            <div className="ml-2 md:ml-10">
-              <BestFoodItems
-                number={"01"}
-                lable={"Mild Butter"}
-                text={
-                  "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
-                }
-              />
-              <div className="ml-2 md:ml-10">
-                <BestFoodItems
-                  number={"01"}
-                  lable={"Mild Butter"}
-                  text={
-                    "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
-                  }
-                />
-              </div>
-              <BestFoodItems
-                number={"01"}
-                lable={"Mild Butter"}
-                text={
-                  "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
-                }
-              />
-            </div>
-            <div className="mr-2 md:mr-10">
-              <BestFoodItems
-                number={"01"}
-                lable={"Mild Butter"}
-                text={
-                  "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
-                }
-              />
-              <div className="ml-2 md:ml-10">
-                <BestFoodItems
-                  number={"01"}
-                  lable={"Mild Butter"}
-                  text={
-                    "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
-                  }
-                />
-              </div>
-              <BestFoodItems
-                number={"01"}
-                lable={"Mild Butter"}
-                text={
-                  "Patak's Butter Chicken Mild is a creamy tomato and butter flavour curry sauce"
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div className="lg:hidden block">
-          <div className="flex flex-col justify-between items-center">
+        <div className="lg:block">
+          <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 justify-items-center items-center ">
             <BestFoodItems
               number={"01"}
               lable={"Mild Butter"}
@@ -121,7 +67,7 @@ function BestFood() {
 
 function BestFoodItems({ lable, text, number }) {
   return (
-    <div className="relative top-0 left-0 max-w-[400px] animate-fadeInUp BestFoodItems">
+    <div className="relative top-0 left-0 lg:max-w-[400px] max-w-[370px] md:max-w-[350px] animate-fadeInUp BestFoodItems">
       {/* <span className="bg-white font-bold text-black text-xl absolute -top-7 p-5 left-6 w-16 h-16 shadow-lg rounded-full text-center numberFoodItem">
         {number}
       </span> */}

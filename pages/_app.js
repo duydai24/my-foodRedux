@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 import { createWrapper } from "next-redux-wrapper";
 import store from "../src/redux/store";
 import OnscrollTop from "../src/layout/onScrollTop";
-
 const TITLE = "My Food";
 
 function MyApp({ Component, pageProps }) {

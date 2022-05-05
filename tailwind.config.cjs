@@ -69,7 +69,7 @@ module.exports = {
         fadeInUp: "fadeInUp 3s ease-in-out both",
       },
       backgroundImage: {
-        bgMenuFood: "url(/public/bgMenuFood.jpg)",
+        bgMenuFood: "url(/public/bgMenuFood.webp)",
       },
       colors: {
         green: {

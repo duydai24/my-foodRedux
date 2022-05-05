@@ -54,6 +54,7 @@ function SlideHomeItem({ img, key }) {
   return (
     <img
       key={key}
+      alt="img"
       className="w-screen h-[17rem] md:h-[35rem] lg:h-[50rem]"
       src={img}
     />

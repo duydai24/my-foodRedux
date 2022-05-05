@@ -3,7 +3,10 @@ import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../../redux/action/cartAction";
-import { quantityNumberProducts } from "../../../redux/action/productsAction";
+import {
+  quantityNumberProducts,
+  updateProducts,
+} from "../../../redux/action/productsAction";
 import Star from "../../../lib/star";
 import { useRouter } from "next/router";
 import { prototype } from "router";
@@ -73,6 +76,22 @@ function ProductsShopDetailContent() {
       dispatch(addCart(cartItem, totalQuantity, totalPrice));
     }
     alert("Thêm vào giỏ hàng thành công");
+    let new_products;
+    const filterProducts = products.filter((el) => el.id === id);
+    filterProducts.map(
+      (val) =>
+        (new_products = {
+          id: id,
+          name: name,
+          description: val.description,
+          image: img,
+          price: price,
+          quantity: (val.quantity -= product.quantityNumber),
+          categoryId: val.categoryId,
+        })
+    );
+    products.splice(id, 1, new_products);
+    dispatch(updateProducts(products));
   };
   return (
     <div>
@@ -113,6 +132,7 @@ function ProductsShopDetailContentItems({
     <div key={id} className="flex lg:flex-row flex-col items-center py-24">
       <div className="lg:w-1/2 w-10/12">
         <img
+          alt="img"
           className="rounded-md shadow-xl w-full cursor-pointer overflow-hidden"
           src={img}
         />

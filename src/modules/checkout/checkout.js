@@ -3,11 +3,12 @@ import { FaUserAlt } from "react-icons/fa";
 import { FaRegAddressCard } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { GiNotebook } from "react-icons/gi";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../redux/action/cartAction";
 import { addOrder } from "../../redux/action/oderAction";
 import { getStatistica } from "../../redux/action/statisticaAction";
+import { googleUserLogin } from "../../redux/action/userAction";
 
 function Checkout() {
   const [name, setName] = useState();
@@ -39,36 +40,73 @@ function Checkout() {
   let totalQuantity = 0;
   let totalPrice = 0;
   accountLogin.map((value) => (userId = value.id));
+  let googleId;
+  const { googleUser } = useSelector((state) => state.user);
+  googleUser.map((val) => (googleId = val.googleId));
   const handleCheckout = () => {
     if (name && address && phone && phone.length > 9) {
       const status = "Đang chờ xác nhận đơn hàng";
       if (orders.length === 0) {
-        let order = [
-          {
-            id,
-            userId: userId,
-            name: name,
-            address: address,
-            phone: phone,
-            note: note,
-            status: status,
-            cartItem: cartItem,
-          },
-        ];
-        dispatch(addOrder(order, cartItem));
+        if (accountLogin.length > 0) {
+          let order = [
+            {
+              id,
+              userId: userId,
+              name: name,
+              address: address,
+              phone: phone,
+              note: note,
+              status: status,
+              cartItem: cartItem,
+            },
+          ];
+          dispatch(addOrder(order, cartItem));
+        } else if (googleUser.length > 0) {
+          let order = [
+            {
+              id,
+              userId: Number(googleId),
+              name: name,
+              address: address,
+              phone: phone,
+              note: note,
+              status: status,
+              cartItem: cartItem,
+            },
+          ];
+          dispatch(addOrder(order, cartItem));
+        } else {
+          alert("Vui lòng đăng nhập");
+          useRouter.push("/Login");
+        }
       } else {
-        let newOrder = {
-          id: Math.floor(Math.random() * 999999),
-          userId: userId,
-          name,
-          address,
-          phone,
-          note,
-          status,
-          cartItem,
-        };
-        order = [...order, newOrder];
-        dispatch(addOrder(order, cartItem));
+        if (accountLogin.length > 0) {
+          let newOrder = {
+            id: Math.floor(Math.random() * 999999),
+            userId: userId,
+            name,
+            address,
+            phone,
+            note,
+            status,
+            cartItem,
+          };
+          order = [...order, newOrder];
+          dispatch(addOrder(order, cartItem));
+        } else if (googleUser.length > 0) {
+          let newOrder = {
+            id: Math.floor(Math.random() * 999999),
+            userId: Number(googleId),
+            name,
+            address,
+            phone,
+            note,
+            status,
+            cartItem,
+          };
+          order = [...order, newOrder];
+          dispatch(addOrder(order, cartItem));
+        }
       }
       statisticaItem = [...statisticaItem, ...cartItem];
       statisticaItem.map((val) => {
@@ -90,7 +128,7 @@ function Checkout() {
     }
   }, [isCheckout]);
   return (
-    <div className="py-20 lg:w-3/4 lg:h-11/12 w-11/12 h-3/4 mx-auto lg:mt-[7%] mt-[30%] shadow-2xl rounded-lg flex justify-evenly items-center">
+    <div className="py-20 lg:w-3/4 lg:h-11/12 w-11/12 h-3/4 mx-auto lg:mt-[7%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly items-center">
       <div className="w-11/12 lg:w-1/2">
         <p className="text-black uppercase text-center font-bold text-2xl">
           CHECK OUT

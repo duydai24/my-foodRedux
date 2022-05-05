@@ -2,15 +2,20 @@ import react, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { BsHeart } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
+import NavMenu from "./navMenu";
+import { useSelector } from "react-redux";
+import { BsArrowDownShort } from "react-icons/bs";
 import ProductsMenu from "./productsMenu";
 
-function DetailMenu({ products, filterId, priceHandle }) {
+function DetailMenu({ products, filterId, priceHandle, filterr }) {
+  const { category } = useSelector((state) => state.categorys);
   const [love, setLove] = useState();
   const handleLove = () => {
     setLove(!love);
   };
   const _love = love ? "active" : " ";
-
+  const [onCategory, setOnCategory] = useState();
+  const _onCategory = onCategory ? "block" : "";
   const [inputSearch, setInputSearch] = useState("");
   const onChangeSearch = (e) => {
     setInputSearch(e.target.value);
@@ -18,6 +23,11 @@ function DetailMenu({ products, filterId, priceHandle }) {
   const handleDeleteSearch = () => {
     inputSearch = "";
     setInputSearch(inputSearch);
+  };
+
+  const handleCategory = (id) => {
+    setOnCategory(!onCategory);
+    filterr(id);
   };
   return (
     <div className="">
@@ -30,10 +40,34 @@ function DetailMenu({ products, filterId, priceHandle }) {
         />
         <span
           onClick={() => handleLove()}
-          className={"text-4xl mr-10 " + _love}
+          className={"text-4xl mr-10 hidden lg:block " + _love}
         >
           <BsHeart />
         </span>
+        <div className="relative block lg:hidden">
+          <div
+            onClick={() => setOnCategory(!onCategory)}
+            className="flex items-center transition-all mr-3 border-[1px] border-black py-3 px-2 md:px-14 rounded-full"
+          >
+            Category <BsArrowDownShort />
+          </div>
+          <div
+            className={
+              "flex flex-col bg-white border-[1px] border-black absolute top-14 transition-all right-3 z-30 rounded-lg invisible opacity-0 -translate-y-10 " +
+              _onCategory
+            }
+          >
+            {category.map((value, index) => (
+              <a
+                key={index}
+                onClick={() => handleCategory(value.id, index)}
+                className="px-2 md:px-12 py-1"
+              >
+                {value.name}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
       <ProductsMenu
         products={products}
@@ -52,7 +86,7 @@ function HandleMenu({
   inputSearch,
 }) {
   return (
-    <form className="flex rounded-full py-3 px-4 items-center border-[1px] border-black w-[85%] mx-3">
+    <form className="flex rounded-full py-3 px-4 items-center border-[1px] border-black w-[70%] lg:w-[85%] mx-3">
       <input
         id="filter"
         onChange={onChangeSearch}

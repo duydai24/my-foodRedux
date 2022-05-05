@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../modules/home/footer/footer";
-import CopyRight from "../modules/home/copyRight/copyRight";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import OrderAdmin from "./orderAdmin";
@@ -11,6 +9,7 @@ import BannerSlideAdmin from "./banerSlideAdmin";
 import BannerTitle from "./banerTitle";
 import StatisticalAdmin from "./statisticalAdmin";
 import { Helmet } from "react-helmet";
+import SaleAdmin from "./saleAdmin";
 
 const TITLE = "My Food - Admin";
 
@@ -41,6 +40,9 @@ function Admin() {
             <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
               Banner Title
             </Tab>
+            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
+              Sale
+            </Tab>
           </TabList>
 
           <TabPanel className="px-[50px] w-full hidden">
@@ -60,6 +62,9 @@ function Admin() {
           </TabPanel>
           <TabPanel className="px-[50px] w-full hidden">
             <BannerTitle />
+          </TabPanel>
+          <TabPanel className="px-[50px] w-full hidden">
+            <SaleAdmin />
           </TabPanel>
         </Tabs>
       </div>

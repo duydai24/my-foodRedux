@@ -114,14 +114,16 @@ function UserCustom() {
       <div className="lg:w-1/3 md:w-full w-full">
         {buttonEdit !== false ? (
           <img
-            className="w-full h-auto rounded-md shadow-md"
+            alt="img"
+            className="w-1/3 h-auto rounded-md shadow-md"
             src={editItem.image}
             width={200}
             height={200}
           />
         ) : (
           <img
-            className="w-full h-auto rounded-md shadow-md"
+            alt="img"
+            className="w-1/3 h-auto rounded-md shadow-md"
             src={image}
             width={200}
             height={200}

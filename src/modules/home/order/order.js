@@ -17,6 +17,7 @@ function Order() {
             text={"Choose Your Favorite"}
           />
           <img
+            alt="img"
             className="hidden lg:block w-20 h-5 mb-10"
             src="arrow1Oder.png"
           />
@@ -26,6 +27,7 @@ function Order() {
             text={"We Deliver Your Meals"}
           />
           <img
+            alt="img"
             className="hidden lg:block w-20 h-5 mb-10"
             src="arrow2Oder.png"
           />
@@ -35,6 +37,7 @@ function Order() {
             text={"Cash on Delivery"}
           />
           <img
+            alt="img"
             className="hidden lg:block w-20 h-5 mb-10"
             src="arrow1Oder.png"
           />
@@ -54,6 +57,7 @@ function OrderItem({ img, text, lable }) {
     <div className="OrderItem">
       <div className="relative">
         <img
+          alt="img"
           className="border-[15px] shadow-xl border-white rounded-full"
           src={img}
         />

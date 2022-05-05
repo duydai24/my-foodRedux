@@ -33,7 +33,7 @@ function MenuMobile({ className, onClick }) {
       <div className="relative">
         <div
           className={
-            "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-64x)] " +
+            "transition-all bg-[url('/bgMobileMenu.webp')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-64x)] " +
             className
           }
         >
@@ -44,6 +44,7 @@ function MenuMobile({ className, onClick }) {
                   {accountLoginImage !== "" ? (
                     <Link href="/UserCustom">
                       <img
+                        alt="img"
                         src={accountLoginImage}
                         className="rounded-full mx-3 w-12 h-12 border-2 border-red-redd"
                       />

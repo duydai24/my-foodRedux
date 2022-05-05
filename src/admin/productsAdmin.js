@@ -6,6 +6,7 @@ import {
   deleteProducts,
   updateProducts,
 } from "../redux/action/productsAction";
+import { useAlert } from "react-alert";
 
 function ProductsAdmin() {
   const [buttonAdd, setButtonAdd] = useState(false);
@@ -204,6 +205,7 @@ function ProductsAdmin() {
                 ""
               )}
               <img
+                alt="img"
                 className="max-h-24"
                 height={50}
                 width={100}
@@ -279,6 +281,7 @@ function ProductsAdmin() {
               <div key={key} className="flex justify-between items-center mb-5">
                 <p className=" w-[200px] text-center">{value.name}</p>
                 <img
+                  alt="img"
                   src={value.image}
                   height={100}
                   className="font-bold h-[100px] w-[200px] text-center"

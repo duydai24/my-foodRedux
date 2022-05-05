@@ -67,6 +67,7 @@ function OrderProduct() {
                   >
                     <p className="text-center w-[250px]">{value.name}</p>
                     <img
+                      alt="img"
                       className="lg:max-w-[200px] lg:max-h-[150px] max-w-[100px]"
                       src={value.image}
                     />

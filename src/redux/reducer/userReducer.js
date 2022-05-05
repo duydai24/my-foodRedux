@@ -4,7 +4,7 @@ export const initialState = {
   user: [
     {
       id: 0,
-      image: "/userDai.jpg",
+      image: "/userDai.webp",
       userName: "dai",
       passWord: "123456",
       role: "admin",
@@ -18,6 +18,8 @@ export const initialState = {
   ],
 
   accountLogin: [],
+  googleUser: [],
+  faceBookUser: [],
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -51,6 +53,16 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload.user,
+      };
+    case types.ADD_USERS_GOOGLE:
+      return {
+        ...state,
+        googleUser: action.payload.googleUser,
+      };
+    case types.ADD_USERS_FACEBOOK:
+      return {
+        ...state,
+        faceBookUser: action.payload.faceBookUser,
       };
     default:
       return state;

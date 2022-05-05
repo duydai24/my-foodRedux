@@ -59,3 +59,19 @@ export const LogOut = (results) => async (dispatch) => {
     },
   });
 };
+export const googleUserLogin = (googleUser) => async (dispatch) => {
+  dispatch({
+    type: types.ADD_USERS_GOOGLE,
+    payload: {
+      googleUser,
+    },
+  });
+};
+export const faceBookUser = (faceBookUser) => async (dispatch) => {
+  dispatch({
+    type: types.ADD_USERS_FACEBOOK,
+    payload: {
+      faceBookUser,
+    },
+  });
+};
