@@ -33,12 +33,12 @@ function MenuMobile({ className, onClick }) {
       <div className="relative">
         <div
           className={
-            "transition-all bg-[url('/bgMobileMenu.webp')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-64x)] " +
+            "transition-all bg-[url('/bgMobileMenu.webp')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-63px)] " +
             className
           }
         >
           <div className="">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between py-2 items-center overflow-hidden">
               {accountLogin.length > 0 ? (
                 <div className="flex items-center">
                   {accountLoginImage !== "" ? (
@@ -57,7 +57,7 @@ function MenuMobile({ className, onClick }) {
                       <HiUserCircle />
                     </a>
                   )}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col overflow-hidden">
                     <span className=" text-white text-lg">
                       UserName: {accountLoginName}
                     </span>
@@ -67,11 +67,11 @@ function MenuMobile({ className, onClick }) {
                   </div>
                 </div>
               ) : (
-                <div className="flex">
+                <div className="flex items-center">
                   <Link href="/Login">
                     <a
                       onClick={onClick}
-                      className="bg-red-redd text-white py-4 px-8 font-bold text-xl"
+                      className="bg-red-redd text-white py-4 px-14 font-bold text-xl"
                     >
                       Login
                     </a>
@@ -79,24 +79,20 @@ function MenuMobile({ className, onClick }) {
                   <Link href="/Register">
                     <a
                       onClick={onClick}
-                      className="bg-white text-red-redd py-4 px-8 font-bold text-xl"
+                      className="bg-white text-red-redd py-4 px-14 font-bold text-xl"
                     >
                       Register
                     </a>
                   </Link>
                 </div>
               )}
-
-              <span onClick={onClick} className="text-2xl text-white m-5 ">
-                <FiDelete />
-              </span>
             </div>
           </div>
-          <div className="border-t-[1px] border-gray-400 h-[calc(100vh-128px)]">
+          <div className="border-t-[1px] border-gray-400 h-[calc(100vh-120px)]">
             <Link href="/">
               <div
                 onClick={onClick}
-                className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
+                className="p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
               >
                 <IconsHeader text={"Home"} icon={<FaHome />} />
               </div>
@@ -154,7 +150,7 @@ function MenuMobile({ className, onClick }) {
 }
 function IconsHeader({ text, icon }) {
   return (
-    <div className="flex cursor-pointer">
+    <div className="flex cursor-pointer items-center">
       <span className="text-white text-[20px] mr-2 hover:text-red-redd">
         {icon}
       </span>

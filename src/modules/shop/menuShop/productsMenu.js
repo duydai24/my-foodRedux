@@ -196,6 +196,7 @@ function ProductsMenuItems({
     products.splice(id, 1, new_products);
     dispatch(updateProducts(products));
   };
+  console.log(gif);
   return (
     <div className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems">
       <Link href={`/ProductsShop/${id}`}>
@@ -205,14 +206,18 @@ function ProductsMenuItems({
           src={img}
         />
       </Link>
-      <img alt="img" className="h-5 absolute top-2 rounded-xl" src={gif} />
+      {gif !== undefined ? (
+        <img alt="img" className="h-5 absolute top-2 rounded-xl" src={gif} />
+      ) : (
+        ""
+      )}
       <div className="p-2">
         <Link href={`/ProductsShop/${id}`}>
           <p className="font-bold text-black text-2xl">{name}</p>
         </Link>
         <p className="text-xs">Còn {quantity} sản phẩm</p>
       </div>
-      <div className="flex flex-col float-right">
+      <div className="flex justify-between items-center px-2">
         {saleNumber !== 0 ? (
           <span className="font-bold text-gray-400 text-base line-through float-right mr-3">
             $ {price}

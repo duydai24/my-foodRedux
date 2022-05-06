@@ -9,6 +9,7 @@ function UserAdmin() {
   const [editItem, setEditItem] = useState({});
   const [buttonEdit, setButtonEdit] = useState(false);
   const [buttonAdd, setButtonAdd] = useState(false);
+  const [view, setView] = useState(false);
   const [index, setIndex] = useState(0);
   const [option, setOption] = useState();
   const { user } = useSelector((state) => state.user);
@@ -44,6 +45,7 @@ function UserAdmin() {
   };
   const handleView = (value) => {
     setEditItem(value);
+    setView(true);
     setButtonAdd(false);
     setButtonEdit(false);
   };
@@ -77,11 +79,17 @@ function UserAdmin() {
     setButtonEdit(false);
   };
   const handleDeleteImage = () => {
-    editItem.image = "";
-    setEditItem(editItem.image);
+    setEditItem({
+      id: user.length,
+      image: "",
+      userName: editItem.userName,
+      passWord: editItem.passWord,
+      role: option,
+    });
   };
   const handleEdit = (value, key, index) => {
     setEditItem(value);
+    setView(false);
     setButtonEdit(true);
     setButtonAdd(false);
     setImageFile(value.image);
@@ -90,6 +98,8 @@ function UserAdmin() {
   };
   const handlCancel = () => {
     setButtonEdit(false);
+    setView(false);
+    setButtonAdd(false);
     setEditItem({
       image: "",
       userName: "",
@@ -98,15 +108,16 @@ function UserAdmin() {
     });
   };
   const handlUpdate = (id) => {
-    let new_User = {
-      id,
-      image: editItem.image,
-      userName: editItem.userName,
-      passWord: editItem.passWord,
-      role: option,
-    };
-    user.splice(id, 1, new_User);
-    if (editItem.userName && editItem.passWord && editItem.role) {
+    if (editItem.userName && editItem.passWord && option) {
+      let new_User = {
+        id,
+        image: editItem.image,
+        userName: editItem.userName,
+        passWord: editItem.passWord,
+        role: option,
+      };
+      user.splice(id, 1, new_User);
+      console.log(editItem);
       dispatch(updateUser(user));
       setButtonEdit(false);
       setEditItem({
@@ -117,6 +128,7 @@ function UserAdmin() {
       });
       alert("Update user thành công");
     } else {
+      console.log(editItem, "ko");
       alert("Vui lòng nhập các trường");
     }
   };
@@ -134,6 +146,7 @@ function UserAdmin() {
     });
     setButtonAdd(true);
     setButtonEdit(false);
+    setView(false);
   };
   return (
     <div className="flex px-32 justify-around">
@@ -177,99 +190,153 @@ function UserAdmin() {
           </button>
         </div>
       </div>
-      <div className="w-1/4">
-        <img
-          alt="img"
-          className="w-full h-auto rounded-md shadow-md"
-          src={editItem.image}
-          width={200}
-          height={200}
-        />
-        {buttonEdit !== false || buttonAdd !== false ? (
-          <div className="flex justify-around mt-5 items-center">
-            <input
-              className=" py-1 w-[30%] border-none outline-none"
-              type="file"
-              name="image"
-              onChange={onImageChange}
-              placeholder="Nhập ảnh sản phẩm..."
+      {view == true ? (
+        <div className="w-1/2 flex justify-between">
+          <div className="w-1/2 mr-10">
+            <img
+              alt="img"
+              className="w-2/3 h-auto rounded-md shadow-md"
+              src={editItem.image}
+              width={200}
+              height={200}
             />
-            {editItem.image !== undefined ? (
+          </div>
+          <div className="w-1/2">
+            <div className="">
+              <p className="m-0 font-bold">UserName:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                type="text"
+                value={editItem.userName}
+                name="userName"
+              />
+              <p className="m-0 font-bold">PassWork:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                type="text"
+                value={editItem.passWord}
+                name="passWord"
+              />
+              <p className="m-0 font-bold">Role:</p>
+              <input
+                name="option"
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
+                value={editItem.role}
+              ></input>
               <button
-                onClick={() => handleDeleteImage()}
-                className="bg-gray-200 px-2 h-8 rounded"
+                onClick={() => handlCancel()}
+                className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
               >
-                Deltete Image
+                Cancel
               </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+      {buttonEdit == true || buttonAdd == true ? (
+        <div className="w-1/2 flex justify-between">
+          <div className="w-1/2 mr-10">
+            <img
+              alt="img"
+              className="w-2/3 h-auto rounded-md shadow-md"
+              src={editItem.image}
+              width={200}
+              height={200}
+            />
+            <div className="flex justify-around mt-5 items-center">
+              <input
+                className=" py-1 w-[30%] border-none outline-none"
+                type="file"
+                name="image"
+                onChange={onImageChange}
+                placeholder="Nhập ảnh sản phẩm..."
+              />
+              {editItem.image !== undefined ? (
+                <button
+                  onClick={() => handleDeleteImage()}
+                  className="bg-gray-200 px-2 h-8 rounded"
+                >
+                  Deltete Image
+                </button>
+              ) : (
+                "^^Vui lòng chọn ảnh"
+              )}
+            </div>
+          </div>
+          <div className="w-1/2">
+            <div className="">
+              <p className="m-0 font-bold">UserName:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                type="text"
+                value={editItem.userName}
+                name="userName"
+                onChange={onChange}
+                placeholder="Nhập tên ..."
+              />
+              <p className="m-0 font-bold">PassWork:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                type="text"
+                value={editItem.passWord}
+                name="passWord"
+                onChange={onChange}
+                placeholder="Nhập mật khẩu..."
+              />
+              <p className="m-0 font-bold">Role:</p>
+              <select
+                name="option"
+                onChange={onChangeOption}
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
+              >
+                <option>{editItem.role}</option>
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+              </select>
+            </div>
+            {buttonAdd !== false ? (
+              <div className="flex justify-around items-center">
+                <button
+                  onClick={() => handleAdd()}
+                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+                >
+                  Thêm mới
+                </button>
+                <button
+                  onClick={() => handlCancel()}
+                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+                >
+                  Cancel
+                </button>
+              </div>
             ) : (
-              "^^Vui lòng chọn ảnh"
+              ""
+            )}
+            {buttonEdit === false ? (
+              ""
+            ) : (
+              <div className="flex mt-14">
+                <button
+                  onClick={() => handlUpdate(index)}
+                  className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => handlCancel()}
+                  className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
+                >
+                  Cancel
+                </button>
+              </div>
             )}
           </div>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className="w-1/4">
-        <div className="">
-          <p className="m-0 font-bold">UserName:</p>
-          <input
-            className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-            type="text"
-            value={editItem.userName}
-            name="userName"
-            onChange={onChange}
-            placeholder="Nhập tên ..."
-          />
-          <p className="m-0 font-bold">PassWork:</p>
-          <input
-            className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-            type="text"
-            value={editItem.passWord}
-            name="passWord"
-            onChange={onChange}
-            placeholder="Nhập mật khẩu..."
-          />
-          <p className="m-0 font-bold">Role:</p>
-          <select
-            name="option"
-            onChange={onChangeOption}
-            className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
-          >
-            <option>{editItem.role}</option>
-            <option value="user">user</option>
-            <option value="admin">admin</option>
-          </select>
         </div>
-        {buttonAdd !== false ? (
-          <button
-            onClick={() => handleAdd()}
-            className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-          >
-            Thêm mới
-          </button>
-        ) : (
-          ""
-        )}
-
-        {buttonEdit === false ? (
-          ""
-        ) : (
-          <div className="flex mt-14">
-            <button
-              onClick={() => handlUpdate(index)}
-              className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
-            >
-              Update
-            </button>
-            <button
-              onClick={() => handlCancel()}
-              className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
-            >
-              Cancel
-            </button>
-          </div>
-        )}
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

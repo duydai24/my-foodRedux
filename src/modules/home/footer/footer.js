@@ -19,29 +19,49 @@ function Footer() {
         />
         <div className="">
           <p className="text-white uppercase font-bold text-xl mb-6">Address</p>
-          <FooterItems icons={<BsFillTelephoneFill />} text={"0964247999"} />
+          <FooterItems
+            icons={<BsFillTelephoneFill />}
+            text={"0964247999"}
+            href="tel:+84-964247999"
+          />
           <FooterItems
             icons={<AiOutlineMail />}
             text={"nguyenduydai24@gmail.com"}
+            href="mailto:nguyenduydai24@gmail.com"
           />
           <FooterItems
             icons={<BiBuildingHouse />}
             text={"Tân Lộc, Lộc Hà, Hà Tĩnh"}
           />
           <div className="flex mt-6">
-            <a className="text-blue-800 text-3xl m-2">
+            <a
+              href="https://www.facebook.com/2aio.2o/"
+              className="text-blue-800 text-3xl m-2"
+            >
               <GrFacebookOption />
             </a>
-            <a className="text-blue-500 text-3xl m-2">
+            <a
+              href="https://twitter.com/?lang=vi"
+              className="text-blue-500 text-3xl m-2"
+            >
               <AiOutlineTwitter />
             </a>
-            <a className="text-[#FF6600] text-3xl m-2">
+            <a
+              href="https://www.instagram.com/_2aio.ig/"
+              className="text-[#FF6600] text-3xl m-2"
+            >
               <AiFillInstagram />
             </a>
-            <a className="text-[#3399FF] text-3xl m-2">
+            <a
+              href="https://web.telegram.org/"
+              className="text-[#3399FF] text-3xl m-2"
+            >
               <FaTelegramPlane />
             </a>
-            <a className="text-red-700 text-3xl m-2">
+            <a
+              href="https://www.youtube.com/"
+              className="text-red-700 text-3xl m-2"
+            >
               <AiFillYoutube />
             </a>
           </div>
@@ -59,11 +79,18 @@ function Footer() {
   );
 }
 
-function FooterItems({ icons, text }) {
+function FooterItems({ icons, text, href }) {
   return (
     <div className="flex">
-      <a className="text-xl text-[#fbb403] mr-4 m-2">{icons}</a>
-      <p className="text-white text-lg hover:text-[#fbb403]">{text}</p>
+      <span className="text-xl text-[#fbb403] mr-4 m-2 cursor-pointer">
+        {icons}
+      </span>
+      <a
+        className="text-white text-lg hover:text-[#fbb403] cursor-pointer"
+        href={href}
+      >
+        {text}
+      </a>
     </div>
   );
 }

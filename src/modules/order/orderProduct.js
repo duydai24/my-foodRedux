@@ -31,7 +31,7 @@ function OrderProduct() {
 
   return (
     <Layout>
-      <div className="container py-24 mx-2">
+      <div className="container py-24">
         {status == "Đang chờ xác nhận đơn hàng" && (
           <h1 className="uppercase text-center font-bold">Chi tiết đơn hàng</h1>
         )}
@@ -59,11 +59,11 @@ function OrderProduct() {
           new_Order.map((value, key) => {
             let new_cartItem = value.cartItem;
             return (
-              <div key={value.id} className="mt-20">
+              <div key={value.id} className="mt-20 mx-2">
                 {new_cartItem.map((value, key) => (
                   <div
-                    key={value.id}
-                    className="flex justify-between mt-5 shadow-xl items-center rounded-xl bg-gray-200 py-2"
+                    key={key}
+                    className="flex justify-between mt-5 shadow-xl items-center rounded-xl bg-white py-2"
                   >
                     <p className="text-center w-[250px]">{value.name}</p>
                     <img

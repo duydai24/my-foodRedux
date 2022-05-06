@@ -81,8 +81,8 @@ function Header({ onClick }) {
               <IconsHeader source={"/Shop"} text={"Store"} icon={<FaStore />} />
             </div>
           </div>
-          <div className="flex items-center max-w-[80px] md:max-w-[115px] lg:max-w-[145px] mr-3">
-            <div className="headerHover">
+          <div className="flex items-center max-w-[80px] h-16 md:max-w-[115px] lg:max-w-[200px] mr-3">
+            <div className="h-full flex items-center headerHover">
               <Link href="/Cart">
                 <div className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative cursor-pointer">
                   <FaShoppingCart />
@@ -97,14 +97,16 @@ function Header({ onClick }) {
               <div className="flex items-center relative">
                 <div>
                   <div className="lg:block md:block hidden">
-                    <div className="md:mr-3 md:flex lg:flex">
+                    <div className="md:mr-3 md:flex lg:flex w-auto items-center justify-between">
                       {accountLoginImage !== undefined ? (
-                        <img
-                          alt="img"
-                          src={accountLoginImage}
-                          onClick={() => setOnActive(!active)}
-                          className="cursor-pointer rounded-full lg:w-10 lg:h-10 md:w-10 md:h-10 w-8 h-8 border-2 border-red-redd"
-                        />
+                        <Link href="/UserCustom">
+                          <img
+                            alt="img"
+                            src={accountLoginImage}
+                            onClick={() => setOnActive(!active)}
+                            className="cursor-pointer rounded-full lg:w-10 mr-2 lg:h-10 md:w-10 md:h-10 w-8 h-8 border-2 border-red-redd"
+                          />
+                        </Link>
                       ) : (
                         <a
                           onClick={() => setOnActive(!active)}
@@ -113,9 +115,17 @@ function Header({ onClick }) {
                           <HiUserCircle />
                         </a>
                       )}
-                      <a className="text-white cursor-pointer md:ml-2 lg:ml-2 md:mt-2 hidden lg:block ">
-                        {accountLogin[0].userName}
-                      </a>
+                      <div className="flex flex-col items-start">
+                        <a className="text-white cursor-pointer hidden lg:block ">
+                          {accountLogin[0].userName}
+                        </a>
+                        <button
+                          onClick={() => handleLogOut()}
+                          className="text-white text-sm lg:block md:block hidden rounded"
+                        >
+                          LogOut
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="lg:hidden md:hidden block">
@@ -131,31 +141,10 @@ function Header({ onClick }) {
                       ) : (
                         ""
                       )}
-                      <a className="text-white cursor-pointer md:ml-2 lg:ml-2 md:mt-2 hidden lg:block ">
+                      <a className="text-white cursor-pointer hidden lg:block ">
                         {accountLogin[0].userName}
                       </a>
                     </div>
-                  </div>
-
-                  <div
-                    className={
-                      "absolute top-14 lg:top-14 shadow-xl md:top-14 lg:-right-6 right-1 md:w-32 md:h-28 lg:w-40 lg:h-28 rounded hidden bg-white " +
-                      _className
-                    }
-                  >
-                    <span className="flex flex-col justify-center items-center py-3">
-                      <Link href="/UserCustom">
-                        <span className="bg-white lg:block md:block hidden rounded px-3 py-1 cursor-pointer mb-3 border-[1px] border-gray-500">
-                          User Profile
-                        </span>
-                      </Link>
-                      <button
-                        onClick={() => handleLogOut()}
-                        className="bg-red-redd text-white lg:block md:block hidden px-3 py-1 rounded"
-                      >
-                        LogOut
-                      </button>
-                    </span>
                   </div>
                 </div>
               </div>
@@ -178,15 +167,19 @@ function IconsHeader({ text, icon, source }) {
   const [activeHeader, setActiveHeader] = useState();
   const _className = activeHeader ? "activeHeader" : "";
   return (
-    <Link href={source}>
-      <div
-        onClick={() => setActiveHeader(!activeHeader)}
-        className={"flex cursor-pointer hoverHeader " + _className}
-      >
-        <span className="text-white text-[20px] mr-2 hoverHeader1">{icon}</span>
-        <a className="text-white pr-8 hoverHeader2 ">{text}</a>
-      </div>
-    </Link>
+    <div>
+      <Link href={source}>
+        <div
+          onClick={() => setActiveHeader(!activeHeader)}
+          className={"flex cursor-pointer hoverHeader " + _className}
+        >
+          <span className="text-white text-[20px] mr-2 hoverHeader1">
+            {icon}
+          </span>
+          <a className="text-white pr-8 hoverHeader2 ">{text}</a>
+        </div>
+      </Link>
+    </div>
   );
 }
 

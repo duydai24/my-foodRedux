@@ -61,14 +61,13 @@ function Cart({ className, onClick }) {
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
-      <div className="container pb-24 pt-40">
-        <div className="transition-all bg-white shadow-2xl z-60">
-          <h2 className="uppercase font-bold text-2xl text-center">
-            Shopping Cart
-          </h2>
-          {cartItem.length > 0 ? (
-            cartItem &&
-            cartItem.map((value, key) => (
+      {cartItem.length > 0 ? (
+        <div className="container pb-24 pt-40">
+          <div className="transition-all bg-white shadow-2xl z-60">
+            <h2 className="uppercase font-bold text-2xl text-center">
+              Shopping Cart
+            </h2>
+            {cartItem.map((value, key) => (
               <CartItems
                 id={key}
                 key={key}
@@ -80,14 +79,13 @@ function Cart({ className, onClick }) {
                 truQuantityOnClick={() => handleTruQuantity(value.id, key)}
                 deleteCartItem={() => handleDeleteCartItem(value.id, key)}
               />
-            ))
-          ) : (
-            <p className="text-center font-bold pb-3">Giỏ hàng trống ^^</p>
-          )}
-
-          <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
+            ))}
+            <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-center font-bold pb-24 pt-40">Giỏ hàng trống ^^</p>
+      )}
     </Layout>
   );
 }

@@ -107,14 +107,14 @@ function CartItems({
           <div className="flex mt-5">
             <span
               onClick={truQuantityOnClick}
-              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+              className="border-gray-200 border-[1px] rounded-md w-8 h-8 text-center text-xl cursor-pointer hover:border-red-redd hover:text-red-redd"
             >
               -
             </span>
             <span className="w-8 h-8 text-center mt-1">{quantity}</span>
             <span
               onClick={addQuantityOnClick}
-              className="bg-gray-200 w-8 h-8 text-center text-xl font-bold cursor-pointer"
+              className="border-gray-200 border-[1px] rounded-md w-8 h-8 text-center text-xl cursor-pointer hover:border-red-redd hover:text-red-redd"
             >
               +
             </span>

@@ -140,10 +140,6 @@ function ProductsAdmin() {
       categoryId: "",
     });
   };
-  const handleDeleteImage = () => {
-    editItem.image = "";
-    setEditItem(editItem.image);
-  };
   return (
     <div>
       <h2 className="font-bold mb-10">Products</h2>
@@ -194,16 +190,6 @@ function ProductsAdmin() {
                 onChange={onImageChange}
                 placeholder="Nhập ảnh sản phẩm..."
               />
-              {editItem.image !== undefined ? (
-                <button
-                  onClick={() => handleDeleteImage()}
-                  className="bg-gray-200 px-2 h-8 rounded"
-                >
-                  Deltete Image
-                </button>
-              ) : (
-                ""
-              )}
               <img
                 alt="img"
                 className="max-h-24"

@@ -71,6 +71,13 @@ function UserCustom() {
       role: "",
     });
   };
+  const handleLogOut = () => {
+    const results = [];
+    // const googleUser = [];
+    dispatch(userLogin(results));
+    // dispatch(googleUserLogin(googleUser));
+    Router.push("/");
+  };
   const handlUpdate = (id) => {
     if (
       editItem.newPassWord !== "" &&
@@ -152,6 +159,7 @@ function UserCustom() {
           ""
         )}
       </div>
+
       <div className="lg:w-1/3 md:w-full w-full">
         {buttonEdit == false ? (
           <div className="">
@@ -205,13 +213,21 @@ function UserCustom() {
           </div>
         )}
         {accountLogin.map((value, key) => (
-          <button
-            key={key}
-            onClick={() => handleEdit(value, key, index)}
-            className="bg-red-redd text-white px-2 rounded-lg mt-10"
-          >
-            Edit
-          </button>
+          <div className="flex items-center">
+            <button
+              key={key}
+              onClick={() => handleEdit(value, key, index)}
+              className="bg-red-redd text-white px-2 rounded my-10 mr-5"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleLogOut()}
+              className="text-white px-2 bg-red-redd lg:block md:block rounded"
+            >
+              LogOut
+            </button>
+          </div>
         ))}
       </div>
     </div>

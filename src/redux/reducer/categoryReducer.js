@@ -5,10 +5,12 @@ export const initialState = {
     {
       id: 0,
       name: "All",
+      icon: "MdFastfood",
     },
     {
       id: 1,
       name: "Hamburger",
+      icon: "MdFastfood",
     },
     {
       id: 2,

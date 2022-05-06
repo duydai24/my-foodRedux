@@ -47,7 +47,7 @@ function DetailMenu({ products, filterId, priceHandle, filterr }) {
         <div className="relative block lg:hidden">
           <div
             onClick={() => setOnCategory(!onCategory)}
-            className="flex items-center transition-all mr-3 border-[1px] border-black py-3 px-2 md:px-14 rounded-full"
+            className="flex items-center transition-all mr-3 border-[1px] border-black py-3 px-2 md:px-14 rounded-full cursor-pointer"
           >
             Category <BsArrowDownShort />
           </div>
@@ -61,7 +61,7 @@ function DetailMenu({ products, filterId, priceHandle, filterr }) {
               <a
                 key={index}
                 onClick={() => handleCategory(value.id, index)}
-                className="px-2 md:px-12 py-1"
+                className="px-2 md:px-12 py-1 hover:text-red-redd"
               >
                 {value.name}
               </a>

@@ -127,7 +127,9 @@ function ProductsShopDetailContentItems({
   addQuantityOnClick,
   addToCart,
 }) {
-  const { product } = useSelector((state) => state);
+  const { sale } = useSelector((state) => state.product);
+  let saleNumber;
+  sale.map((val) => (saleNumber = val.saleNumber));
   return (
     <div key={id} className="flex lg:flex-row flex-col items-center py-24">
       <div className="lg:w-1/2 w-10/12">
@@ -139,7 +141,7 @@ function ProductsShopDetailContentItems({
       </div>
       <div className="lg:w-1/2 w-11/12 px-5">
         <div className="">
-          <p className="font-bold text-2xl">{name}</p>
+          <p className="font-bold text-2xl pt-5">{name}</p>
           <div className="flex py-5">
             <Star />
             <Star />
@@ -149,7 +151,7 @@ function ProductsShopDetailContentItems({
             <p className="ml-5">Reviews</p>
           </div>
           <p className="font-bold text-red-redd text-2xl mr-3 pb-5">
-            $ {price}
+            $ {(price * (100 - saleNumber)) / 100}
           </p>
           <p>{description}</p>
         </div>
@@ -157,7 +159,7 @@ function ProductsShopDetailContentItems({
           <div className="flex">
             <span
               onClick={truQuantityOnClick}
-              className="bg-gray-300 cursor-pointer w-10 h-10 pt-2 text-center rounded-full hover:text-[#ff514e]"
+              className="bg-gray-300 cursor-pointer text-2xl w-10 h-10 pt-[2px] text-center rounded-full hover:text-[#ff514e]"
             >
               -
             </span>
@@ -166,7 +168,7 @@ function ProductsShopDetailContentItems({
             </span>
             <span
               onClick={addQuantityOnClick}
-              className="bg-gray-300 cursor-pointer w-10 h-10 pt-2 text-center  rounded-full hover:text-[#ff514e]"
+              className="bg-gray-300 cursor-pointer text-2xl w-10 h-10 pt-1 text-center  rounded-full hover:text-[#ff514e]"
             >
               +
             </span>

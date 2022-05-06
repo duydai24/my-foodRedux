@@ -39,6 +39,7 @@ function BannerSlideAdmin() {
   };
   const handlCancel = () => {
     setButtonEdit(false);
+    setButtonAdd(false);
     setImageFile({ imageFile: "" });
   };
   const handleEdit = (value, key, index) => {
@@ -104,12 +105,17 @@ function BannerSlideAdmin() {
           <BannerItem
             key={key}
             img={value.image}
-            handleAdd={() => handleButtonAdd()}
             handleDelete={() => handleDelete(value, key, index)}
             handleEdit={() => handleEdit(value, key, index)}
           />
         ))}
       </div>
+      <button
+        onClick={() => handleButtonAdd()}
+        className="bg-red-redd text-white h-10 px-20 py-1 mb-5 rounded-lg"
+      >
+        add
+      </button>
       <div className="">
         <img
           alt="img"
@@ -142,12 +148,20 @@ function BannerSlideAdmin() {
           ""
         )}
         {buttonAdd !== false ? (
-          <button
-            onClick={() => handleAdd()}
-            className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-          >
-            Thêm mới
-          </button>
+          <div className="flex items-center">
+            <button
+              onClick={() => handleAdd()}
+              className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
+            >
+              Thêm mới
+            </button>
+            <button
+              onClick={() => handlCancel()}
+              className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+            >
+              Cancel
+            </button>
+          </div>
         ) : (
           ""
         )}
@@ -174,18 +188,12 @@ function BannerSlideAdmin() {
   );
 }
 
-function BannerItem({ key, img, handleDelete, handleEdit, handleAdd }) {
+function BannerItem({ key, img, handleDelete, handleEdit }) {
   return (
     <div key={key} className="flex mb-10">
       <p className="mr-5 font-bold">Banner: </p>
       <img alt="img" src={img} width={400} height={200} />
       <div className="flex flex-col ml-10">
-        <button
-          onClick={handleAdd}
-          className="bg-red-redd text-white px-3 py-1 mb-5 rounded-lg"
-        >
-          add
-        </button>
         <button
           onClick={handleDelete}
           className="bg-red-redd text-white px-3 py-1 mb-5 rounded-lg"
