@@ -102,12 +102,13 @@ function BannerSlideAdmin() {
     <div className="w-full py-10 flex justify-around">
       <div className="">
         {banerSlide.map((value, key) => (
-          <BannerItem
-            key={key}
-            img={value.image}
-            handleDelete={() => handleDelete(value, key, index)}
-            handleEdit={() => handleEdit(value, key, index)}
-          />
+          <div key={key}>
+            <BannerItem
+              img={value.image}
+              handleDelete={() => handleDelete(value, key, index)}
+              handleEdit={() => handleEdit(value, key, index)}
+            />
+          </div>
         ))}
       </div>
       <button
@@ -188,9 +189,9 @@ function BannerSlideAdmin() {
   );
 }
 
-function BannerItem({ key, img, handleDelete, handleEdit }) {
+function BannerItem({ img, handleDelete, handleEdit }) {
   return (
-    <div key={key} className="flex mb-10">
+    <div className="flex mb-10">
       <p className="mr-5 font-bold">Banner: </p>
       <img alt="img" src={img} width={400} height={200} />
       <div className="flex flex-col ml-10">

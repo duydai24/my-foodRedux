@@ -10,6 +10,7 @@ import BannerTitle from "./banerTitle";
 import StatisticalAdmin from "./statisticalAdmin";
 import { Helmet } from "react-helmet";
 import SaleAdmin from "./saleAdmin";
+import SaleProductsAdmin from "./saleProductsAdmin";
 
 const TITLE = "My Food - Admin";
 
@@ -64,7 +65,7 @@ function Admin() {
             <BannerTitle />
           </TabPanel>
           <TabPanel className="px-[50px] w-full hidden">
-            <SaleAdmin />
+            <SaleProductsAdmin />
           </TabPanel>
         </Tabs>
       </div>

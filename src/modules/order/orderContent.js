@@ -69,7 +69,7 @@ function OrderContent() {
             return (
               <div
                 key={key}
-                className="flex flex-col shadow-xl mt-14 bg-gray-200 rounded-xl py-5 pr-5 mx-3 relative"
+                className="flex flex-col shadow-xl mt-14 bg-white rounded-xl py-5 pr-5 mx-3 relative"
               >
                 <div className="flex justify-between">
                   <p className="text-center w-[250px]">{value.name}</p>

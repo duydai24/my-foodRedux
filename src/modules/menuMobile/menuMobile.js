@@ -38,9 +38,9 @@ function MenuMobile({ className, onClick }) {
           }
         >
           <div className="">
-            <div className="flex justify-between py-2 items-center overflow-hidden">
+            <div className="flex justify-between items-center overflow-hidden">
               {accountLogin.length > 0 ? (
-                <div className="flex items-center">
+                <div className="flex py-2 items-center">
                   {accountLoginImage !== "" ? (
                     <Link href="/UserCustom">
                       <img
@@ -67,11 +67,11 @@ function MenuMobile({ className, onClick }) {
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center">
+                <div className="flex items-center overflow-hidden">
                   <Link href="/Login">
                     <a
                       onClick={onClick}
-                      className="bg-red-redd text-white py-4 px-14 font-bold text-xl"
+                      className="bg-red-redd text-white py-4 px-12 font-bold text-xl"
                     >
                       Login
                     </a>
@@ -79,7 +79,7 @@ function MenuMobile({ className, onClick }) {
                   <Link href="/Register">
                     <a
                       onClick={onClick}
-                      className="bg-white text-red-redd py-4 px-14 font-bold text-xl"
+                      className="bg-white text-red-redd py-4 px-12 font-bold text-xl"
                     >
                       Register
                     </a>

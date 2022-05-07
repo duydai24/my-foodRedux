@@ -47,66 +47,34 @@ function Checkout() {
     if (name && address && phone && phone.length > 9) {
       const status = "Đang chờ xác nhận đơn hàng";
       if (orders.length === 0) {
-        if (accountLogin.length > 0) {
-          let order = [
-            {
-              id,
-              userId: userId,
-              name: name,
-              address: address,
-              phone: phone,
-              note: note,
-              status: status,
-              cartItem: cartItem,
-            },
-          ];
-          dispatch(addOrder(order, cartItem));
-        } else if (googleUser.length > 0) {
-          let order = [
-            {
-              id,
-              userId: Number(googleId),
-              name: name,
-              address: address,
-              phone: phone,
-              note: note,
-              status: status,
-              cartItem: cartItem,
-            },
-          ];
-          dispatch(addOrder(order, cartItem));
-        } else {
-          alert("Vui lòng đăng nhập");
-          useRouter.push("/Login");
-        }
-      } else {
-        if (accountLogin.length > 0) {
-          let newOrder = {
-            id: Math.floor(Math.random() * 999999),
+        let order = [
+          {
+            id,
             userId: userId,
-            name,
-            address,
-            phone,
-            note,
-            status,
-            cartItem,
-          };
-          order = [...order, newOrder];
-          dispatch(addOrder(order, cartItem));
-        } else if (googleUser.length > 0) {
-          let newOrder = {
-            id: Math.floor(Math.random() * 999999),
-            userId: Number(googleId),
-            name,
-            address,
-            phone,
-            note,
-            status,
-            cartItem,
-          };
-          order = [...order, newOrder];
-          dispatch(addOrder(order, cartItem));
-        }
+            name: name,
+            address: address,
+            phone: phone,
+            note: note,
+            status: status,
+            cartItem: cartItem,
+          },
+        ];
+        dispatch(addOrder(order, cartItem));
+        alert("Vui lòng đăng nhập");
+        useRouter.push("/Login");
+      } else {
+        let newOrder = {
+          id: Math.floor(Math.random() * 999999),
+          userId: userId,
+          name,
+          address,
+          phone,
+          note,
+          status,
+          cartItem,
+        };
+        order = [...order, newOrder];
+        dispatch(addOrder(order, cartItem));
       }
       statisticaItem = [...statisticaItem, ...cartItem];
       statisticaItem.map((val) => {

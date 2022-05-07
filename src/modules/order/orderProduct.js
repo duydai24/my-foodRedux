@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
-import Header from "../home/header/header";
-import Footer from "../home/footer/footer";
-import CopyRight from "../home/copyRight/copyRight";
-import Cart from "../cart/cart";
 import { useRouter } from "next/router";
 import { handelOrder } from "../../redux/action/oderAction";
 import Router from "next/router";

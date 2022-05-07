@@ -11,11 +11,6 @@ function ProductsShopDetailTaps() {
               Description
             </a>
           </Tab>
-          <Tab>
-            <a className="text-black font-bold text-3xl p-2 rounded-lg">
-              Review
-            </a>
-          </Tab>
         </TabList>
 
         <TabPanel className="mt-10 h-[30%] px-5">
@@ -59,9 +54,6 @@ function ProductsShopDetailTaps() {
             />
           </div>
         </TabPanel>
-        {/* <TabPanel className="mt-10 h-[300px]">
-          <input className="pt-3 pb-10"/>
-        </TabPanel> */}
       </Tabs>
     </div>
   );

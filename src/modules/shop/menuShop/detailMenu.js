@@ -2,7 +2,6 @@ import react, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { BsHeart } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
-import NavMenu from "./navMenu";
 import { useSelector } from "react-redux";
 import { BsArrowDownShort } from "react-icons/bs";
 import ProductsMenu from "./productsMenu";

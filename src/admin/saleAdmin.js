@@ -63,8 +63,8 @@ function SaleAdmin() {
   return (
     <div>
       {sale.map((val, key) => (
-        <div className="flex flex-col items-center">
-          <img alt="img" key={key} src={val.gif} />
+        <div key={key} className="flex flex-col items-center">
+          <img alt="img" src={val.gif} />
           {val.saleNumber == 0 ? (
             <div className="">
               <p className="my-5">Number Sale:</p>
@@ -80,39 +80,29 @@ function SaleAdmin() {
                 className="ml-10"
                 name="gif"
                 onChange={onImageChange}
-                // value={saleItem.gif}
                 type="file"
               />
             </div>
           ) : (
-            <div className="flex flex-col items-center">
-              <p className="my-5">Number Sale:</p>
-              <input
-                className="bg-[#F8F8FF] py-3 pl-3 w-[30%] border-none outline-none mb-5"
-                type="text"
-                value={val.saleNumber}
-                name="saleNumber"
-                placeholder="Nhập giảm giá(tính bằng đơn vị %)..."
-              />
-            </div>
+            <p className="my-5">Number Sale: {val.saleNumber}</p>
           )}
           <div className="">
-            {val.saleNumber !== 0 ? (
-              <div className="flex items-center justify-evenly">
-                <button
-                  onClick={() => handleDelete(key)}
-                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-                >
-                  Delete
-                </button>
-              </div>
-            ) : (
+            {val.saleNumber == 0 ? (
               <div className="flex items-center justify-evenly">
                 <button
                   onClick={() => handleAdd(key)}
                   className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
                 >
                   Thêm mới
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-evenly">
+                <button
+                  onClick={() => handleDelete(key)}
+                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+                >
+                  Delete
                 </button>
               </div>
             )}

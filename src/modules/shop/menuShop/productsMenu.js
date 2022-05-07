@@ -14,10 +14,10 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
   if (filterId !== 0) {
     products = products.filter((e) => e.categoryId === filterId);
   }
-  products = products.filter((val) =>
-    val.name.toLowerCase().includes(inputSearch.toLowerCase())
+  products = products.filter((value) =>
+    value.name.toLowerCase().includes(inputSearch.toLowerCase())
   );
-  products = products.filter((val) => val.price < priceHandle);
+  products = products.filter((value) => value.price < priceHandle);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -50,14 +50,6 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
       setCurrentPage(currentPage);
     }
   };
-  handleNextPage;
-  const { sale } = useSelector((state) => state.product);
-  let gif;
-  let saleNumber;
-  sale.map((val) => {
-    gif = val.gif;
-    saleNumber = val.saleNumber;
-  });
   return (
     <div className="pb-24 items-center flex flex-col">
       <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 pb-10 gap-4 mx-3">
@@ -69,9 +61,9 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
               name={value.name}
               quantity={value.quantity}
               price={value.price}
-              gif={gif}
+              gif={value.gif}
               id={value.id}
-              saleNumber={saleNumber}
+              saleNumber={value.saleNumber}
               products={products}
             />
           ))
@@ -96,7 +88,7 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
         >
           <AiOutlineArrowLeft />
         </button>
-        {pageNumbers.map((val, key) => (
+        {pageNumbers.map((value, key) => (
           <button
             key={key}
             onClick={() => handlePage(key)}
@@ -106,7 +98,7 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
                 : "w-8 h-8 font-bold hover:text-red-redd"
             }
           >
-            {val}
+            {value}
           </button>
         ))}
         <button
@@ -132,7 +124,6 @@ function ProductsMenuItems({
   price,
   gif,
   id,
-  index,
   products,
   saleNumber,
 }) {
@@ -143,24 +134,45 @@ function ProductsMenuItems({
   const addToCart = (id, name, img, price) => {
     const checkCart = cartItem.some((el) => el.id === id);
     if (!checkCart) {
-      let new_cartItem = {
-        id,
-        name: name,
-        image: img,
-        price: price,
-        quantity: quantityItem,
-      };
-      cartItem = [...cartItem, new_cartItem];
+      if (saleNumber === undefined) {
+        const saleNumber = 0;
+        let new_cartItem = {
+          id,
+          name: name,
+          image: img,
+          price: price,
+          quantity: quantityItem,
+        };
+        cartItem = [...cartItem, new_cartItem];
+        let totalQuantity = 0;
+        let totalPrice = 0;
+        cartItem.map(
+          (value) => (
+            (totalQuantity += value.quantity),
+            (totalPrice += value.quantity * value.price)
+          )
+        );
+        dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      } else {
+        let new_cartItem = {
+          id,
+          name: name,
+          image: img,
+          price: (price * (100 - saleNumber)) / 100,
+          quantity: quantityItem,
+        };
+        cartItem = [...cartItem, new_cartItem];
 
-      let totalQuantity = 0;
-      let totalPrice = 0;
-      cartItem.map(
-        (value) => (
-          (totalQuantity += value.quantity),
-          (totalPrice += value.quantity * value.price)
-        )
-      );
-      dispatch(addCart(cartItem, totalQuantity, totalPrice));
+        let totalQuantity = 0;
+        let totalPrice = 0;
+        cartItem.map(
+          (value) => (
+            (totalQuantity += value.quantity),
+            (totalPrice += value.quantity * value.price)
+          )
+        );
+        dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      }
     } else {
       let filterCart = cartItem.filter((e) => {
         return e.id === id;
@@ -180,23 +192,34 @@ function ProductsMenuItems({
     alert("Thêm vào giỏ hàng thành công");
     quantity -= quantityItem;
     let new_products;
-    const filterProducts = products.filter((el) => el.id === id);
-    filterProducts.map(
-      (val) =>
-        (new_products = {
+    products.map((value) => {
+      if (value.saleNumber === undefined) {
+        new_products = {
           id: id,
           name: name,
-          description: val.description,
+          description: value.description,
           image: img,
           price: price,
           quantity: quantity,
-          categoryId: val.categoryId,
-        })
-    );
+          categoryId: value.categoryId,
+        };
+      } else {
+        new_products = {
+          id: id,
+          name: name,
+          description: value.description,
+          image: img,
+          price: price,
+          quantity: quantity,
+          categoryId: value.categoryId,
+          gif: value.gif,
+          saleNumber: value.saleNumber,
+        };
+      }
+    });
     products.splice(id, 1, new_products);
     dispatch(updateProducts(products));
   };
-  console.log(gif);
   return (
     <div className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems">
       <Link href={`/ProductsShop/${id}`}>
@@ -217,19 +240,23 @@ function ProductsMenuItems({
         </Link>
         <p className="text-xs">Còn {quantity} sản phẩm</p>
       </div>
-      <div className="flex justify-between items-center px-2">
-        {saleNumber !== 0 ? (
-          <span className="font-bold text-gray-400 text-base line-through float-right mr-3">
-            $ {price}
+      {saleNumber !== undefined ? (
+        <div className="flex justify-between items-center px-3">
+          <div className="flex flex-col items-start">
+            <span className="font-bold text-gray-400 text-base line-through float-right mr-3">
+              $ {price}
+            </span>
+            <span className="text-red-redd text-xs">- {saleNumber}%</span>
+          </div>
+          <span className="font-bold text-red-redd text-2xl  mr-3">
+            $ {(price * (100 - saleNumber)) / 100}
           </span>
-        ) : (
-          ""
-        )}
-
-        <span className="font-bold text-red-redd text-2xl  mr-3">
-          $ {(price * (100 - saleNumber)) / 100}
+        </div>
+      ) : (
+        <span className="font-bold text-red-redd float-right text-2xl  mr-3">
+          $ {price}
         </span>
-      </div>
+      )}
       <div className="lg:invisible absolute top-0 right-14 lg:right-2 SpanProductsMenuItemsHover">
         <span className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
           <MdFavorite />

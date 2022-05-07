@@ -203,26 +203,9 @@ function UserAdmin() {
           </div>
           <div className="w-1/2">
             <div className="">
-              <p className="m-0 font-bold">UserName:</p>
-              <input
-                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-                type="text"
-                value={editItem.userName}
-                name="userName"
-              />
-              <p className="m-0 font-bold">PassWork:</p>
-              <input
-                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-                type="text"
-                value={editItem.passWord}
-                name="passWord"
-              />
-              <p className="m-0 font-bold">Role:</p>
-              <input
-                name="option"
-                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
-                value={editItem.role}
-              ></input>
+              <p className="m-0 font-bold">UserName: {editItem.userName}</p>
+              <p className="m-0 font-bold">PassWork: {editItem.passWord}</p>
+              <p className="m-0 font-bold">Role: {editItem.role}</p>
               <button
                 onClick={() => handlCancel()}
                 className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"

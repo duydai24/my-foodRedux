@@ -47,20 +47,42 @@ function OrderAdmin() {
                     <p className="text-blue-700 cursor-pointer">Xem chi tiết</p>
                   </Link>
                 </div>
-                <div className="flex justify-around">
-                  <button
-                    onClick={() => doneOrderProduct(value.id)}
-                    className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
-                  >
-                    Xác nhận đơn hàng
-                  </button>
-                  <button
-                    onClick={() => cancelOrderProduct(value.id)}
-                    className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
-                  >
-                    Huỷ đơn hàng
-                  </button>
-                </div>
+                {value.status == "Đang chờ xác nhận đơn hàng" && (
+                  <div className="flex justify-around">
+                    <button
+                      onClick={() => doneOrderProduct(value.id)}
+                      className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
+                    >
+                      Xác nhận đơn hàng
+                    </button>
+                    <button
+                      onClick={() => cancelOrderProduct(value.id)}
+                      className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
+                    >
+                      Huỷ đơn hàng
+                    </button>
+                  </div>
+                )}
+                {value.status == "Đã huỷ đơn hàng" && (
+                  <div className="flex justify-around">
+                    <button
+                      onClick={() => doneOrderProduct(value.id)}
+                      className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
+                    >
+                      Xác nhận đơn hàng
+                    </button>
+                  </div>
+                )}
+                {value.status == "Đã xác nhận đơn hàng" && (
+                  <div className="flex justify-around">
+                    <button
+                      onClick={() => cancelOrderProduct(value.id)}
+                      className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg mt-10 text-center font-bold hover:bg-white hover:text-red-redd"
+                    >
+                      Huỷ đơn hàng
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
