@@ -6,8 +6,9 @@ import {
   addSale,
   deleteSale,
   updateProducts,
-} from "../redux/action/productsAction";
-import { getBase64 } from "../lib/getBase64";
+} from "../../redux/action/productsAction";
+import { getBase64 } from "../../lib/getBase64";
+import Link from "next/link";
 
 function SaleProductsAdmin() {
   const dispatch = useDispatch();
@@ -84,12 +85,11 @@ function SaleProductsAdmin() {
     products.splice(id, 1, productItem2);
     dispatch(updateProducts(products));
     alert("Xoá khuyến mãi cho sản phẩm id = " + id + " thành công");
-    console.log(products4);
   };
 
   return (
     <div className="container">
-      <SaleAdmin />
+      <SaleOption />
       <form className="flex mt-10 rounded-full py-3 px-4 items-center border-[1px] border-black w-[70%] lg:w-full mx-3">
         <input
           id="filter"
@@ -192,7 +192,6 @@ function SaleAdmin() {
       }
     }
   };
-
   const handleDelete = (key) => {
     let new_Sale = {
       id: key + 1,
@@ -203,12 +202,11 @@ function SaleAdmin() {
     dispatch(deleteSale(sale));
     alert("Xoá khuyến mãi thành công");
   };
-
   const handleAdd = (key) => {
     let new_Sale = {
       id: 1,
       gif: saleItem.image,
-      saleNumber: saleItem.saleNumber,
+      saleNumber: Number(saleItem.saleNumber),
     };
     sale.splice(key, 1, new_Sale);
     dispatch(addSale(sale));
@@ -219,13 +217,17 @@ function SaleAdmin() {
     <div>
       {sale.map((val, key) => (
         <div key={key} className="flex flex-col items-center">
-          <img
-            className="rounded-lg"
-            alt="img"
-            height={400}
-            width={400}
-            src={val.gif}
-          />
+          {val.gif !== "" ? (
+            <img
+              className="rounded-lg"
+              alt="img"
+              height={200}
+              width={200}
+              src={val.gif}
+            />
+          ) : (
+            ""
+          )}
           {val.saleNumber == 0 ? (
             <div className="">
               <p className="my-5">Number Sale: (%)</p>
@@ -243,6 +245,11 @@ function SaleAdmin() {
                 onChange={onImageChange}
                 type="file"
               />
+              {imageFile !== "" ? (
+                <img alt="img" src={imageFile.image} height={100} width={100} />
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             <p className="my-5 font-bold">Number Sale: {val.saleNumber} %</p>
@@ -274,4 +281,12 @@ function SaleAdmin() {
   );
 }
 
+function SaleOption() {
+  return (
+    <div className="flex justify-evenly font-bold cursor-pointer py-10">
+      <SaleAdmin />
+      <Link href="/Admin/Sale">Quản lý Sale</Link>
+    </div>
+  );
+}
 export default SaleProductsAdmin;

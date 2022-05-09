@@ -64,7 +64,7 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
               gif={value.gif}
               id={value.id}
               saleNumber={value.saleNumber}
-              products={products}
+              // products={products}
             />
           ))
         ) : (
@@ -124,18 +124,18 @@ function ProductsMenuItems({
   price,
   gif,
   id,
-  products,
+  // products,
   saleNumber,
 }) {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.product);
   let quantityItem = 1;
 
   const addToCart = (id, name, img, price) => {
     const checkCart = cartItem.some((el) => el.id === id);
     if (!checkCart) {
       if (saleNumber === undefined) {
-        const saleNumber = 0;
         let new_cartItem = {
           id,
           name: name,
@@ -192,7 +192,8 @@ function ProductsMenuItems({
     alert("Thêm vào giỏ hàng thành công");
     quantity -= quantityItem;
     let new_products;
-    products.map((value) => {
+    let filterProducts = products.filter((e) => e.id === id);
+    filterProducts.map((value) => {
       if (value.saleNumber === undefined) {
         new_products = {
           id: id,
@@ -203,6 +204,8 @@ function ProductsMenuItems({
           quantity: quantity,
           categoryId: value.categoryId,
         };
+        products.splice(id, 1, new_products);
+        dispatch(updateProducts(products));
       } else {
         new_products = {
           id: id,
@@ -216,9 +219,9 @@ function ProductsMenuItems({
           saleNumber: value.saleNumber,
         };
       }
+      products.splice(id, 1, new_products);
+      dispatch(updateProducts(products));
     });
-    products.splice(id, 1, new_products);
-    dispatch(updateProducts(products));
   };
   return (
     <div className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems">
@@ -241,7 +244,7 @@ function ProductsMenuItems({
         <p className="text-xs">Còn {quantity} sản phẩm</p>
       </div>
       {saleNumber !== undefined ? (
-        <div className="flex justify-between items-center px-3">
+        <div className="flex h-10 justify-between items-center px-3">
           <div className="flex flex-col items-start">
             <span className="font-bold text-gray-400 text-base line-through float-right mr-3">
               $ {price}
@@ -253,7 +256,7 @@ function ProductsMenuItems({
           </span>
         </div>
       ) : (
-        <span className="font-bold text-red-redd float-right text-2xl  mr-3">
+        <span className="font-bold h-10 text-red-redd float-right text-2xl  mr-3">
           $ {price}
         </span>
       )}

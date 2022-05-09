@@ -146,6 +146,7 @@ export const initialState = {
       saleNumber: 25,
     },
   ],
+  saleOptions: [],
 };
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {

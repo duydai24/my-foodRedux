@@ -9,12 +9,13 @@ import BannerSlideAdmin from "./banerSlideAdmin";
 import BannerTitle from "./banerTitle";
 import StatisticalAdmin from "./statisticalAdmin";
 import { Helmet } from "react-helmet";
-import SaleAdmin from "./saleAdmin";
-import SaleProductsAdmin from "./saleProductsAdmin";
+import SaleProductsAdmin from "../admin/Sale/saleProductsAdmin";
 
 const TITLE = "My Food - Admin";
 
 function Admin() {
+  const classNameTabs =
+    "bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none";
   return (
     <Layout>
       <Helmet>
@@ -23,27 +24,13 @@ function Admin() {
       <div className="pt-20 pb-32">
         <Tabs className="flex flex-col lg:flex-row">
           <TabList className="pl-0">
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              Home
-            </Tab>
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              User
-            </Tab>
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              Products
-            </Tab>
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              Order
-            </Tab>
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              BannerSlide
-            </Tab>
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              Banner Title
-            </Tab>
-            <Tab className="bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none">
-              Sale
-            </Tab>
+            <Tab className={classNameTabs}>Home</Tab>
+            <Tab className={classNameTabs}>User</Tab>
+            <Tab className={classNameTabs}>Products</Tab>
+            <Tab className={classNameTabs}>Order</Tab>
+            <Tab className={classNameTabs}>BannerSlide</Tab>
+            <Tab className={classNameTabs}>Banner Title</Tab>
+            <Tab className={classNameTabs}>Sale</Tab>
           </TabList>
 
           <TabPanel className="px-[50px] w-full hidden">
@@ -55,7 +42,7 @@ function Admin() {
           <TabPanel className="px-[50px] w-full hidden">
             <ProductsAdmin />
           </TabPanel>
-          <TabPanel className="px-[50px] w-full mr-[400px] hidden">
+          <TabPanel className="px-[50px] w-full hidden">
             <OrderAdmin />
           </TabPanel>
           <TabPanel className="px-[50px] w-full hidden">

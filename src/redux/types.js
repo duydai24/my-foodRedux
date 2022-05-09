@@ -27,4 +27,3 @@ export const ADD_SALE = "ADD_SALE";
 export const DELETE_SALE = "DELETE_SALE";
 export const ADD_USERS_GOOGLE = "ADD_USERS_GOOGLE";
 export const ADD_USERS_FACEBOOK = "ADD_USERS_FACEBOOK";
-// export const GET_STATISTICA = 'GET_STATISTICA';

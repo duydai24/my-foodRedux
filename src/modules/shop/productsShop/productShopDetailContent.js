@@ -9,7 +9,6 @@ import {
 } from "../../../redux/action/productsAction";
 import Star from "../../../lib/star";
 import { useRouter } from "next/router";
-import { prototype } from "router";
 
 function ProductsShopDetailContent() {
   const dispatch = useDispatch();
@@ -77,21 +76,36 @@ function ProductsShopDetailContent() {
     }
     alert("Thêm vào giỏ hàng thành công");
     let new_products;
-    const filterProducts = products.filter((el) => el.id === id);
-    filterProducts.map(
-      (val) =>
-        (new_products = {
+    let filterProducts = products.filter((e) => e.id === id);
+    filterProducts.map((value) => {
+      if (value.saleNumber === undefined) {
+        new_products = {
           id: id,
           name: name,
-          description: val.description,
+          description: value.description,
           image: img,
           price: price,
-          quantity: (val.quantity -= product.quantityNumber),
-          categoryId: val.categoryId,
-        })
-    );
-    products.splice(id, 1, new_products);
-    dispatch(updateProducts(products));
+          quantity: (value.quantity -= product.quantityNumber),
+          categoryId: value.categoryId,
+        };
+        products.splice(id, 1, new_products);
+        dispatch(updateProducts(products));
+      } else {
+        new_products = {
+          id: id,
+          name: name,
+          description: value.description,
+          image: img,
+          price: price,
+          quantity: (value.quantity -= product.quantityNumber),
+          categoryId: value.categoryId,
+          gif: value.gif,
+          saleNumber: value.saleNumber,
+        };
+      }
+      products.splice(id, 1, new_products);
+      dispatch(updateProducts(products));
+    });
   };
   return (
     <div>
