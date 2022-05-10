@@ -164,7 +164,7 @@ function SaleDetail() {
             );
           })}
           {inputSearch.length > 0 ? (
-            <div className=" w-full overflow-y-scroll rounded-xl bg-white shadow-2xl z-40 absolute top-20 left-0">
+            <div className="w-full h-80 overflow-y-scroll rounded-xl bg-white shadow-2xl z-40 absolute top-24 left-0">
               {products2.map((value, key) => (
                 <div
                   key={key}
