@@ -121,7 +121,7 @@ function Header({ onClick }) {
                         </a>
                         <button
                           onClick={() => handleLogOut()}
-                          className="text-white text-sm lg:block md:block hidden rounded"
+                          className="text-white text-sm lg:block md:hidden hidden rounded"
                         >
                           LogOut
                         </button>

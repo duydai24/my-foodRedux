@@ -4,11 +4,7 @@ import { BsSearch } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
 import Layout from "../../layout/layout";
 import { useRouter } from "next/router";
-import {
-  addSale,
-  deleteSale,
-  updateProducts,
-} from "../../redux/action/productsAction";
+import { updateProducts } from "../../redux/action/productsAction";
 
 function SaleDetail() {
   const dispatch = useDispatch();
@@ -38,7 +34,6 @@ function SaleDetail() {
     }
     return x;
   }, []);
-  console.log(new_SaleNumber);
 
   const saleOption = [];
   for (let index = 0; index < new_SaleNumber.length; index++) {
@@ -111,11 +106,10 @@ function SaleDetail() {
   };
 
   return (
-    // <Layout>
-    <div className="py-24 container">
-      <div className="h-20 max-w-full relative">
-        <div>
-          <form className="flex rounded-full py-2 m-2 items-center border-[1px] border-black max-w-[90%]">
+    <Layout>
+      <div className="py-24 pb-96 container">
+        <div className="h-20 relative">
+          <form className="flex rounded-full py-2 m-2 items-center border-[1px] border-black max-w-full">
             <input
               id="filter"
               onChange={onChangeSearch}
@@ -202,8 +196,7 @@ function SaleDetail() {
           )}
         </div>
       </div>
-    </div>
-    // </Layout>
+    </Layout>
   );
 }
 export default SaleDetail;

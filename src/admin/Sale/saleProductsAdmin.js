@@ -283,9 +283,13 @@ function SaleAdmin() {
 
 function SaleOption() {
   return (
-    <div className="flex justify-evenly font-bold cursor-pointer py-10">
+    <div className="flex justify-evenly items-center font-bold cursor-pointer py-10">
       <SaleAdmin />
-      <Link href="/Admin/Sale">Quản lý Sale</Link>
+      <Link href="/Admin/Sale">
+        <p className="bg-red-redd text-white rounded-lg py-4 px-2">
+          Quản lý Sale
+        </p>
+      </Link>
     </div>
   );
 }
