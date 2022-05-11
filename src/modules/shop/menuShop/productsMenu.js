@@ -22,10 +22,10 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(products.length / 8); i++) {
+  for (let i = 1; i <= Math.ceil(products.length / 12); i++) {
     pageNumbers.push(i);
   }
-  products = products.slice((currentPage - 1) * 8, currentPage * 8);
+  products = products.slice((currentPage - 1) * 12, currentPage * 12);
 
   const handlePage = (key) => {
     setCurrentPage(key + 1);
@@ -224,52 +224,55 @@ function ProductsMenuItems({
     });
   };
   return (
-    <div className="relative cursor-pointer shadow-xl rounded-xl pb-4 ProductsMenuItems">
+    <div className="relative cursor-pointer shadow-xl rounded-xl ProductsMenuItems flex flex-col justify-between p-4">
       <Link href={`/ProductsShop/${id}`}>
         <img
           alt="img"
-          className="h-32 w-56 border-white border-8 rounded"
+          className=" border-white rounded w-44 h-44"
           src={img}
+          height={100}
+          width={100}
         />
       </Link>
-      {gif !== undefined ? (
-        <img alt="img" className="h-5 absolute top-2 rounded-xl" src={gif} />
-      ) : (
-        ""
-      )}
-      <div className="p-2">
-        <Link href={`/ProductsShop/${id}`}>
-          <p className="font-bold text-black text-2xl">{name}</p>
-        </Link>
-        <p className="text-xs">Còn {quantity} sản phẩm</p>
-      </div>
-      {saleNumber !== undefined ? (
-        <div className="flex h-10 justify-between items-center px-3">
-          <div className="flex flex-col items-start">
-            <span className="font-bold text-gray-400 text-base line-through float-right mr-3">
+      <div>
+        {saleNumber !== undefined ? (
+          <span className="text-red-redd bg-yellow-300 px-2 font-bold text-sm text-center h-5 absolute top-2 left-0 rounded-lg">
+            - {saleNumber}%
+          </span>
+        ) : (
+          ""
+        )}
+        <div>
+          <Link href={`/ProductsShop/${id}`}>
+            <p className="font-bold text-black text-2xl">{name}</p>
+          </Link>
+          <p className="text-xs">Còn {quantity} sản phẩm</p>
+        </div>
+        {saleNumber !== undefined ? (
+          <div className="flex h-10 justify-between items-center">
+            <span className="font-bold text-gray-400 text-lg line-through float-right mr-3">
               $ {price}
             </span>
-            <span className="text-red-redd text-xs">- {saleNumber}%</span>
+            <span className="font-bold text-red-redd text-2xl  mr-3">
+              $ {(price * (100 - saleNumber)) / 100}
+            </span>
           </div>
-          <span className="font-bold text-red-redd text-2xl  mr-3">
-            $ {(price * (100 - saleNumber)) / 100}
+        ) : (
+          <span className="font-bold h-10 text-red-redd float-right text-2xl  mr-3">
+            $ {price}
+          </span>
+        )}
+        <div className="lg:invisible absolute top-0 right-14 lg:right-2 SpanProductsMenuItemsHover">
+          <span className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
+            <MdFavorite />
+          </span>
+          <span
+            onClick={() => addToCart(id, name, img, price)}
+            className="absolute top-12 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
+          >
+            <BsFillCartPlusFill />
           </span>
         </div>
-      ) : (
-        <span className="font-bold h-10 text-red-redd float-right text-2xl  mr-3">
-          $ {price}
-        </span>
-      )}
-      <div className="lg:invisible absolute top-0 right-14 lg:right-2 SpanProductsMenuItemsHover">
-        <span className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
-          <MdFavorite />
-        </span>
-        <span
-          onClick={() => addToCart(id, name, img, price)}
-          className="absolute top-12 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
-        >
-          <BsFillCartPlusFill />
-        </span>
       </div>
     </div>
   );

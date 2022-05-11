@@ -148,7 +148,7 @@ function ProductsAdmin() {
           <div className="mb-5">
             <p className="m-0">Tên sản phẩm:</p>
             <input
-              className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
+              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
               type="text"
               value={editItem.name}
               name="name"
@@ -159,7 +159,7 @@ function ProductsAdmin() {
           <div className="mb-5">
             <p className="m-0">Giá sản phẩm:</p>
             <input
-              className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
+              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
               type="number"
               value={editItem.price}
               name="price"
@@ -170,7 +170,7 @@ function ProductsAdmin() {
           <div className="mb-5">
             <p className="m-0">Số lượng sản phẩm:</p>
             <input
-              className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
+              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
               type="number"
               name="quantity"
               value={editItem.quantity}
@@ -204,7 +204,7 @@ function ProductsAdmin() {
             <select
               name="option"
               onChange={onChangeOption}
-              className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
+              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
             >
               <option>{editItem.categoryId}</option>
               <option value={1}>1: Hamberger</option>
@@ -216,7 +216,7 @@ function ProductsAdmin() {
           <div className="mb-5">
             <p className="m-0">Chi tiết sản phẩm:</p>
             <textarea
-              className="bg-[#F8F8FF] py-3 w-full border-none outline-none"
+              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
               type="text"
               value={editItem.description}
               name="description"
@@ -264,13 +264,17 @@ function ProductsAdmin() {
         {products &&
           products.map((value, key) => {
             return (
-              <div key={key} className="flex justify-between items-center mb-5">
+              <div
+                key={key}
+                className="flex justify-between items-center mb-5 odd:bg-gray-100 rounded-lg"
+              >
                 <p className=" w-[200px] text-center">{value.name}</p>
                 <img
                   alt="img"
                   src={value.image}
-                  height={100}
-                  className="font-bold h-[100px] w-[200px] text-center"
+                  height={150}
+                  width={150}
+                  className="font-bold h-[200px] w-[200px] text-center"
                 />
                 <p className=" w-[150px] text-center">{value.price}</p>
                 <p className=" w-[150px] text-center">{value.quantity}</p>

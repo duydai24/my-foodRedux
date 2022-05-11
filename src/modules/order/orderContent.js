@@ -35,7 +35,7 @@ function OrderContent() {
             return (
               <div
                 key={key}
-                className="flex justify-between shadow-xl mt-14 bg-white rounded-xl py-5 pr-5"
+                className="flex justify-between shadow-xl mt-14 bg-white rounded-xl py-5 pr-5 even:bg-gray-200"
               >
                 <p className="text-center w-[250px]">{value.name}</p>
                 <p className="text-center w-[100px]">{value.address}</p>

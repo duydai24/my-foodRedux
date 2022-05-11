@@ -61,15 +61,16 @@ function Cart({ className, onClick }) {
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
-      {cartItem.length > 0 ? (
-        <div className="container pb-24 pt-40">
-          <div className="transition-all bg-white shadow-2xl z-60">
-            <h2 className="uppercase font-bold text-2xl text-center">
-              Shopping Cart
-            </h2>
-            {cartItem.map((value, key) => (
+      {/* {cartItem.length > 0 ? ( */}
+      <div className="container pb-24 pt-40">
+        <div className="transition-all bg-white shadow-2xl rounded-2xl z-60">
+          <h2 className="uppercase font-bold text-2xl text-center">
+            Shopping Cart
+          </h2>
+          {cartItem.length > 0 ? (
+            cartItem &&
+            cartItem.map((value, key) => (
               <CartItems
-                id={key}
                 key={key}
                 img={value.image}
                 name={value.name}
@@ -79,13 +80,15 @@ function Cart({ className, onClick }) {
                 truQuantityOnClick={() => handleTruQuantity(value.id, key)}
                 deleteCartItem={() => handleDeleteCartItem(value.id, key)}
               />
-            ))}
-            <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
-          </div>
+            ))
+          ) : (
+            <p className="text-center font-bold p-3">
+              Giỏ hàng trống - Mua hàng nào ^^
+            </p>
+          )}
+          <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
         </div>
-      ) : (
-        <p className="text-center font-bold pb-24 pt-40">Giỏ hàng trống ^^</p>
-      )}
+      </div>
     </Layout>
   );
 }
@@ -157,31 +160,45 @@ function CartHanldle({ totalPrice, id, onClick }) {
   };
 
   return (
-    <div className="border-t-[1px] border-gray-200 relative pb-5" key={id}>
+    <div className="border-t-[1px] border-gray-200 relative p-5" key={id}>
       <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
-      <div className="flex mx-8 my-5 justify-between">
-        <h2 className="font-bold text-xl">Total</h2>
-        <span className="font-bold text-red-redd text-xl">
-          $<span className="font-bold text-red-redd text-xl">{totalPrice}</span>
-        </span>
-      </div>
+      {cartItem.length > 0 ? (
+        <div className="flex mx-8 my-5 justify-between">
+          <h2 className="font-bold text-xl">Total</h2>
+          <span className="font-bold text-red-redd text-xl">
+            $
+            <span className="font-bold text-red-redd text-xl">
+              {totalPrice}
+            </span>
+          </span>
+        </div>
+      ) : (
+        <span className="bg-white py-52"></span>
+      )}
       <div className="flex m-5 justify-evenly">
-        {accountLoginLength === 0 ? (
-          <div className="">
-            <Link href="/Login">
-              <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+        {cartItem.length === 0 ? (
+          ""
+        ) : (
+          <div>
+            {accountLoginLength === 0 ? (
+              <div className="">
+                <Link href="/Login">
+                  <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+                    Checkout
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <button
+                onClick={() => handleCheckout()}
+                className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn"
+              >
                 Checkout
               </button>
-            </Link>
+            )}
           </div>
-        ) : (
-          <button
-            onClick={() => handleCheckout()}
-            className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn"
-          >
-            Checkout
-          </button>
         )}
+
         <Link href="/Shop">
           <button
             onClick={onClick}

@@ -149,7 +149,7 @@ function ProductsShopDetailContentItems({
       <div className="lg:w-1/2 w-10/12">
         <img
           alt="img"
-          className="rounded-md shadow-xl w-full cursor-pointer overflow-hidden"
+          className="rounded-md w-full cursor-pointer overflow-hidden"
           src={img}
         />
       </div>
@@ -164,7 +164,7 @@ function ProductsShopDetailContentItems({
             <Star />
             <p className="ml-5">Reviews</p>
           </div>
-          <p className="font-bold text-red-redd text-2xl mr-3 pb-5">
+          <p className="font-bold text-red-redd text-xl mr-3 pb-5">
             $ {(price * (100 - saleNumber)) / 100}
           </p>
           <p>{description}</p>

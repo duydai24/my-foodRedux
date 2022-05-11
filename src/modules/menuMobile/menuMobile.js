@@ -79,7 +79,7 @@ function MenuMobile({ className, onClick }) {
                   <Link href="/Register">
                     <a
                       onClick={onClick}
-                      className="bg-white text-red-redd py-4 px-12 font-bold text-xl"
+                      className="bg-white text-red-redd py-4 px-14 font-bold text-xl"
                     >
                       Register
                     </a>

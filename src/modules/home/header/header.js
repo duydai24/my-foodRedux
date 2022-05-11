@@ -84,7 +84,7 @@ function Header({ onClick }) {
           <div className="flex items-center max-w-[80px] h-16 md:max-w-[115px] lg:max-w-[200px] mr-3">
             <div className="h-full flex items-center headerHover">
               <Link href="/Cart">
-                <div className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative cursor-pointer">
+                <div className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative cursor-pointer hover:text-red-redd">
                   <FaShoppingCart />
                   <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5 a">
                     {cart.totalQuantity}
@@ -104,7 +104,7 @@ function Header({ onClick }) {
                             alt="img"
                             src={accountLoginImage}
                             onClick={() => setOnActive(!active)}
-                            className="cursor-pointer rounded-full lg:w-10 mr-2 lg:h-10 md:w-10 md:h-10 w-8 h-8 border-2 border-red-redd"
+                            className="cursor-pointer rounded-full lg:w-10 mr-2 lg:h-10 md:w-10 md:h-10 w-8 h-8 border-2 border-red-redd hover:border-yellow-400"
                           />
                         </Link>
                       ) : (
@@ -121,7 +121,7 @@ function Header({ onClick }) {
                         </a>
                         <button
                           onClick={() => handleLogOut()}
-                          className="text-white text-sm lg:block md:hidden hidden rounded"
+                          className="text-white text-sm lg:block md:hidden hidden rounded hover:text-red-redd"
                         >
                           LogOut
                         </button>

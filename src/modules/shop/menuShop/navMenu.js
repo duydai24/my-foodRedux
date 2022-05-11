@@ -1,6 +1,6 @@
 import react, { useState } from "react";
 import { useSelector } from "react-redux";
-import { MdFastfood } from "react-icons/md";
+import { IoFastFood } from "react-icons/io5";
 
 function NavMenu({ filterr, handleInput, priceHandle }) {
   const { category } = useSelector((state) => state.categorys);
@@ -13,7 +13,7 @@ function NavMenu({ filterr, handleInput, priceHandle }) {
 
   return (
     <div className="hidden lg:block">
-      <p className="text-2xl text-black font-bold border-b-[1px] border-black py-5">
+      <p className="text-2xl text-black  font-bold border-b-[1px] border-black py-5">
         Popular
       </p>
       <ul className="list-none">
@@ -22,9 +22,9 @@ function NavMenu({ filterr, handleInput, priceHandle }) {
             <LiNavMenu
               id={key}
               key={key}
-              icon={<MdFastfood />}
+              icon={<IoFastFood />}
               text={value.name}
-              className={value.id === active ? "active" : ""}
+              className={value.id === active ? "text-red-redd" : ""}
               onClick={() => handleCategory(value.id, key)}
             />
           ))}
@@ -59,8 +59,8 @@ function LiNavMenu({ icon, text, onClick, className, id }) {
       className={"flex items-center py-3 cursor-pointer " + className}
       onClick={onClick}
     >
-      <a className="text-3xl mr-5">{icon}</a>
-      <span className="fob">{text}</span>
+      <span className="text-3xl mr-5">{icon}</span>
+      <p className="fob">{text}</p>
     </li>
   );
 }

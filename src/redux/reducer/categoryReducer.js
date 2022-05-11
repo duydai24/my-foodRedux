@@ -15,14 +15,17 @@ export const initialState = {
     {
       id: 2,
       name: "Drink",
+      icon: "MdFastfood",
     },
     {
       id: 3,
       name: "Sandwich",
+      icon: "MdFastfood",
     },
     {
       id: 4,
       name: "Piza",
+      icon: "MdFastfood",
     },
   ],
 };
