@@ -9,6 +9,7 @@ import {
 } from "../../redux/action/productsAction";
 import { getBase64 } from "../../lib/getBase64";
 import Link from "next/link";
+import { ROUTER } from "../../routers/router";
 
 function SaleProductsAdmin() {
   const dispatch = useDispatch();
@@ -285,7 +286,7 @@ function SaleOption() {
   return (
     <div className="flex justify-evenly items-center font-bold cursor-pointer py-10">
       <SaleAdmin />
-      <Link href="/Admin/Sale">
+      <Link href={ROUTER.Sale}>
         <p className="bg-red-redd text-white rounded-lg py-4 px-2">
           Quản lý Sale
         </p>

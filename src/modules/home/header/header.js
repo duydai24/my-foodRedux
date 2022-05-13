@@ -12,6 +12,7 @@ import Router from "next/router";
 import { userLogin, googleUserLogin } from "../../../redux/action/userAction";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import CartHover from "../../cart/cartHover";
+import { ROUTER } from "../../../routers/router";
 
 function Header({ onClick }) {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ function Header({ onClick }) {
             <BiMenuAltLeft />
           </span>
           <div className="flex items-center">
-            <Link href="/">
+            <Link href={ROUTER.Home}>
               <img
                 alt="img"
                 className="w-20 md:w-[120px] h-auto md:pr-10 cursor-pointer"
@@ -63,27 +64,35 @@ function Header({ onClick }) {
               />
             </Link>
             <div className="hidden md:flex lg:flex">
-              <IconsHeader source={"/"} text={"Home"} icon={<FaHome />} />
               <IconsHeader
-                source={"/Order"}
+                source={ROUTER.Home}
+                text={"Home"}
+                icon={<FaHome />}
+              />
+              <IconsHeader
+                source={ROUTER.Order}
                 text={"Order"}
                 icon={<BiBarcodeReader />}
               />
+              <IconsHeader
+                source={ROUTER.Shop}
+                text={"Store"}
+                icon={<FaStore />}
+              />
               {accountLoginRole === "admin" ? (
                 <IconsHeader
-                  source={"/Admin"}
+                  source={ROUTER.Admin}
                   text={"Admin"}
                   icon={<BsNewspaper />}
                 />
               ) : (
                 ""
               )}
-              <IconsHeader source={"/Shop"} text={"Store"} icon={<FaStore />} />
             </div>
           </div>
           <div className="flex items-center max-w-[80px] h-16 md:max-w-[115px] lg:max-w-[200px] mr-3">
             <div className="h-full flex items-center headerHover">
-              <Link href="/Cart">
+              <Link href={ROUTER.Cart}>
                 <div className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative cursor-pointer hover:text-red-redd">
                   <FaShoppingCart />
                   <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5 a">
@@ -99,7 +108,7 @@ function Header({ onClick }) {
                   <div className="lg:block md:block hidden">
                     <div className="md:mr-3 md:flex lg:flex w-auto items-center justify-between">
                       {accountLoginImage !== undefined ? (
-                        <Link href="/UserCustom">
+                        <Link href={ROUTER.UserCustom}>
                           <img
                             alt="img"
                             src={accountLoginImage}
@@ -131,7 +140,7 @@ function Header({ onClick }) {
                   <div className="lg:hidden md:hidden block">
                     <div className="md:mr-3 md:flex lg:flex">
                       {accountLoginImage !== undefined ? (
-                        <Link href="/UserCustom">
+                        <Link href={ROUTER.UserCustom}>
                           <img
                             alt="img"
                             src={accountLoginImage}
@@ -150,7 +159,7 @@ function Header({ onClick }) {
               </div>
             )}
             {accountLoginLength == 0 && (
-              <Link href="/Login">
+              <Link href={ROUTER.Login}>
                 <a className="text-white text-3xl md:text-white md:text-4xl lg:text-white lg:text-4xl">
                   <HiUserCircle />
                 </a>
@@ -164,22 +173,24 @@ function Header({ onClick }) {
 }
 
 function IconsHeader({ text, icon, source }) {
-  const [activeHeader, setActiveHeader] = useState();
+  const [activeHeader, setActiveHeader] = useState(false);
+  const handleActiveHeader = () => {
+    if (source === text) {
+      setActiveHeader(true);
+    }
+  };
+
   const _className = activeHeader ? "activeHeader" : "";
   return (
-    <div>
-      <Link href={source}>
-        <div
-          onClick={() => setActiveHeader(!activeHeader)}
-          className={"flex cursor-pointer hoverHeader " + _className}
-        >
-          <span className="text-white text-[20px] mr-2 hoverHeader1">
-            {icon}
-          </span>
-          <a className="text-white pr-8 hoverHeader2 ">{text}</a>
-        </div>
-      </Link>
-    </div>
+    <Link href={source}>
+      <div
+        onClick={() => handleActiveHeader(source, text)}
+        className={"flex cursor-pointer hoverHeader " + _className}
+      >
+        <span className="text-white text-[20px] mr-2 hoverHeader1">{icon}</span>
+        <p className="text-white pr-8 hoverHeader2 ">{text}</p>
+      </div>
+    </Link>
   );
 }
 

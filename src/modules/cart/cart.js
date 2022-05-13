@@ -8,6 +8,7 @@ import Router from "next/router";
 import Layout from "../../layout/layout";
 import { Helmet } from "react-helmet";
 import { useAlert } from "react-alert";
+import { ROUTER } from "../../routers/router";
 
 const TITLE = "My Food - Cart";
 
@@ -182,7 +183,7 @@ function CartHanldle({ totalPrice, id, onClick }) {
           <div>
             {accountLoginLength === 0 ? (
               <div className="">
-                <Link href="/Login">
+                <Link href={ROUTER.Login}>
                   <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
                     Checkout
                   </button>
@@ -199,7 +200,7 @@ function CartHanldle({ totalPrice, id, onClick }) {
           </div>
         )}
 
-        <Link href="/Shop">
+        <Link href={ROUTER.Shop}>
           <button
             onClick={onClick}
             className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn"

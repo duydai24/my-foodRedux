@@ -11,6 +11,8 @@ import {
   fetchUser,
 } from "../../redux/action/userAction";
 import { useGoogleLogin } from "react-google-login";
+import { ROUTER } from "../../routers/router";
+import { RefreshTokenSetup } from "../auth/refreshToken";
 
 function Login() {
   const dispatch = useDispatch();
@@ -65,6 +67,7 @@ function Login() {
     "295032336816-21451obqs8cpbmhkhaaadp26q7d1d86e.apps.googleusercontent.com";
   const onSuccess = (res) => {
     console.log("[Login Success ] currentUser:", res.profileObj);
+    RefreshTokenSetup(res);
     googleUser = [...googleUser, res.profileObj];
     dispatch(googleUserLogin(googleUser));
     alert("Đăng nhập bằng Google thành công");
@@ -110,7 +113,7 @@ function Login() {
   });
   return (
     <div className="pt-20 pb-44 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
-      <Link href="/">
+      <Link href={ROUTER.Home}>
         <img
           alt="img"
           className="hidden lg:block w-[40%]"
@@ -121,7 +124,7 @@ function Login() {
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
           Don't have an account?
-          <Link href="/Register">
+          <Link href={ROUTER.Register}>
             <span className="text-red-redd font-bold cursor-pointer">
               {" "}
               Create an account

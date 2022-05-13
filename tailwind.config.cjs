@@ -71,6 +71,16 @@ module.exports = {
       backgroundImage: {
         bgMenuFood: "url(/public/bgMenuFood.webp)",
       },
+      borderWidth: {
+        DEFAULT: "1px",
+        0: "1px",
+        1: "1px",
+        2: "2px",
+        3: "3px",
+        4: "4px",
+        6: "6px",
+        8: "8px",
+      },
       colors: {
         green: {
           1000: "var(--green-1000)",
@@ -96,6 +106,7 @@ module.exports = {
         101: "101px",
       },
       width: {
+        100: "100px",
         140: "140px",
         200: "200px",
         250: "250px",

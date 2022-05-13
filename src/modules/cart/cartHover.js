@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
 import Router from "next/router";
+import { ROUTER } from "../../routers/router";
 
 function CartHover({ className }) {
   const dispatch = useDispatch();
@@ -168,7 +169,7 @@ function CartHanldle({ totalPrice }) {
           <div>
             {accountLoginLength === 0 ? (
               <div className="">
-                <Link href="/Login">
+                <Link href={ROUTER.Login}>
                   <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
                     Checkout
                   </button>
@@ -184,7 +185,7 @@ function CartHanldle({ totalPrice }) {
             )}
           </div>
         )}
-        <Link href="/Shop">
+        <Link href={ROUTER.Shop}>
           <button className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn">
             buy more
           </button>

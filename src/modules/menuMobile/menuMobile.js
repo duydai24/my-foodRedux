@@ -9,6 +9,7 @@ import { HiUserCircle } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../../redux/action/userAction";
 import Router from "next/router";
+import { ROUTER } from "../../routers/router";
 
 function MenuMobile({ className, onClick }) {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ function MenuMobile({ className, onClick }) {
               {accountLogin.length > 0 ? (
                 <div className="flex py-2 items-center">
                   {accountLoginImage !== "" ? (
-                    <Link href="/UserCustom">
+                    <Link href={ROUTER.UserCustom}>
                       <img
                         alt="img"
                         src={accountLoginImage}
@@ -68,7 +69,7 @@ function MenuMobile({ className, onClick }) {
                 </div>
               ) : (
                 <div className="flex items-center overflow-hidden">
-                  <Link href="/Login">
+                  <Link href={ROUTER.Login}>
                     <a
                       onClick={onClick}
                       className="bg-red-redd text-white py-4 px-12 font-bold text-xl"
@@ -76,7 +77,7 @@ function MenuMobile({ className, onClick }) {
                       Login
                     </a>
                   </Link>
-                  <Link href="/Register">
+                  <Link href={ROUTER.Register}>
                     <a
                       onClick={onClick}
                       className="bg-white text-red-redd py-4 px-14 font-bold text-xl"
@@ -89,7 +90,7 @@ function MenuMobile({ className, onClick }) {
             </div>
           </div>
           <div className="border-t-[1px] border-gray-400 h-[calc(100vh-120px)]">
-            <Link href="/">
+            <Link href={ROUTER.Home}>
               <div
                 onClick={onClick}
                 className="p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
@@ -97,7 +98,7 @@ function MenuMobile({ className, onClick }) {
                 <IconsHeader text={"Home"} icon={<FaHome />} />
               </div>
             </Link>
-            <Link href="/Shop">
+            <Link href={ROUTER.Shop}>
               <div
                 onClick={onClick}
                 className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
@@ -105,7 +106,7 @@ function MenuMobile({ className, onClick }) {
                 <IconsHeader text={"Store"} icon={<FaStore />} />
               </div>
             </Link>
-            <Link href="/Order">
+            <Link href={ROUTER.Order}>
               <div
                 onClick={onClick}
                 className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
@@ -114,7 +115,7 @@ function MenuMobile({ className, onClick }) {
               </div>
             </Link>
             {accountLoginRole === "admin" ? (
-              <Link href="/Admin">
+              <Link href={ROUTER.Admin}>
                 <div
                   onClick={onClick}
                   className="p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"

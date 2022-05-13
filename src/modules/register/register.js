@@ -6,6 +6,7 @@ import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/action/userAction";
 import { isFulfilled } from "@reduxjs/toolkit";
+import { ROUTER } from "../../routers/router";
 
 function Register() {
   const { user } = useSelector((state) => state.user);
@@ -61,7 +62,7 @@ function Register() {
 
   return (
     <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
-      <Link href="/">
+      <Link href={ROUTER.Home}>
         <img
           alt="img"
           className="hidden lg:block w-[40%]"
