@@ -3,6 +3,7 @@ import { getBase64 } from "../../lib/getBase64";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, updateUser } from "../../redux/action/userAction";
 import Router from "next/router";
+import Layout from "../../layout/layout";
 
 function UserCustom() {
   const [imageFile, setImageFile] = useState("");
@@ -117,120 +118,122 @@ function UserCustom() {
     }
   };
   return (
-    <div className="container lg:flex-row md:flex-col flex-col flex lg:p-32 md:p-20 mt-10 p-10 justify-between ">
-      <div className="lg:w-1/3 md:w-full w-full">
-        {buttonEdit !== false ? (
-          <img
-            alt="img"
-            className="w-1/3 h-auto rounded-md shadow-md"
-            src={editItem.image}
-            width={200}
-            height={200}
-          />
-        ) : (
-          <img
-            alt="img"
-            className="w-1/3 h-auto rounded-md shadow-md"
-            src={image}
-            width={200}
-            height={200}
-          />
-        )}
-        {buttonEdit !== false ? (
-          <div className="flex justify-around mt-5 items-center">
-            <input
-              className=" py-1 w-[33%] border-none outline-none"
-              type="file"
-              name="image"
-              onChange={onImageChange}
+    <Layout>
+      <div className="container lg:flex-row md:flex-col flex-col flex lg:p-32 md:p-20 mt-10 p-10 justify-between ">
+        <div className="lg:w-1/3 md:w-full w-full">
+          {buttonEdit !== false ? (
+            <img
+              alt="img"
+              className="w-1/3 h-auto rounded-md shadow-md"
+              src={editItem.image}
+              width={200}
+              height={200}
             />
-            {editItem.image !== undefined ? (
-              <button
-                onClick={() => handleDeleteImage()}
-                className="bg-gray-200 px-2 h-8 rounded"
-              >
-                Deltete Image
-              </button>
-            ) : (
-              "^^Vui lòng chọn ảnh"
-            )}
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
+          ) : (
+            <img
+              alt="img"
+              className="w-1/3 h-auto rounded-md shadow-md"
+              src={image}
+              width={200}
+              height={200}
+            />
+          )}
+          {buttonEdit !== false ? (
+            <div className="flex justify-around mt-5 items-center">
+              <input
+                className=" py-1 w-[33%] border-none outline-none"
+                type="file"
+                name="image"
+                onChange={onImageChange}
+              />
+              {editItem.image !== undefined ? (
+                <button
+                  onClick={() => handleDeleteImage()}
+                  className="bg-gray-200 px-2 h-8 rounded"
+                >
+                  Deltete Image
+                </button>
+              ) : (
+                "^^Vui lòng chọn ảnh"
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
 
-      <div className="lg:w-1/3 md:w-full w-full">
-        {buttonEdit == false ? (
-          <div className="">
-            <p className="m-0 font-bold">UserName: {UserName}</p>
-            <p className="m-0 font-bold">PassWork: ******</p>
-          </div>
-        ) : (
-          <div className="">
-            <p className="m-0 font-bold">PassWork:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-              value={editItem.oldPassWord}
-              name="oldPassWord"
-              onChange={onChange}
-              placeholder="Nhập mật khẩu cũ..."
-            />
-            <p className="m-0 font-bold">New PassWork:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-              value={editItem.newPassWord}
-              name="newPassWord"
-              onChange={onChange}
-              placeholder="Nhập mật khẩu mới..."
-            />
-            <p className="m-0 font-bold">Check PassWork:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-              value={editItem.checkPassWord}
-              name="checkPassWord"
-              onChange={onChange}
-              placeholder="Nhập lại mật khẩu ..."
-            />
-          </div>
-        )}
-        {buttonEdit == false ? (
-          ""
-        ) : (
-          <div className="flex">
-            <button
-              onClick={() => handlUpdate(idUser)}
-              className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
-            >
-              Update
-            </button>
-            <button
-              onClick={() => handlCancel()}
-              className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
-            >
-              Cancel
-            </button>
-          </div>
-        )}
-        {accountLogin.map((value, key) => (
-          <div className="flex items-center">
-            <button
-              key={key}
-              onClick={() => handleEdit(value, key, index)}
-              className="bg-red-redd text-white px-2 rounded my-10 mr-5"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleLogOut()}
-              className="text-white px-2 bg-red-redd lg:block md:block rounded"
-            >
-              LogOut
-            </button>
-          </div>
-        ))}
+        <div className="lg:w-1/3 md:w-full w-full">
+          {buttonEdit == false ? (
+            <div className="">
+              <p className="m-0 font-bold">UserName: {UserName}</p>
+              <p className="m-0 font-bold">PassWork: ******</p>
+            </div>
+          ) : (
+            <div className="">
+              <p className="m-0 font-bold">PassWork:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                value={editItem.oldPassWord}
+                name="oldPassWord"
+                onChange={onChange}
+                placeholder="Nhập mật khẩu cũ..."
+              />
+              <p className="m-0 font-bold">New PassWork:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                value={editItem.newPassWord}
+                name="newPassWord"
+                onChange={onChange}
+                placeholder="Nhập mật khẩu mới..."
+              />
+              <p className="m-0 font-bold">Check PassWork:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                value={editItem.checkPassWord}
+                name="checkPassWord"
+                onChange={onChange}
+                placeholder="Nhập lại mật khẩu ..."
+              />
+            </div>
+          )}
+          {buttonEdit == false ? (
+            ""
+          ) : (
+            <div className="flex">
+              <button
+                onClick={() => handlUpdate(idUser)}
+                className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => handlCancel()}
+                className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+          {accountLogin.map((value, key) => (
+            <div className="flex items-center">
+              <button
+                key={key}
+                onClick={() => handleEdit(value, key, index)}
+                className="bg-red-redd text-white px-2 rounded my-10 mr-5"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleLogOut()}
+                className="text-white px-2 bg-red-redd lg:block md:block rounded"
+              >
+                LogOut
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 export default UserCustom;

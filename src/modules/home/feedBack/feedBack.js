@@ -5,8 +5,8 @@ function FeedBack() {
   const settings = {
     dots: false,
     infinite: true,
-    autoplaySpeed: 2000,
-    speed: 2000,
+    autoplaySpeed: 6000,
+    speed: 4000,
     autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,

@@ -66,7 +66,7 @@ function Register() {
         <img
           alt="img"
           className="hidden lg:block w-[40%]"
-          src="logoRemove.png"
+          src="/logoRemove.png"
         />
       </Link>
       <div className="">
@@ -100,14 +100,14 @@ function Register() {
             value={checkPassWord}
             onChange={handleCheckPass}
           />
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <input
               className="w-5 h-5"
               type="checkbox"
               placeholder="Save your password"
             />
             <span className="ml-5">Save your password</span>
-          </div>
+          </div> */}
         </div>
         <button
           onClick={handleRegister}

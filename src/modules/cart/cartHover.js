@@ -26,18 +26,19 @@ function CartHover({ className }) {
     dispatch(updateCart(cartItem, totalQuantity, totalPrice));
   };
   const handleTruQuantity = (id, key) => {
-    cartItem[key].quantity = cartItem[key].quantity - 1;
+    if (cartItem[key].quantity > 1) {
+      cartItem[key].quantity = cartItem[key].quantity - 1;
+      let totalQuantity = 0;
+      let totalPrice = 0;
+      cartItem.map(
+        (value) => (
+          (totalQuantity += value.quantity),
+          (totalPrice += value.quantity * value.price)
+        )
+      );
 
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cartItem.map(
-      (value) => (
-        (totalQuantity += value.quantity),
-        (totalPrice += value.quantity * value.price)
-      )
-    );
-
-    dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+      dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+    }
   };
   const handleDeleteCartItem = (id, key) => {
     cartItem.splice(key, 1);

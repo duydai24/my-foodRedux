@@ -21,7 +21,7 @@ function OrderAdmin() {
   };
   return (
     <div>
-      <div className="container py-24 mx-2">
+      <div className="container pb-24 pt-10 mx-2">
         <h1 className="uppercase text-center font-bold">
           Danh sách sản phẩm đã mua
         </h1>
@@ -37,7 +37,7 @@ function OrderAdmin() {
           order.map((value, key) => {
             return (
               <div key={key}>
-                <div className="flex justify-between mt-14 bg-gray-100 rounded-xl py-5 shadow-xl pr-5">
+                <div className="flex justify-between mt-14 rounded-xl py-5 shadow-xl pr-5 bg-white">
                   <p className="text-center w-[250px]">{value.name}</p>
                   <p className="text-center w-[100px]">{value.address}</p>
                   <p className="text-center w-[100px]">{value.phone}</p>

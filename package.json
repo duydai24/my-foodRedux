@@ -2,18 +2,17 @@
   "name": "my-food",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://duydai24.github.io/deploy-github/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "test": "next test",
-    "lint": "next lint",
-    "deploy": "gh-pages -d build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@googlemaps/react-wrapper": "^1.1.33",
     "@netlify/plugin-nextjs": "^4.3.2",
     "@reduxjs/toolkit": "^1.8.0",
     "@tailwindcss/line-clamp": "^0.3.1",

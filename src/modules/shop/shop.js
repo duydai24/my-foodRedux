@@ -16,9 +16,7 @@ function Shop() {
         <title>{TITLE}</title>
       </Helmet>
       <BannerShop />
-      <div className="container">
-        <MenuShop products={products} />
-      </div>
+      <MenuShop products={products} />
     </Layout>
   );
 }

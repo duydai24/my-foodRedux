@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../../redux/action/userAction";
 import Router from "next/router";
 import { ROUTER } from "../../routers/router";
+import { useRouter } from "next/router";
 
 function MenuMobile({ className, onClick }) {
   const dispatch = useDispatch();
@@ -90,39 +91,50 @@ function MenuMobile({ className, onClick }) {
             </div>
           </div>
           <div className="border-t-[1px] border-gray-400 h-[calc(100vh-120px)]">
-            <Link href={ROUTER.Home}>
+            <div
+              onClick={onClick}
+              className="p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
+            >
+              <IconsHeader
+                source={ROUTER.Home}
+                text={"Home"}
+                icon={<FaHome />}
+              />
+            </div>
+
+            <div
+              onClick={onClick}
+              className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
+            >
+              <IconsHeader
+                source={ROUTER.Shop}
+                text={"Store"}
+                icon={<FaStore />}
+              />
+            </div>
+
+            <div
+              onClick={onClick}
+              className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
+            >
+              <IconsHeader
+                source={ROUTER.Order}
+                text={"Order"}
+                icon={<BiBarcodeReader />}
+              />
+            </div>
+
+            {accountLoginRole === "admin" ? (
               <div
                 onClick={onClick}
                 className="p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
               >
-                <IconsHeader text={"Home"} icon={<FaHome />} />
+                <IconsHeader
+                  source={ROUTER.Admin}
+                  text={"Admin"}
+                  icon={<BsNewspaper />}
+                />
               </div>
-            </Link>
-            <Link href={ROUTER.Shop}>
-              <div
-                onClick={onClick}
-                className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
-              >
-                <IconsHeader text={"Store"} icon={<FaStore />} />
-              </div>
-            </Link>
-            <Link href={ROUTER.Order}>
-              <div
-                onClick={onClick}
-                className=" p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
-              >
-                <IconsHeader text={"Order"} icon={<BiBarcodeReader />} />
-              </div>
-            </Link>
-            {accountLoginRole === "admin" ? (
-              <Link href={ROUTER.Admin}>
-                <div
-                  onClick={onClick}
-                  className="p-8 h-10 w-56 text-white text-xl text-center cursor-pointer"
-                >
-                  <IconsHeader text={"Admin"} icon={<BsNewspaper />} />
-                </div>
-              </Link>
             ) : (
               ""
             )}
@@ -149,14 +161,25 @@ function MenuMobile({ className, onClick }) {
     </div>
   );
 }
-function IconsHeader({ text, icon }) {
+function IconsHeader({ text, icon, source }) {
+  const router = useRouter();
+  const style = {
+    color: router.pathname == source ? "#ff514e" : "",
+  };
   return (
-    <div className="flex cursor-pointer items-center">
-      <span className="text-white text-[20px] mr-2 hover:text-red-redd">
-        {icon}
-      </span>
-      <a className="text-white pr-8 hover:text-red-redd">{text}</a>
-    </div>
+    <Link href={source}>
+      <div className="flex cursor-pointer items-center">
+        <span
+          style={style}
+          className="text-white text-[20px] mr-2 hover:text-red-redd"
+        >
+          {icon}
+        </span>
+        <p style={style} className="text-white pr-8 hover:text-red-redd">
+          {text}
+        </p>
+      </div>
+    </Link>
   );
 }
 export default MenuMobile;

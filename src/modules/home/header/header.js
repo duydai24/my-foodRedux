@@ -13,6 +13,7 @@ import { userLogin, googleUserLogin } from "../../../redux/action/userAction";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import CartHover from "../../cart/cartHover";
 import { ROUTER } from "../../../routers/router";
+import { useRouter } from "next/router";
 
 function Header({ onClick }) {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function Header({ onClick }) {
   //   accountLoginGoogleName = val.familyName;
   //   accountLoginGoogleImage = val.imageUrl;
   // });
+
   return (
     <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black ">
       <div className="container">
@@ -173,22 +175,22 @@ function Header({ onClick }) {
 }
 
 function IconsHeader({ text, icon, source }) {
-  const [activeHeader, setActiveHeader] = useState(false);
-  const handleActiveHeader = () => {
-    if (source === text) {
-      setActiveHeader(true);
-    }
+  const router = useRouter();
+  const style = {
+    color: router.pathname == source ? "#ff514e" : "",
   };
-
-  const _className = activeHeader ? "activeHeader" : "";
   return (
     <Link href={source}>
-      <div
-        onClick={() => handleActiveHeader(source, text)}
-        className={"flex cursor-pointer hoverHeader " + _className}
-      >
-        <span className="text-white text-[20px] mr-2 hoverHeader1">{icon}</span>
-        <p className="text-white pr-8 hoverHeader2 ">{text}</p>
+      <div className="flex cursor-pointer hoverHeader ">
+        <span
+          style={style}
+          className="text-white text-[20px] mr-2 hoverHeader1"
+        >
+          {icon}
+        </span>
+        <p style={style} className="text-white pr-8 hoverHeader2 ">
+          {text}
+        </p>
       </div>
     </Link>
   );

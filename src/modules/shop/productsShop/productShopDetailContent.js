@@ -15,25 +15,27 @@ function ProductsShopDetailContent() {
   const product = useSelector((state) => state.product);
   const { products } = useSelector((state) => state.product);
   const { cartItem } = useSelector((state) => state.cart);
-  const { cart } = useSelector((state) => state);
+
   const quantityNumber2 = useSelector((state) => state.product.quantityNumber);
   const router = useRouter();
   const { productShopDetailContent } = router.query;
   let new_product = products.filter((e) => {
     return e.id == productShopDetailContent;
   });
-  let quantityNumber = 1;
 
-  const handleAddQuantity = (id, key) => {
+  let quantityNumber = 1;
+  const handleAddQuantity = () => {
     quantityNumber += product.quantityNumber;
     dispatch(quantityNumberProducts(product, quantityNumber));
   };
 
-  const handleTruQuantity = (id, key) => {
-    quantityNumber = product.quantityNumber - 1;
-    dispatch(quantityNumberProducts(product, quantityNumber));
+  const handleTruQuantity = () => {
+    if (product.quantityNumber > 1) {
+      quantityNumber = product.quantityNumber - 1;
+      dispatch(quantityNumberProducts(product, quantityNumber));
+    }
   };
-
+  console.log(product.quantityNumber);
   const addToCart = (id, key, name, img, price) => {
     const checkCart = cartItem.some((el) => el.id === id);
     if (!checkCart) {
@@ -119,8 +121,8 @@ function ProductsShopDetailContent() {
             description={value.description}
             quantity={product.quantityNumber}
             price={value.price}
-            addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-            truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+            addQuantityOnClick={() => handleAddQuantity()}
+            truQuantityOnClick={() => handleTruQuantity()}
             addToCart={() =>
               addToCart(value.id, key, value.name, value.image, value.price)
             }

@@ -117,7 +117,7 @@ function Login() {
         <img
           alt="img"
           className="hidden lg:block w-[40%]"
-          src="logoRemove.png"
+          src="/logoRemove.png"
         />
       </Link>
       <div className="relative">
@@ -150,14 +150,14 @@ function Login() {
             value={passWord}
             onChange={handlePass}
           />
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <input
               className="w-5 h-5"
               type="checkbox"
               placeholder="Save your password"
             />
             <span className="ml-5">Save your password</span>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col items-center">

@@ -70,7 +70,7 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
         ) : (
           <img
             alt="img"
-            src="noData.png"
+            src="/noData.png"
             className="rounded-xl w-full col-start-1 col-end-5"
           />
         )}
@@ -234,14 +234,18 @@ function ProductsMenuItems({
           width={100}
         />
       </Link>
+      {/* <span className="text-red-redd bg-yellow-300 px-2 font-bold text-sm text-center h-5 absolute top-2 left-0 rounded-lg">
+            - {saleNumber}%
+          </span> */}
       <div>
         {saleNumber !== undefined ? (
-          <span className="text-red-redd bg-yellow-300 px-2 font-bold text-sm text-center h-5 absolute top-2 left-0 rounded-lg">
-            - {saleNumber}%
+          <span className="text-red-redd text-sm font-bold text-center w-0 h-8 absolute top-0 left-0 saleNumberProducts">
+            <span className="absolute top-1 -left-[15px]">-{saleNumber}%</span>
           </span>
         ) : (
           ""
         )}
+
         <div>
           <Link href={`/ProductsShop/${id}`}>
             <p className="font-bold text-black text-2xl">{name}</p>
@@ -262,7 +266,7 @@ function ProductsMenuItems({
             $ {price}
           </span>
         )}
-        <div className="lg:invisible absolute top-0 right-14 lg:right-2 SpanProductsMenuItemsHover">
+        <div className="lg:invisible absolute top-2 right-14 lg:right-2 SpanProductsMenuItemsHover">
           <span className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
             <MdFavorite />
           </span>

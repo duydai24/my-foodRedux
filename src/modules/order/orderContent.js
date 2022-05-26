@@ -15,7 +15,7 @@ function OrderContent() {
   // new_Order = order.filter((val) => val.userId === googleId);
 
   return (
-    <div>
+    <div className="bg-bg">
       <div className="container py-24 hidden md:block lg:block">
         <h1 className="uppercase text-center font-bold">
           Danh sách sản phẩm đã mua
@@ -35,7 +35,7 @@ function OrderContent() {
             return (
               <div
                 key={key}
-                className="flex justify-between shadow-xl mt-14 bg-white rounded-xl py-5 pr-5 even:bg-gray-200"
+                className="flex justify-between shadow-md mt-14 bg-white rounded-xl py-5 pr-5 even:bg-gray-200"
               >
                 <p className="text-center w-[250px]">{value.name}</p>
                 <p className="text-center w-[100px]">{value.address}</p>

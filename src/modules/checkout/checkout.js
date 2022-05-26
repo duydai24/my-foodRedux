@@ -15,7 +15,6 @@ function Checkout() {
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
   const [note, setNote] = useState();
-  const [isCheckout, setIsCheckout] = useState(false);
   const { cartItem } = useSelector((state) => state.cart);
   const { orders } = useSelector((state) => state);
   const { order } = useSelector((state) => state.orders);
@@ -40,42 +39,23 @@ function Checkout() {
   let totalQuantity = 0;
   let totalPrice = 0;
   accountLogin.map((value) => (userId = value.id));
-  let googleId;
-  const { googleUser } = useSelector((state) => state.user);
-  googleUser.map((val) => (googleId = val.googleId));
   const handleCheckout = () => {
     if (name && address && phone && phone.length > 9) {
       const status = "Đang chờ xác nhận đơn hàng";
-      if (orders.length === 0) {
-        let order = [
-          {
-            id,
-            userId: userId,
-            name: name,
-            address: address,
-            phone: phone,
-            note: note,
-            status: status,
-            cartItem: cartItem,
-          },
-        ];
-        dispatch(addOrder(order, cartItem));
-        alert("Vui lòng đăng nhập");
-        useRouter.push("/Login");
-      } else {
-        let newOrder = {
-          id: Math.floor(Math.random() * 999999),
-          userId: userId,
-          name,
-          address,
-          phone,
-          note,
-          status,
-          cartItem,
-        };
-        order = [...order, newOrder];
-        dispatch(addOrder(order, cartItem));
-      }
+
+      let newOrder = {
+        id: Math.floor(Math.random() * 999999),
+        userId: userId,
+        name,
+        address,
+        phone,
+        note,
+        status,
+        cartItem,
+      };
+      order = [...order, newOrder];
+      dispatch(addOrder(order, cartItem));
+
       statisticaItem = [...statisticaItem, ...cartItem];
       statisticaItem.map((val) => {
         totalQuantity += val.quantity;
@@ -84,17 +64,12 @@ function Checkout() {
       dispatch(getStatistica(statisticaItem, totalQuantity, totalPrice));
       cartItem = [];
       dispatch(addCart(cartItem));
-      setIsCheckout(true);
       alert("Đặt hàng thành công");
+      Router.push("/");
     } else {
       alert("Vui lòng điền các thông tin cần thiết(có dấu *)");
     }
   };
-  useEffect(() => {
-    if (isCheckout) {
-      Router.push("/");
-    }
-  }, [isCheckout]);
   return (
     <div className="py-20 lg:w-3/4 lg:h-11/12 w-11/12 h-3/4 mx-auto lg:mt-[7%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly items-center">
       <div className="w-11/12 lg:w-1/2">
@@ -141,7 +116,7 @@ function Checkout() {
         </div>
         <p
           onClick={handleCheckout}
-          className="bg-[#ff514e] rounded-3xl font-bold text-white py-2 mt-5 mx-7  uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
+          className="bg-[#ff514e] cursor-pointer rounded-3xl font-bold text-white py-2 mt-5 mx-7  uppercase border-2 text-center border-[#ff514e] hover:bg-white hover:text-[#ff514e]"
         >
           CHECKOUT
         </p>

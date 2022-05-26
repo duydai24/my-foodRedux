@@ -100,6 +100,7 @@ module.exports = {
         red: {
           redd: "#ff514e",
         },
+        bg: "#f5f5f5",
       },
       height: {
         200: "200px",
