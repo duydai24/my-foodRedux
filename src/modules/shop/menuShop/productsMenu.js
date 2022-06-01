@@ -22,10 +22,10 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(products.length / 12); i++) {
+  for (let i = 1; i <= Math.ceil(products.length / 8); i++) {
     pageNumbers.push(i);
   }
-  products = products.slice((currentPage - 1) * 12, currentPage * 12);
+  products = products.slice((currentPage - 1) * 8, currentPage * 8);
 
   const handlePage = (key) => {
     setCurrentPage(key + 1);
