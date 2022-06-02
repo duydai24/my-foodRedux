@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BsArrowUpCircleFill } from "react-icons/bs";
+import { ToastContainer } from "react-toastify";
 
 function OnscrollTop({ children }) {
   const [stickyDown, setStickyDown] = useState(false);
@@ -35,6 +36,7 @@ function OnscrollTop({ children }) {
 
   return (
     <div>
+      <ToastContainer />
       <main>{children}</main>
       <button
         onClick={() => handleOnTop()}

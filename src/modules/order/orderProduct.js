@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { handelOrder } from "../../redux/action/oderAction";
 import Router from "next/router";
 import Layout from "../../layout/layout";
+import { toast } from "react-toastify";
 
 function OrderProduct() {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function OrderProduct() {
   const handleOrderProduct = (id) => {
     new_Order.map((value) => (value.status = "Đã huỷ đơn hàng"));
     dispatch(handelOrder(order));
-    alert("Huỷ đơn hàng thành công");
+    toast.success("Huỷ đơn hàng thành công");
     Router.push("/Order");
   };
 

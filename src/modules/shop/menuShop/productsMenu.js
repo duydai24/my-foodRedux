@@ -154,7 +154,6 @@ function ProductsMenuItems({
           )
         );
         dispatch(addCart(cartItem, totalQuantity, totalPrice));
-        toast.success("Thêm vào giỏ hàng thành công");
       } else {
         let new_cartItem = {
           id,
