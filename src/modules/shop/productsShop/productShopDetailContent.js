@@ -9,6 +9,8 @@ import {
 } from "../../../redux/action/productsAction";
 import Star from "../../../lib/star";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductsShopDetailContent() {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ function ProductsShopDetailContent() {
   let quantityNumber = 1;
   const handleAddQuantity = () => {
     quantityNumber += product.quantityNumber;
+
     dispatch(quantityNumberProducts(product, quantityNumber));
   };
 
@@ -35,7 +38,6 @@ function ProductsShopDetailContent() {
       dispatch(quantityNumberProducts(product, quantityNumber));
     }
   };
-  console.log(product.quantityNumber);
   const addToCart = (id, key, name, img, price) => {
     const checkCart = cartItem.some((el) => el.id === id);
     if (!checkCart) {
@@ -76,7 +78,7 @@ function ProductsShopDetailContent() {
       dispatch(quantityNumberProducts(product, quantityNumber));
       dispatch(addCart(cartItem, totalQuantity, totalPrice));
     }
-    alert("Thêm vào giỏ hàng thành công");
+    toast.success("Thêm vào giỏ hàng thành công");
     let new_products;
     let filterProducts = products.filter((e) => e.id === id);
     filterProducts.map((value) => {
@@ -198,6 +200,7 @@ function ProductsShopDetailContentItems({
             </span>
             ADD TO CART
           </button>
+          <ToastContainer />
           <span className="bg-gray-300 p-3 rounded-full hover:text-[#ff514e]">
             <MdFavorite />
           </span>

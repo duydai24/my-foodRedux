@@ -13,6 +13,8 @@ import {
 import { useGoogleLogin } from "react-google-login";
 import { ROUTER } from "../../routers/router";
 import { RefreshTokenSetup } from "../auth/refreshToken";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const dispatch = useDispatch();
@@ -38,7 +40,7 @@ function Login() {
         let checkPass = UserLogin.some((el) => el.passWord === passWord);
         if (checkPass === true && checkUser === true) {
           setIsLogin(true);
-          alert("Đăng nhập thành công");
+          toast.success("Đăng nhập thành công");
           Router.push("/");
           let idLogin = user.filter((e) => {
             return e.userName === userName;
@@ -54,13 +56,13 @@ function Login() {
           ];
           dispatch(userLogin(results));
         } else {
-          alert("Mật khẩu không đúng");
+          toast.error("Mật khẩu không đúng");
         }
       } else {
-        alert("Tài khoản không tồn tại");
+        toast.error("Tài khoản không tồn tại");
       }
     } else {
-      alert("Vui lòng nhập các trường");
+      toast.warn("Vui lòng nhập các trường");
     }
   };
   const clientId =
@@ -70,7 +72,7 @@ function Login() {
     RefreshTokenSetup(res);
     googleUser = [...googleUser, res.profileObj];
     dispatch(googleUserLogin(googleUser));
-    alert("Đăng nhập bằng Google thành công");
+    toast.success("Đăng nhập bằng Google thành công");
     googleUser.map((val) => {
       let checkAccount = user.some((e) => e.userName == val.email);
       if (!checkAccount) {
@@ -113,6 +115,7 @@ function Login() {
   });
   return (
     <div className="pt-20 pb-44 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
+      <ToastContainer />
       <Link href={ROUTER.Home}>
         <img
           alt="img"

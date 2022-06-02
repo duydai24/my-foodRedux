@@ -7,8 +7,9 @@ import Link from "next/link";
 import Router from "next/router";
 import Layout from "../../layout/layout";
 import { Helmet } from "react-helmet";
-import { useAlert } from "react-alert";
 import { ROUTER } from "../../routers/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TITLE = "My Food - Cart";
 
@@ -60,6 +61,7 @@ function Cart({ className, onClick }) {
 
   return (
     <Layout>
+      <ToastContainer />
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
@@ -154,7 +156,7 @@ function CartHanldle({ totalPrice, id, onClick }) {
   // let googleUserLoginLength = googleUser.length;
   const handleCheckout = () => {
     if (cartItem.length < 1) {
-      alert("Vui lòng thêm sản phẩm vào giỏ hàng");
+      toast.success("Vui lòng thêm sản phẩm vào giỏ hàng");
       Router.push("/Shop");
     } else {
       Router.push("/Checkout");

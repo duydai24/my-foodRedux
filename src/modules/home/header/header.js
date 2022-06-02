@@ -10,10 +10,11 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
 import { userLogin, googleUserLogin } from "../../../redux/action/userAction";
-import { MdOutlineDeleteForever } from "react-icons/md";
 import CartHover from "../../cart/cartHover";
 import { ROUTER } from "../../../routers/router";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Header({ onClick }) {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function Header({ onClick }) {
     const results = [];
     // const googleUser = [];
     dispatch(userLogin(results));
+    toast.success("Đăng xuất thành công !");
     // dispatch(googleUserLogin(googleUser));
     Router.push("/");
   };
@@ -136,6 +138,7 @@ function Header({ onClick }) {
                         >
                           LogOut
                         </button>
+                        <ToastContainer />
                       </div>
                     </div>
                   </div>

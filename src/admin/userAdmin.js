@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getBase64 } from "../lib/getBase64";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, fetchUser, updateUser } from "../redux/action/userAction";
-import { useAlert } from "react-alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UserAdmin() {
   const [imageFile, setImageFile] = useState("");
@@ -69,12 +70,12 @@ function UserAdmin() {
           passWord: "",
           role: "",
         });
-        alert("Thêm mới user thành công");
+        toast.success("Thêm mới user thành công");
       } else {
-        alert("Vui lòng nhập các trường");
+        toast.warn("Vui lòng nhập các trường");
       }
     } else {
-      alert("Tên tài khoản đã tồn tại");
+      toast.warn("Tên tài khoản đã tồn tại");
     }
     setButtonEdit(false);
   };
@@ -126,16 +127,16 @@ function UserAdmin() {
         passWord: "",
         role: "",
       });
-      alert("Update user thành công");
+      toast.success("Update user thành công");
     } else {
       console.log(editItem, "ko");
-      alert("Vui lòng nhập các trường");
+      toast.warn("Vui lòng nhập các trường");
     }
   };
   const handleDelete = (value, key, index) => {
     user.splice(key, 1);
     dispatch(deleteUser(user));
-    alert("Xoá user thành công");
+    toast.success("Xoá user thành công");
   };
   const handleButtonAdd = () => {
     setEditItem({
@@ -150,6 +151,7 @@ function UserAdmin() {
   };
   return (
     <div className="flex px-32 justify-around">
+      <ToastContainer />
       <div className="w-2/5">
         <p className="font-bold text-center text-xl">User information</p>
         <div className="flex flex-col justify-start mt-5">

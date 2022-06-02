@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin, updateUser } from "../../redux/action/userAction";
 import Router from "next/router";
 import Layout from "../../layout/layout";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UserCustom() {
   const [imageFile, setImageFile] = useState("");
@@ -102,23 +104,24 @@ function UserCustom() {
             userName: "",
             passWord: "",
           });
-          alert("Update user thành công");
-          alert("Bạn phải đăng nhập lại để tiếp tục");
+          toast.success("Update user thành công");
+          toast.warn("Bạn phải đăng nhập lại để tiếp tục");
           const results = [];
           dispatch(userLogin(results));
           Router.push("/Login");
         } else {
-          alert("Nhập lại mật khẩu không đúng");
+          toast.error("Nhập lại mật khẩu không đúng");
         }
       } else {
-        alert("Nhập mật cũ khẩu không đúng");
+        toast.error("Nhập mật cũ khẩu không đúng");
       }
     } else {
-      alert("Vui lòng nhập các trường");
+      toast.warn("Vui lòng nhập các trường");
     }
   };
   return (
     <Layout>
+      <ToastContainer />
       <div className="container lg:flex-row md:flex-col flex-col flex lg:p-32 md:p-20 mt-10 p-10 justify-between ">
         <div className="lg:w-1/3 md:w-full w-full">
           {buttonEdit !== false ? (

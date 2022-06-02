@@ -6,7 +6,8 @@ import {
   deleteProducts,
   updateProducts,
 } from "../redux/action/productsAction";
-import { useAlert } from "react-alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductsAdmin() {
   const [buttonAdd, setButtonAdd] = useState(false);
@@ -48,15 +49,15 @@ function ProductsAdmin() {
         quantity: "",
         categoryId: "",
       });
-      alert("Thêm mới sản phẩm thành công");
+      toast.success("Thêm mới sản phẩm thành công");
     } else {
-      alert("Vui lòng nhập các trường");
+      toast.warn("Vui lòng nhập các trường");
     }
   };
   const handleDeleteProduct = (key) => {
     products.splice(key, 1);
     dispatch(deleteProducts(products));
-    alert("Xoá sản phẩm thành công");
+    toast.success("Xoá sản phẩm thành công");
   };
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -124,9 +125,9 @@ function ProductsAdmin() {
         quantity: "",
         categoryId: "",
       });
-      alert("Update sản phẩm thành công");
+      toast.success("Update sản phẩm thành công");
     } else {
-      alert("Vui lòng nhập các trường");
+      toast.warn("Vui lòng nhập các trường");
     }
   };
   const handlCancelProducts = () => {
@@ -142,6 +143,7 @@ function ProductsAdmin() {
   };
   return (
     <div>
+      <ToastContainer />
       <h2 className="font-bold mb-10">Products</h2>
       <div className="flex w-full justify-between">
         <div className="w-[45%]">

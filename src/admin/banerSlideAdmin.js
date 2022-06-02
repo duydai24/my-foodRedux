@@ -6,7 +6,8 @@ import {
   deleteBannerSlide,
   updateBannerSlide,
 } from "../redux/action/dbAction";
-import { useAlert } from "react-alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function BannerSlideAdmin() {
   const [buttonEdit, setButtonEdit] = useState(false);
@@ -75,9 +76,9 @@ function BannerSlideAdmin() {
       setImageFile({
         image: "",
       });
-      alert("Thêm mới banner thành công");
+      toast.success("Thêm mới banner thành công");
     } else {
-      alert("Vui lòng nhập banner");
+      toast.warn("Vui lòng nhập banner");
     }
     setButtonAdd(false);
   };
@@ -92,14 +93,15 @@ function BannerSlideAdmin() {
       setImageFile({
         image: "",
       });
-      alert("Update banner thành công");
+      toast.success("Update banner thành công");
     } else {
-      alert("Vui lòng nhập banner");
+      toast.warn("Vui lòng nhập banner");
     }
   };
 
   return (
     <div className="w-full py-10 flex justify-around">
+      <ToastContainer />
       <div className="">
         {banerSlide.map((value, key) => (
           <div key={key}>

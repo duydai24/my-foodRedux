@@ -9,6 +9,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { BiFirstPage } from "react-icons/bi";
 import { BiLastPage } from "react-icons/bi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
   if (filterId !== 0) {
@@ -122,10 +124,9 @@ function ProductsMenuItems({
   name,
   quantity,
   price,
-  gif,
   id,
-  // products,
   saleNumber,
+  // products,
 }) {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
@@ -153,6 +154,7 @@ function ProductsMenuItems({
           )
         );
         dispatch(addCart(cartItem, totalQuantity, totalPrice));
+        toast.success("Thêm vào giỏ hàng thành công");
       } else {
         let new_cartItem = {
           id,
@@ -189,7 +191,7 @@ function ProductsMenuItems({
       );
       dispatch(addCart(cartItem, totalQuantity, totalPrice));
     }
-    alert("Thêm vào giỏ hàng thành công");
+    toast.success("Thêm vào giỏ hàng thành công");
     quantity -= quantityItem;
     let new_products;
     let filterProducts = products.filter((e) => e.id === id);
@@ -270,12 +272,13 @@ function ProductsMenuItems({
           <span className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
             <MdFavorite />
           </span>
-          <span
+          <button
             onClick={() => addToCart(id, name, img, price)}
             className="absolute top-12 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
           >
             <BsFillCartPlusFill />
-          </span>
+          </button>
+          <ToastContainer />
         </div>
       </div>
     </div>

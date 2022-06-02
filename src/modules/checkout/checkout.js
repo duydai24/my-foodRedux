@@ -9,6 +9,8 @@ import { addCart } from "../../redux/action/cartAction";
 import { addOrder } from "../../redux/action/oderAction";
 import { getStatistica } from "../../redux/action/statisticaAction";
 import { googleUserLogin } from "../../redux/action/userAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Checkout() {
   const [name, setName] = useState();
@@ -64,14 +66,15 @@ function Checkout() {
       dispatch(getStatistica(statisticaItem, totalQuantity, totalPrice));
       cartItem = [];
       dispatch(addCart(cartItem));
-      alert("Đặt hàng thành công");
+      toast.success("Đặt hàng thành công");
       Router.push("/");
     } else {
-      alert("Vui lòng điền các thông tin cần thiết(có dấu *)");
+      toast.warn("Vui lòng điền các thông tin cần thiết(có dấu *)");
     }
   };
   return (
     <div className="py-20 lg:w-3/4 lg:h-11/12 w-11/12 h-3/4 mx-auto lg:mt-[7%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly items-center">
+      <ToastContainer />
       <div className="w-11/12 lg:w-1/2">
         <p className="text-black uppercase text-center font-bold text-2xl">
           CHECK OUT

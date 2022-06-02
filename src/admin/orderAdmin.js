@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { handelOrder } from "../redux/action/oderAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function OrderAdmin() {
   const { order } = useSelector((state) => state.orders);
@@ -11,13 +13,13 @@ function OrderAdmin() {
     let new_order = order.filter((e) => e.id == id);
     new_order.map((value) => (value.status = "Đã huỷ đơn hàng"));
     dispatch(handelOrder(order));
-    alert("Huỷ đơn hàng thành công");
+    toast.success("Huỷ đơn hàng thành công");
   };
   const doneOrderProduct = (id) => {
     let new_order = order.filter((e) => e.id == id);
     new_order.map((value) => (value.status = "Đã xác nhận đơn hàng"));
     dispatch(handelOrder(order));
-    alert("Xác nhận đơn hàng thành công");
+    toast.success("Xác nhận đơn hàng thành công");
   };
   return (
     <div>
@@ -87,6 +89,7 @@ function OrderAdmin() {
             );
           })}
       </div>
+      <ToastContainer />
     </div>
   );
 }
