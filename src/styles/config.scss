@@ -50,3 +50,9 @@
         opacity: 1;
     }
 }
+input,
+textarea,
+a,
+button {
+    transition: all 200ms ease-in-out;
+}
