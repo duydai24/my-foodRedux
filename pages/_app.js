@@ -6,6 +6,9 @@ import store from "../src/redux/store";
 import OnscrollTop from "../src/layout/onScrollTop";
 const TITLE = "My Food";
 import { useEffect, useState } from "react";
+import { WebpMachine } from "webp-hero";
+const webpMachine = new WebpMachine();
+webpMachine.polyfillDocument();
 
 function MyApp({ Component, pageProps }) {
   const [loaded, setLoaded] = useState(false);

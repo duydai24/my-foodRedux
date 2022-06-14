@@ -35,7 +35,7 @@ function MenuMobile({ className, onClick }) {
       <div className="relative">
         <div
           className={
-            "transition-all bg-[url('/bgMobileMenu.webp')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-63px)] " +
+            "transition-all bg-[url('/bgMobileMenu.jpg')] bg-cover w-[80%] -translate-x-full z-50 fixed top-[64px] h-[calc(100vh-63px)] " +
             className
           }
         >
@@ -44,7 +44,7 @@ function MenuMobile({ className, onClick }) {
               {accountLogin.length > 0 ? (
                 <div className="flex py-2 items-center">
                   {accountLoginImage !== "" ? (
-                    <Link href={ROUTER.UserCustom}>
+                    <Link href={ROUTER.UserCustom} passHref>
                       <img
                         alt="img"
                         src={accountLoginImage}

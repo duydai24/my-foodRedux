@@ -3577,6 +3577,11 @@ webidl-conversions@^3.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
   integrity sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=
 
+webp-hero@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/webp-hero/-/webp-hero-0.0.2.tgz#7adf20435ecfca73c764a3ad532a4304f15db52d"
+  integrity sha512-XDN8k2DZerXAawblkGKbcRXAz3WjY6Id5fTmrsOvblzFg5jELfoDCOxRDHD3zIGJo3OPEjLRsVS6Kzl36HxjqA==
+
 whatwg-url@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
