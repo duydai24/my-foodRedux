@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { BsArrowUpCircleFill } from "react-icons/bs";
 import { ToastContainer } from "react-toastify";
 
