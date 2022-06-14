@@ -144,7 +144,7 @@ function ProductsMenuItems({
           price: price,
           quantity: quantityItem,
         };
-        cartItem = [...cartItem, new_cartItem];
+        cartItem.push(new_cartItem);
         let totalQuantity = 0;
         let totalPrice = 0;
         cartItem.map(
@@ -226,7 +226,7 @@ function ProductsMenuItems({
   };
   return (
     <div className="relative cursor-pointer shadow-xl rounded-xl ProductsMenuItems flex flex-col justify-between p-4">
-      <Link href={`/ProductsShop/${id}`}>
+      <Link href={`/ProductsShop/${id}`} passHref>
         <img
           alt="img"
           className=" border-white rounded w-44 h-44"
@@ -248,7 +248,7 @@ function ProductsMenuItems({
         )}
 
         <div>
-          <Link href={`/ProductsShop/${id}`}>
+          <Link href={`/ProductsShop/${id}`} passHref>
             <p className="font-bold text-black text-2xl">{name}</p>
           </Link>
           <p className="text-xs">Còn {quantity} sản phẩm</p>

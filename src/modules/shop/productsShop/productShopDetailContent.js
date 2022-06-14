@@ -9,8 +9,7 @@ import {
 } from "../../../redux/action/productsAction";
 import Star from "../../../lib/star";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function ProductsShopDetailContent() {
   const dispatch = useDispatch();
@@ -50,7 +49,7 @@ function ProductsShopDetailContent() {
         price: price,
         quantity: product.quantityNumber,
       };
-      cartItem = [...cartItem, new_cartItem];
+      cartItem.push(new_cartItem);
       cartItem.map(
         (value) => (
           (totalQuantity += value.quantity),
@@ -200,7 +199,6 @@ function ProductsShopDetailContentItems({
             </span>
             ADD TO CART
           </button>
-          <ToastContainer />
           <span className="bg-gray-300 p-3 rounded-full hover:text-[#ff514e]">
             <MdFavorite />
           </span>
