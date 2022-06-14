@@ -167,7 +167,7 @@ function IconsHeader({ text, icon, source }) {
     color: router.pathname == source ? "#ff514e" : "",
   };
   return (
-    <Link href={source}>
+    <Link href={source} passHref>
       <div className="flex cursor-pointer items-center">
         <span
           style={style}
