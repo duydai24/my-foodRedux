@@ -1,4 +1,11 @@
-import * as types from "../types";
+import {
+  GET_USERS,
+  ACOUNT_LOGIN,
+  LOGOUT,
+  DELETE_USERS,
+  UPDATE_USERS,
+  ADD_USERS_GOOGLE,
+} from "../types";
 
 export const initialState = {
   user: [
@@ -16,53 +23,55 @@ export const initialState = {
       role: "user",
     },
   ],
-
   accountLogin: [],
   googleUser: [],
-  faceBookUser: [],
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_USERS:
+    case GET_USERS:
+      // const newDataUser = [...state.user];
       return {
         ...state,
-        user: action.payload.results,
+        user: [...state.user, action.payload],
       };
-    case types.ACOUNT_LOGIN:
+    case ACOUNT_LOGIN:
       return {
         ...state,
-        accountLogin: action.payload.results,
+        accountLogin: action.payload,
       };
-    case types.EDIT_LOGIN:
+    case LOGOUT:
       return {
         ...state,
-        accountLogin: action.payload.results,
+        accountLogin: [],
       };
-    case types.LOGOUT:
-      state = null;
+    case DELETE_USERS:
+      const newData = [...state.user];
+      newData.splice(action.payload, 1);
       return {
         ...state,
-        accountLogin: action.payload.results,
+        user: newData,
       };
-    case types.DELETE_USERS:
+    case UPDATE_USERS:
+      state.user.splice(action.payload.id, 1, action.payload.new_User);
       return {
         ...state,
-        user: action.payload.user,
+        user: state.user,
       };
-    case types.UPDATE_USERS:
+
+    case ADD_USERS_GOOGLE:
+      const idLogin = state.user.filter((e) => e.userName == action.payload);
+      const results = [
+        {
+          id: idLogin[0].id,
+          image: idLogin[0].image,
+          userName: idLogin[0].userName,
+          passWord: "******",
+          role: idLogin[0].role,
+        },
+      ];
       return {
         ...state,
-        user: action.payload.user,
-      };
-    case types.ADD_USERS_GOOGLE:
-      return {
-        ...state,
-        googleUser: action.payload.googleUser,
-      };
-    case types.ADD_USERS_FACEBOOK:
-      return {
-        ...state,
-        faceBookUser: action.payload.faceBookUser,
+        accountLogin: results,
       };
     default:
       return state;

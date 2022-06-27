@@ -7,12 +7,21 @@ import OnscrollTop from "../src/layout/onScrollTop";
 const TITLE = "My Food";
 import { useEffect, useState } from "react";
 import { WebpMachine } from "webp-hero";
+import Loading from "../src/layout/loading";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const webpMachine = new WebpMachine();
     webpMachine.polyfillDocument();
   });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1 * 1000);
+  }, []);
 
   const [loaded, setLoaded] = useState(false);
   useEffect(() => setLoaded(true), []);
@@ -22,8 +31,11 @@ function MyApp({ Component, pageProps }) {
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
+      {loading == false ? "" : <Loading />}
       <Provider store={store}>
-        <OnscrollTop>{loaded && <Component {...pageProps} />}</OnscrollTop>
+        <OnscrollTop>
+          {loaded && !loading && <Component {...pageProps} />}
+        </OnscrollTop>
       </Provider>
     </div>
   );

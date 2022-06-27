@@ -1,36 +1,42 @@
 import React from "react";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
 import { handelOrder } from "../redux/action/oderAction";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import Admin from "./admin";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { orderSelector } from "../redux/selector/orderSelector";
 
-function OrderAdmin() {
-  const { order } = useSelector((state) => state.orders);
-  const dispatch = useDispatch();
+const componentSelector = () =>
+  createSelector([orderSelector], ({ order }) => {
+    return {
+      order,
+    };
+  });
 
+function OrderAdmin({ dispatch, order }) {
   const cancelOrderProduct = (id) => {
     let new_order = order.filter((e) => e.id == id);
-    new_order.map((value) => (value.status = "Đã huỷ đơn hàng"));
+    new_order.forEach((value) => (value.status = "Đã huỷ đơn hàng"));
     dispatch(handelOrder(order));
     toast.success("Huỷ đơn hàng thành công");
   };
   const doneOrderProduct = (id) => {
     let new_order = order.filter((e) => e.id == id);
-    new_order.map((value) => (value.status = "Đã xác nhận đơn hàng"));
+    new_order.forEach((value) => (value.status = "Đã xác nhận đơn hàng"));
     dispatch(handelOrder(order));
     toast.success("Xác nhận đơn hàng thành công");
   };
   return (
-    <div>
-      <div className="container pb-24 pt-10 mx-2">
+    <Admin>
+      <div className="container pb-24 pt-10">
         <h1 className="uppercase text-center font-bold">
           Danh sách sản phẩm đã mua
         </h1>
         <div className="flex justify-between mt-10">
           <p className="font-bold text-center w-[250px]">Họ Tên</p>
           <p className="font-bold text-center w-[100px]">Địa chỉ</p>
-          <p className="font-bold text-center w-[100px]">Số điện thoại</p>
+          <p className="font-bold text-center w-[200px]">Số điện thoại</p>
           <p className="font-bold text-center w-[100px]">Ghi chú</p>
           <p className="font-bold text-center w-[300px]">Trạng thái</p>
           <p className="font-bold text-center w-[100px]">Tuỳ chọn</p>
@@ -42,10 +48,10 @@ function OrderAdmin() {
                 <div className="flex justify-between mt-14 rounded-xl py-5 shadow-xl pr-5 bg-white">
                   <p className="text-center w-[250px]">{value.name}</p>
                   <p className="text-center w-[100px]">{value.address}</p>
-                  <p className="text-center w-[100px]">{value.phone}</p>
+                  <p className="text-center w-[200px]">{value.phone}</p>
                   <p className="text-center w-[100px]">{value.note}</p>
                   <p className="text-center w-[300px]">{value.status}</p>
-                  <Link href={"/Order/orderProduct/" + value.id}>
+                  <Link href={"/Order/orderProduct/" + value.id} passHref>
                     <p className="text-blue-700 cursor-pointer">Xem chi tiết</p>
                   </Link>
                 </div>
@@ -89,8 +95,7 @@ function OrderAdmin() {
             );
           })}
       </div>
-      <ToastContainer />
-    </div>
+    </Admin>
   );
 }
-export default OrderAdmin;
+export default connect(componentSelector)(OrderAdmin);

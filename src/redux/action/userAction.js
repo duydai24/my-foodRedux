@@ -1,77 +1,57 @@
-import * as types from "../types";
+import {
+  GET_USERS,
+  ACOUNT_LOGIN,
+  ADD_USERS,
+  DELETE_USERS,
+  UPDATE_USERS,
+  LOGOUT,
+  ADD_USERS_GOOGLE,
+} from "../types";
 
-export const fetchUser = (results) => async (dispatch) => {
+export const getUser = (results) => async (dispatch) => {
   dispatch({
-    type: types.GET_USERS,
-    payload: {
-      results,
-    },
+    type: GET_USERS,
+    payload: results,
   });
 };
 
 export const userLogin = (results) => async (dispatch) => {
   dispatch({
-    type: types.ACOUNT_LOGIN,
-    payload: {
-      results,
-    },
-  });
-};
-export const editLogin = (results) => async (dispatch) => {
-  dispatch({
-    type: types.EDIT_LOGIN,
-    payload: {
-      results,
-    },
+    type: ACOUNT_LOGIN,
+    payload: results,
   });
 };
 
-export const createUser = (results) => async (dispatch) => {
+export const addUser = (results) => async (dispatch) => {
   dispatch({
-    type: types.ADD_USERS,
-    payload: {
-      results,
-    },
-  });
-};
-export const deleteUser = (user) => async (dispatch) => {
-  dispatch({
-    type: types.DELETE_USERS,
-    payload: {
-      user,
-    },
-  });
-};
-export const updateUser = (user) => async (dispatch) => {
-  dispatch({
-    type: types.UPDATE_USERS,
-    payload: {
-      user,
-    },
+    type: ADD_USERS,
+    payload: results,
   });
 };
 
-export const LogOut = (results) => async (dispatch) => {
+export const deleteUser = (key) => async (dispatch) => {
   dispatch({
-    type: types.LOGOUT,
-    payload: {
-      results,
-    },
+    type: DELETE_USERS,
+    payload: key,
   });
 };
-export const googleUserLogin = (googleUser) => async (dispatch) => {
+
+export const updateUser = (id, new_User) => async (dispatch) => {
   dispatch({
-    type: types.ADD_USERS_GOOGLE,
-    payload: {
-      googleUser,
-    },
+    type: UPDATE_USERS,
+    payload: { id, new_User },
   });
 };
-export const faceBookUser = (faceBookUser) => async (dispatch) => {
+
+export const LogOut = () => async (dispatch) => {
   dispatch({
-    type: types.ADD_USERS_FACEBOOK,
-    payload: {
-      faceBookUser,
-    },
+    type: LOGOUT,
+  });
+};
+
+export const googleUserLogin = (email) => async (dispatch) => {
+  dispatch({
+    type: ADD_USERS_GOOGLE,
+    payload: email,
   });
 };

@@ -2,22 +2,37 @@ import react, { useState } from "react";
 import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { addCart } from "../../../redux/action/cartAction";
-import { updateProducts } from "../../../redux/action/productsAction";
+import { addCart, updateCart } from "../../../redux/action/cartAction";
+import { updateQuantityNumberProducts } from "../../../redux/action/productsAction";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { BiFirstPage } from "react-icons/bi";
 import { BiLastPage } from "react-icons/bi";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { batch, connect } from "react-redux";
+import { cartSelector } from "../../../redux/selector/cartSelector";
 
-function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
+const componentSelector = () =>
+  createSelector([cartSelector], ({ cartItem }) => {
+    return {
+      cartItem,
+    };
+  });
+
+function ProductsMenu({
+  products,
+  filterId,
+  inputSearch,
+  priceHandle,
+  cartItem,
+  dispatch,
+}) {
   if (filterId !== 0) {
     products = products.filter((e) => e.categoryId === filterId);
   }
   products = products.filter((value) =>
-    value.name.toLowerCase().includes(inputSearch.toLowerCase())
+    value.name?.toLowerCase().includes(inputSearch.toLowerCase())
   );
   products = products.filter((value) => value.price < priceHandle);
 
@@ -66,7 +81,8 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
               gif={value.gif}
               id={value.id}
               saleNumber={value.saleNumber}
-              // products={products}
+              cartItem={cartItem}
+              dispatch={dispatch}
             />
           ))
         ) : (
@@ -96,8 +112,8 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
             onClick={() => handlePage(key)}
             className={
               key + 1 === currentPage
-                ? "w-8 h-8 font-bold hover:text-red-redd text-white bg-red-redd rounded-full"
-                : "w-8 h-8 font-bold hover:text-red-redd"
+                ? "w-8 h-8 font-bold lg:hover:text-red-redd text-white bg-red-redd rounded-full"
+                : "w-8 h-8 font-bold lg:hover:text-red-redd"
             }
           >
             {value}
@@ -119,6 +135,7 @@ function ProductsMenu({ products, filterId, inputSearch, priceHandle }) {
     </div>
   );
 }
+
 function ProductsMenuItems({
   img,
   name,
@@ -126,15 +143,12 @@ function ProductsMenuItems({
   price,
   id,
   saleNumber,
-  // products,
+  cartItem,
+  dispatch,
 }) {
-  const dispatch = useDispatch();
-  const { cartItem } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.product);
-  let quantityItem = 1;
-
+  const quantityNumber = 1;
   const addToCart = (id, name, img, price) => {
-    const checkCart = cartItem.some((el) => el.id === id);
+    const checkCart = cartItem.some((e) => e.id === id);
     if (!checkCart) {
       if (saleNumber === undefined) {
         let new_cartItem = {
@@ -142,87 +156,24 @@ function ProductsMenuItems({
           name: name,
           image: img,
           price: price,
-          quantity: quantityItem,
+          quantity: 1,
         };
-        cartItem.push(new_cartItem);
-        let totalQuantity = 0;
-        let totalPrice = 0;
-        cartItem.map(
-          (value) => (
-            (totalQuantity += value.quantity),
-            (totalPrice += value.quantity * value.price)
-          )
-        );
-        dispatch(addCart(cartItem, totalQuantity, totalPrice));
+        dispatch(addCart(new_cartItem));
       } else {
         let new_cartItem = {
           id,
           name: name,
           image: img,
           price: (price * (100 - saleNumber)) / 100,
-          quantity: quantityItem,
+          quantity: 1,
         };
-        cartItem = [...cartItem, new_cartItem];
-
-        let totalQuantity = 0;
-        let totalPrice = 0;
-        cartItem.map(
-          (value) => (
-            (totalQuantity += value.quantity),
-            (totalPrice += value.quantity * value.price)
-          )
-        );
-        dispatch(addCart(cartItem, totalQuantity, totalPrice));
+        dispatch(addCart(new_cartItem));
       }
     } else {
-      let filterCart = cartItem.filter((e) => {
-        return e.id === id;
-      });
-      let key = cartItem.indexOf(...filterCart);
-      cartItem[key].quantity = cartItem[key].quantity + 1;
-      let totalQuantity = 0;
-      let totalPrice = 0;
-      cartItem.map(
-        (value) => (
-          (totalQuantity += value.quantity),
-          (totalPrice += value.quantity * value.price)
-        )
-      );
-      dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      dispatch(updateCart(id, quantityNumber));
     }
     toast.success("Thêm vào giỏ hàng thành công");
-    quantity -= quantityItem;
-    let new_products;
-    let filterProducts = products.filter((e) => e.id === id);
-    filterProducts.map((value) => {
-      if (value.saleNumber === undefined) {
-        new_products = {
-          id: id,
-          name: name,
-          description: value.description,
-          image: img,
-          price: price,
-          quantity: quantity,
-          categoryId: value.categoryId,
-        };
-        products.splice(id, 1, new_products);
-        dispatch(updateProducts(products));
-      } else {
-        new_products = {
-          id: id,
-          name: name,
-          description: value.description,
-          image: img,
-          price: price,
-          quantity: quantity,
-          categoryId: value.categoryId,
-          gif: value.gif,
-          saleNumber: value.saleNumber,
-        };
-      }
-      products.splice(id, 1, new_products);
-      dispatch(updateProducts(products));
-    });
+    dispatch(updateQuantityNumberProducts(id, quantityNumber));
   };
   return (
     <div className="relative cursor-pointer shadow-xl rounded-xl ProductsMenuItems flex flex-col justify-between p-4">
@@ -235,9 +186,6 @@ function ProductsMenuItems({
           width={100}
         />
       </Link>
-      {/* <span className="text-red-redd bg-yellow-300 px-2 font-bold text-sm text-center h-5 absolute top-2 left-0 rounded-lg">
-            - {saleNumber}%
-          </span> */}
       <div>
         {saleNumber !== undefined ? (
           <span className="text-red-redd text-sm font-bold text-center w-0 h-8 absolute top-0 left-0 saleNumberProducts">
@@ -267,21 +215,20 @@ function ProductsMenuItems({
             $ {price}
           </span>
         )}
-        <div className="lg:invisible absolute top-2 right-14 lg:right-2 SpanProductsMenuItemsHover">
-          <span className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] opacity-60">
+        <div className="lg:invisible absolute top-2 right-1zz lg:right-2 lg:opacity-10 opacity-60 SpanProductsMenuItemsHover">
+          <button className="absolute top-3 rounded-full p-2 text-center text-white bg-[#222222] ">
             <MdFavorite />
-          </span>
+          </button>
           <button
-            onClick={() => addToCart(id, name, img, price)}
-            className="absolute top-12 rounded-full p-2 text-center text-white bg-[#222222] opacity-60"
+            onClick={() => addToCart(id, name, img, price, saleNumber)}
+            className="absolute top-12 rounded-full p-2 text-center text-white bg-[#222222]"
           >
             <BsFillCartPlusFill />
           </button>
-          <ToastContainer />
         </div>
       </div>
     </div>
   );
 }
 
-export default ProductsMenu;
+export default connect(componentSelector)(ProductsMenu);

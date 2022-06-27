@@ -1,4 +1,4 @@
-import * as types from "../types";
+import { GET_CATEGORYS } from "../types";
 
 export const initialState = {
   category: [
@@ -31,7 +31,7 @@ export const initialState = {
 };
 export const categoryReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_CATEGORYS:
+    case GET_CATEGORYS:
       return {
         ...state,
         category: action.payload,

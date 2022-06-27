@@ -3,20 +3,25 @@ import { AiOutlineMail } from "react-icons/ai";
 import { BiLock } from "react-icons/bi";
 import Link from "next/link";
 import Router from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../../redux/action/userAction";
-import { isFulfilled } from "@reduxjs/toolkit";
+import { connect } from "react-redux";
+import { getUser } from "../../redux/action/userAction";
+import { createSelector } from "reselect";
 import { ROUTER } from "../../routers/router";
+import { userSelector } from "../../redux/selector/userSelector";
+import { toast } from "react-toastify";
 
-function Register() {
-  const { user } = useSelector((state) => state.user);
+const componentSelector = () =>
+  createSelector([userSelector], ({ user }) => {
+    return {
+      user,
+    };
+  });
 
+function Register({ dispatch, user }) {
   const [userName, setUserName] = useState();
   const [passWord, setPassWord] = useState();
   const [checkPassWord, setCheckPassWord] = useState();
   const [isRegister, setIsRegister] = useState(false);
-
-  const dispatch = useDispatch();
 
   const handleUser = (name) => {
     setUserName(name);
@@ -39,18 +44,17 @@ function Register() {
             passWord,
             role: "user",
           };
-          user.push(results);
-          dispatch(fetchUser(user));
+          dispatch(getUser(results));
           setIsRegister(true);
-          alert("Đăng kí thành công");
+          toast.success("Đăng kí thành công");
         } else {
-          alert("Nhập lại mật khẩu không đúng");
+          toast.error("Nhập lại mật khẩu không đúng");
         }
       } else {
-        alert("Tên tài khoản đã tồn tại");
+        toast.error("Tên tài khoản đã tồn tại");
       }
     } else {
-      alert("Vui lòng nhập các trường");
+      toast.warn("Vui lòng nhập các trường");
     }
   };
 
@@ -62,7 +66,7 @@ function Register() {
 
   return (
     <div className="py-32 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
-      <Link href={ROUTER.Home}>
+      <Link href={ROUTER.Home} passHref>
         <img
           alt="img"
           className="hidden lg:block w-[40%]"
@@ -71,7 +75,7 @@ function Register() {
       </Link>
       <div className="">
         <p className="text-black uppercase font-bold text-2xl">REGISTER</p>
-        <p className="text-gray-500">Don't have an account?</p>
+        <p className="text-gray-500">Dont have an account?</p>
         <div className="">
           <InputLogin
             title={"Email:"}
@@ -100,14 +104,6 @@ function Register() {
             value={checkPassWord}
             onChange={handleCheckPass}
           />
-          {/* <div className="mt-5">
-            <input
-              className="w-5 h-5"
-              type="checkbox"
-              placeholder="Save your password"
-            />
-            <span className="ml-5">Save your password</span>
-          </div> */}
         </div>
         <button
           onClick={handleRegister}
@@ -148,4 +144,4 @@ function InputLogin({
   );
 }
 
-export default Register;
+export default connect(componentSelector)(Register);

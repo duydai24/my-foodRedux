@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { getBase64 } from "../../lib/getBase64";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogin, updateUser } from "../../redux/action/userAction";
+import { updateUser, LogOut } from "../../redux/action/userAction";
 import Router from "next/router";
 import Layout from "../../layout/layout";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { userSelector } from "../../redux/selector/userSelector";
 
-function UserCustom() {
+const componentSelector = () =>
+  createSelector([userSelector, userSelector], ({ user }, { accountLogin }) => {
+    return {
+      user,
+      accountLogin,
+    };
+  });
+
+function UserCustom({ dispatch, user, accountLogin }) {
   const [imageFile, setImageFile] = useState("");
   const [editItem, setEditItem] = useState({});
   const [buttonEdit, setButtonEdit] = useState(false);
   const [index, setIndex] = useState(0);
-  const { user } = useSelector((state) => state.user);
-  const { accountLogin } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   let UserName;
   let Password;
   let image;
   let idUser;
   let Role;
-  accountLogin.map((value) => {
+  accountLogin.forEach((value) => {
     idUser = value.id;
     UserName = value.userName;
     Password = value.passWord;
@@ -75,10 +81,7 @@ function UserCustom() {
     });
   };
   const handleLogOut = () => {
-    const results = [];
-    // const googleUser = [];
-    dispatch(userLogin(results));
-    // dispatch(googleUserLogin(googleUser));
+    dispatch(LogOut());
     Router.push("/");
   };
   const handlUpdate = (id) => {
@@ -96,8 +99,7 @@ function UserCustom() {
             passWord: editItem.newPassWord,
             role: Role,
           };
-          user.splice(id, 1, new_User);
-          dispatch(updateUser(user));
+          dispatch(updateUser(id, new_User));
           setButtonEdit(false);
           setEditItem({
             image: "",
@@ -106,8 +108,7 @@ function UserCustom() {
           });
           toast.success("Update user thành công");
           toast.warn("Bạn phải đăng nhập lại để tiếp tục");
-          const results = [];
-          dispatch(userLogin(results));
+          dispatch(LogOut());
           Router.push("/Login");
         } else {
           toast.error("Nhập lại mật khẩu không đúng");
@@ -121,7 +122,6 @@ function UserCustom() {
   };
   return (
     <Layout>
-      <ToastContainer />
       <div className="container lg:flex-row md:flex-col flex-col flex lg:p-32 md:p-20 mt-10 p-10 justify-between ">
         <div className="lg:w-1/3 md:w-full w-full">
           {buttonEdit !== false ? (
@@ -200,7 +200,24 @@ function UserCustom() {
             </div>
           )}
           {buttonEdit == false ? (
-            ""
+            <div>
+              {accountLogin.map((value, key) => (
+                <div key={key} className="flex items-center">
+                  <button
+                    onClick={() => handleEdit(value, key, index)}
+                    className="bg-red-redd text-white px-2 rounded my-10 mr-5"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleLogOut()}
+                    className="text-white px-2 bg-red-redd lg:block md:block rounded"
+                  >
+                    LogOut
+                  </button>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="flex">
               <button
@@ -217,26 +234,9 @@ function UserCustom() {
               </button>
             </div>
           )}
-          {accountLogin.map((value, key) => (
-            <div className="flex items-center">
-              <button
-                key={key}
-                onClick={() => handleEdit(value, key, index)}
-                className="bg-red-redd text-white px-2 rounded my-10 mr-5"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleLogOut()}
-                className="text-white px-2 bg-red-redd lg:block md:block rounded"
-              >
-                LogOut
-              </button>
-            </div>
-          ))}
         </div>
       </div>
     </Layout>
   );
 }
-export default UserCustom;
+export default connect(componentSelector)(UserCustom);

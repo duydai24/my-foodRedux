@@ -46,15 +46,13 @@ function SanwichVideo() {
               _open
             }
           >
-            <iframe
+            {/* <iframe
               width="760"
               height="415"
               src="https://www.youtube.com/embed/exeuLwv57nU"
               title="YouTube video player"
-              // frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              // allowFullscreen
-            ></iframe>
+            ></iframe> */}
           </div>
         </div>
       </div>

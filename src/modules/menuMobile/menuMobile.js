@@ -6,28 +6,33 @@ import { BsNewspaper } from "react-icons/bs";
 import { FaStore } from "react-icons/fa";
 import Link from "next/link";
 import { HiUserCircle } from "react-icons/hi";
-import { useSelector, useDispatch } from "react-redux";
-import { userLogin } from "../../redux/action/userAction";
+import { LogOut } from "../../redux/action/userAction";
 import Router from "next/router";
 import { ROUTER } from "../../routers/router";
 import { useRouter } from "next/router";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { userSelector } from "../../redux/selector/userSelector";
 
-function MenuMobile({ className, onClick }) {
-  const dispatch = useDispatch();
-  const { accountLogin } = useSelector((state) => state.user);
+const componentSelector = () =>
+  createSelector([userSelector], ({ accountLogin }) => {
+    return {
+      accountLogin,
+    };
+  });
 
+function MenuMobile({ className, onClick, dispatch, accountLogin }) {
   let accountLoginRole;
   let accountLoginImage;
   let accountLoginName;
   accountLogin &&
-    accountLogin.map((value) => {
+    accountLogin.forEach((value) => {
       accountLoginRole = value.role;
       accountLoginName = value.userName;
       accountLoginImage = value.image;
     });
   const handleLogOut = () => {
-    const results = [];
-    dispatch(userLogin(results));
+    dispatch(LogOut());
     Router.push("/");
   };
   return (
@@ -182,4 +187,4 @@ function IconsHeader({ text, icon, source }) {
     </Link>
   );
 }
-export default MenuMobile;
+export default connect(componentSelector)(MenuMobile);

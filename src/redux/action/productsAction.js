@@ -1,61 +1,55 @@
-import * as types from "../types";
+import {
+  ADD_PRODUCTS,
+  DELETE_PRODUCTS,
+  UPDATE_PRODUCTS,
+  ADD_SALE,
+  DELETE_SALE,
+  UPDATE_QUANTITY_PRODUCTS,
+} from "../types";
 
-export const addProducts = (products) => async (dispatch) => {
+export const addProducts = (new_products) => async (dispatch) => {
   dispatch({
-    type: types.ADD_PRODUCTS,
+    type: ADD_PRODUCTS,
+    payload: new_products,
+  });
+};
+export const deleteProducts = (key, products) => async (dispatch) => {
+  dispatch({
+    type: DELETE_PRODUCTS,
+    payload: { key, products },
+  });
+};
+export const updateProducts = (id, new_products) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_PRODUCTS,
     payload: {
-      products,
+      id,
+      new_products,
     },
   });
 };
-export const deleteProducts = (products) => async (dispatch) => {
-  dispatch({
-    type: types.DELETE_PRODUCTS,
-    payload: {
-      products,
-    },
-  });
-};
-export const updateProducts = (products) => async (dispatch) => {
-  dispatch({
-    type: types.UPDATE_PRODUCTS,
-    payload: {
-      products,
-    },
-  });
-};
-export const quantityNumberProducts =
-  (product, quantityNumber) => async (dispatch) => {
+export const updateQuantityNumberProducts =
+  (id, quantityNumber) => async (dispatch) => {
     dispatch({
-      type: types.QUANTITY_PRODUCTS,
-      payload: {
-        product,
-        quantityNumber,
-      },
+      type: UPDATE_QUANTITY_PRODUCTS,
+      payload: { id, quantityNumber },
     });
   };
-export const updateQuantity = (products, quantity) => async (dispatch) => {
+export const addSale = (key, new_Sale) => async (dispatch) => {
   dispatch({
-    type: types.UPDATE_QUANTITY,
+    type: ADD_SALE,
     payload: {
-      products,
-      quantity,
+      key,
+      new_Sale,
     },
   });
 };
-export const addSale = (sale) => async (dispatch) => {
+export const deleteSale = (key, new_Sale) => async (dispatch) => {
   dispatch({
-    type: types.ADD_SALE,
+    type: DELETE_SALE,
     payload: {
-      sale,
-    },
-  });
-};
-export const deleteSale = (sale) => async (dispatch) => {
-  dispatch({
-    type: types.DELETE_SALE,
-    payload: {
-      sale,
+      key,
+      new_Sale,
     },
   });
 };

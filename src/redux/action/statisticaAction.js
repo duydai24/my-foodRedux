@@ -1,13 +1,8 @@
-import * as types from "../types";
+import { GET_STATISTICA } from "../types";
 
-export const getStatistica =
-  (statisticaItem, totalQuantity, totalPrice) => async (dispatch) => {
-    dispatch({
-      type: types.GET_STATISTICA,
-      payload: {
-        statisticaItem,
-        totalQuantity,
-        totalPrice,
-      },
-    });
-  };
+export const setNewStatistic = (cartIem) => async (dispatch) => {
+  dispatch({
+    type: GET_STATISTICA,
+    payload: cartIem,
+  });
+};

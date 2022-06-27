@@ -1,26 +1,30 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { handelOrder } from "../../redux/action/oderAction";
 import Router from "next/router";
 import Layout from "../../layout/layout";
 import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { orderSelector } from "../../redux/selector/orderSelector";
 
-function OrderProduct() {
-  const dispatch = useDispatch();
-  const { order } = useSelector((state) => state.orders);
+const componentSelector = () =>
+  createSelector([orderSelector], ({ order }) => {
+    return {
+      order,
+    };
+  });
 
+function OrderProduct({ dispatch, order }) {
   const router = useRouter();
   const { orderProduct } = router.query;
-  // let { cartItem } = order[orderProduct] ? order[orderProduct] : { cartItem: [] };
-  // let statusLength = order[orderProduct] ? order[orderProduct].status : "";
 
   let new_Order = order.filter((e) => e.id == orderProduct);
   let status;
-  new_Order.map((value) => (status = value.status));
+  new_Order.forEach((value) => (status = value.status));
 
   const handleOrderProduct = (id) => {
-    new_Order.map((value) => (value.status = "Đã huỷ đơn hàng"));
+    new_Order.forEach((value) => (value.status = "Đã huỷ đơn hàng"));
     dispatch(handelOrder(order));
     toast.success("Huỷ đơn hàng thành công");
     Router.push("/Order");
@@ -102,4 +106,4 @@ function OrderProduct() {
   );
 }
 
-export default OrderProduct;
+export default connect(componentSelector)(OrderProduct);

@@ -1,62 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-
-import OrderAdmin from "./orderAdmin";
-import ProductsAdmin from "./productsAdmin";
 import Layout from "../layout/layout";
-import UserAdmin from "./userAdmin";
-import BannerSlideAdmin from "./banerSlideAdmin";
-import BannerTitle from "./banerTitle";
-import StatisticalAdmin from "./statisticalAdmin";
 import { Helmet } from "react-helmet";
-import SaleProductsAdmin from "../admin/Sale/saleProductsAdmin";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const TITLE = "My Food - Admin";
 
-function Admin() {
-  const classNameTabs =
-    "bg-black pt-2 opacity-80 h-10 w-56 text-white text-center cursor-pointer outline-none";
+function Admin({ children }) {
   return (
     <Layout>
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
-      <div className="pt-20 pb-32">
-        <Tabs className="flex flex-col lg:flex-row">
-          <TabList className="pl-0">
-            <Tab className={classNameTabs}>Home</Tab>
-            <Tab className={classNameTabs}>User</Tab>
-            <Tab className={classNameTabs}>Products</Tab>
-            <Tab className={classNameTabs}>Order</Tab>
-            <Tab className={classNameTabs}>BannerSlide</Tab>
-            <Tab className={classNameTabs}>Banner Title</Tab>
-            <Tab className={classNameTabs}>Sale</Tab>
-          </TabList>
-
-          <TabPanel className="px-[50px] w-full hidden">
-            <StatisticalAdmin />
-          </TabPanel>
-          <TabPanel className="px-[50px] w-full hidden">
-            <UserAdmin />
-          </TabPanel>
-          <TabPanel className="px-[50px] w-full hidden">
-            <ProductsAdmin />
-          </TabPanel>
-          <TabPanel className="px-[50px] w-full hidden">
-            <OrderAdmin />
-          </TabPanel>
-          <TabPanel className="px-[50px] w-full hidden">
-            <BannerSlideAdmin />
-          </TabPanel>
-          <TabPanel className="px-[50px] w-full hidden">
-            <BannerTitle />
-          </TabPanel>
-          <TabPanel className="px-[50px] w-full hidden">
-            <SaleProductsAdmin />
-          </TabPanel>
-        </Tabs>
+      <div className="mt-16 grid gap-[5%] menuAdmin">
+        <MenuAdmin />
+        <div className="my-5">
+          <main>{children}</main>
+        </div>
       </div>
     </Layout>
+  );
+}
+
+function MenuAdminItem({ source, name }) {
+  const router = useRouter();
+  const _active = router.pathname === source ? "bg-red-redd" : "";
+  const classNameMenuAdmin =
+    "text-white pt-2 w-full h-10 fo text-center cursor-pointer outline-none ";
+  return (
+    <Link href={source} passHref>
+      <p className={classNameMenuAdmin + _active}>{name}</p>
+    </Link>
+  );
+}
+function MenuAdmin() {
+  return (
+    <div className="bg-[url('/bgMobileMenu.jpg')] opacity-80 h-full">
+      <MenuAdminItem source={"/Admin/StatisticalAdmin"} name={"Statistical"} />
+      <MenuAdminItem source={"/Admin/UserAdmin"} name={"User"} />
+      <MenuAdminItem source={"/Admin/ProductAdmin"} name={"Products"} />
+      <MenuAdminItem source={"/Admin/OrderAdmin"} name={"Order"} />
+      <MenuAdminItem source={"/Admin/BannerAdmin"} name={"BannerSlide"} />
+      <MenuAdminItem source={"/Admin/SaleAdmin"} name={"Sale"} />
+    </div>
   );
 }
 export default Admin;

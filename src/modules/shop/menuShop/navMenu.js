@@ -1,10 +1,17 @@
 import react, { useState } from "react";
-import { useSelector } from "react-redux";
 import { IoFastFood } from "react-icons/io5";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { categorySelector } from "../../../redux/selector/categorySelector";
 
-function NavMenu({ filterr, handleInput, priceHandle }) {
-  const { category } = useSelector((state) => state.categorys);
+const componentSelector = () =>
+  createSelector([categorySelector], ({ category }) => {
+    return {
+      category,
+    };
+  });
 
+function NavMenu({ filterr, handleInput, priceHandle, category }) {
   const [active, setActive] = useState(0);
   const handleCategory = (id) => {
     setActive(id);
@@ -39,7 +46,7 @@ function NavMenu({ filterr, handleInput, priceHandle }) {
           <span className="text-xs">200</span>
         </div>
         <input
-          className="w-44 text-red-redd cursor-pointer"
+          className="w-44 text-red-redd cursor-pointer accent-red-redd"
           min="1"
           max="200"
           type="range"
@@ -64,4 +71,5 @@ function LiNavMenu({ icon, text, onClick, className, id }) {
     </li>
   );
 }
-export default NavMenu;
+
+export default connect(componentSelector)(NavMenu);

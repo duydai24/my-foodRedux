@@ -1,24 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { getBase64 } from "../lib/getBase64";
 import {
   addProducts,
   deleteProducts,
   updateProducts,
 } from "../redux/action/productsAction";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import Admin from "./admin";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { productsSelector } from "../redux/selector/productsSelector";
 
-function ProductsAdmin() {
+const componentSelector = () =>
+  createSelector([productsSelector], ({ products }) => {
+    return {
+      products,
+    };
+  });
+
+function ProductsAdmin({ products, dispatch }) {
   const [buttonAdd, setButtonAdd] = useState(false);
   const [editItem, setEditItem] = useState({});
   const [nameImage, setNameImage] = useState();
   const [imageFile, setImageFile] = useState("");
   const [index, setIndex] = useState(0);
   const [option, setOption] = useState();
-  const { products } = useSelector((state) => state.product);
-
-  const dispatch = useDispatch();
 
   const handlAddProducts = (e) => {
     let new_products = {
@@ -38,8 +44,7 @@ function ProductsAdmin() {
       editItem.quantity &&
       option
     ) {
-      products = [...products, new_products];
-      dispatch(addProducts(products));
+      dispatch(addProducts(new_products));
       setEditItem({
         name: "",
         price: "",
@@ -54,9 +59,8 @@ function ProductsAdmin() {
       toast.warn("Vui lòng nhập các trường");
     }
   };
-  const handleDeleteProduct = (key) => {
-    products.splice(key, 1);
-    dispatch(deleteProducts(products));
+  const handleDeleteProduct = (id, key) => {
+    dispatch(deleteProducts(key, products));
     toast.success("Xoá sản phẩm thành công");
   };
   const onChange = (e) => {
@@ -96,7 +100,7 @@ function ProductsAdmin() {
     index = key;
     setIndex(index);
   };
-  const handlUpdateProducts = (idd) => {
+  const handlUpdateProducts = (id) => {
     let new_products = {
       id: editItem.id,
       name: editItem.name,
@@ -106,7 +110,6 @@ function ProductsAdmin() {
       quantity: editItem.quantity,
       categoryId: Number(option),
     };
-    products.splice(idd, 1, new_products);
     if (
       editItem.name &&
       editItem.description &&
@@ -115,7 +118,7 @@ function ProductsAdmin() {
       editItem.quantity &&
       option
     ) {
-      dispatch(updateProducts(products));
+      dispatch(updateProducts(id, new_products));
       setButtonAdd(false);
       setEditItem({
         name: "",
@@ -141,130 +144,134 @@ function ProductsAdmin() {
       categoryId: "",
     });
   };
+  console.log(editItem.image);
   return (
-    <div>
-      <ToastContainer />
-      <h2 className="font-bold mb-10">Products</h2>
-      <div className="flex w-full justify-between">
-        <div className="w-[45%]">
-          <div className="mb-5">
-            <p className="m-0">Tên sản phẩm:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
-              type="text"
-              value={editItem.name}
-              name="name"
-              onChange={onChange}
-              placeholder="Nhập tên sản phẩm..."
-            />
-          </div>
-          <div className="mb-5">
-            <p className="m-0">Giá sản phẩm:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
-              type="number"
-              value={editItem.price}
-              name="price"
-              onChange={onChange}
-              placeholder="Nhập giá sản phẩm..."
-            />
-          </div>
-          <div className="mb-5">
-            <p className="m-0">Số lượng sản phẩm:</p>
-            <input
-              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
-              type="number"
-              name="quantity"
-              value={editItem.quantity}
-              onChange={onChange}
-              placeholder="Nhập số lượng sản phẩm..."
-            />
-          </div>
-        </div>
-        <div className="w-[45%]">
-          <div className="mb-5">
-            <p className="m-0">Ảnh sản phẩm:</p>
-            <div className="flex justify-between">
+    <Admin>
+      <div className="mr-[5%]">
+        <h2 className="font-bold mb-10">Products</h2>
+        <div className="flex w-full justify-between">
+          <div className="w-[45%]">
+            <div className="mb-5">
+              <p className="m-0">Tên sản phẩm:</p>
               <input
-                className=" py-1 w-[15%] border-none outline-none"
-                type="file"
-                name="image"
-                onChange={onImageChange}
-                placeholder="Nhập ảnh sản phẩm..."
+                className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
+                type="text"
+                value={editItem.name || ""}
+                name="name"
+                onChange={onChange}
+                placeholder="Nhập tên sản phẩm..."
               />
-              <img
-                alt="img"
-                className="max-h-24"
-                height={50}
-                width={100}
-                src={editItem.image}
+            </div>
+            <div className="mb-5">
+              <p className="m-0">Giá sản phẩm:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
+                type="number"
+                value={editItem.price || ""}
+                name="price"
+                onChange={onChange}
+                placeholder="Nhập giá sản phẩm..."
+              />
+            </div>
+            <div className="mb-5">
+              <p className="m-0">Số lượng sản phẩm:</p>
+              <input
+                className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
+                type="number"
+                name="quantity"
+                value={editItem.quantity || ""}
+                onChange={onChange}
+                placeholder="Nhập số lượng sản phẩm..."
               />
             </div>
           </div>
-          <div className="mb-5">
-            <p className="m-0">Loại sản phẩm:</p>
-            <select
-              name="option"
-              onChange={onChangeOption}
-              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
-            >
-              <option>{editItem.categoryId}</option>
-              <option value={1}>1: Hamberger</option>
-              <option value={2}>2: Drink</option>
-              <option value={3}>3: Sanwich</option>
-              <option value={4}>4: Piza</option>
-            </select>
-          </div>
-          <div className="mb-5">
-            <p className="m-0">Chi tiết sản phẩm:</p>
-            <textarea
-              className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
-              type="text"
-              value={editItem.description}
-              name="description"
-              onChange={onChange}
-              placeholder="Nhập chi tiết sản phẩm..."
-            />
+          <div className="w-[45%]">
+            <div className="mb-5">
+              <p className="m-0">Ảnh sản phẩm:</p>
+              <div className="flex justify-between">
+                <input
+                  className=" py-1 w-[15%] border-none outline-none"
+                  type="file"
+                  name="image"
+                  onChange={onImageChange}
+                  placeholder="Nhập ảnh sản phẩm..."
+                />
+                {editItem.image == undefined ? (
+                  ""
+                ) : (
+                  <img
+                    alt="img-products"
+                    className="max-h-24 text-xs"
+                    height={50}
+                    width={100}
+                    src={editItem.image}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="mb-5">
+              <p className="m-0">Loại sản phẩm:</p>
+              <select
+                name="option"
+                onChange={onChangeOption}
+                className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
+              >
+                <option>{editItem.categoryId}</option>
+                <option value={1 || ""}>1: Hamberger</option>
+                <option value={2 || ""}>2: Drink</option>
+                <option value={3 || ""}>3: Sanwich</option>
+                <option value={4 || ""}>4: Piza</option>
+              </select>
+            </div>
+            <div className="mb-5">
+              <p className="m-0">Chi tiết sản phẩm:</p>
+              <textarea
+                className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
+                type="text"
+                value={editItem.description}
+                name="description"
+                onChange={onChange}
+                placeholder="Nhập chi tiết sản phẩm..."
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      {buttonAdd === false ? (
-        <button
-          onClick={() => handlAddProducts()}
-          className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-        >
-          Thêm mới
-        </button>
-      ) : (
-        <div className="flex">
+        {buttonAdd === false ? (
           <button
-            onClick={() => handlUpdateProducts(index)}
-            className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
-          >
-            Update
-          </button>
-          <button
-            onClick={() => handlCancelProducts()}
+            onClick={() => handlAddProducts()}
             className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
           >
-            Cancel
+            Thêm mới
           </button>
-        </div>
-      )}
+        ) : (
+          <div className="flex">
+            <button
+              onClick={() => handlUpdateProducts(index)}
+              className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
+            >
+              Update
+            </button>
+            <button
+              onClick={() => handlCancelProducts()}
+              className="bg-red-redd text-white px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
 
-      <div className="py-24">
-        <div className="flex justify-between mb-5">
-          <p className="font-bold w-[200px] text-center">Tên sản phẩm</p>
-          <p className="font-bold h-28 w-[200px] text-center">Ảnh sản phẩm</p>
-          <p className="font-bold w-[150px] text-center">Giá sản phẩm</p>
-          <p className="font-bold w-[150px] text-center">Số lượng sản phẩm</p>
-          <p className="font-bold w-[150px] text-center">Loại sản phẩm</p>
-          <p className="font-bold w-[200px] text-center">Chi tiết sản phẩm</p>
-          <p className="font-bold w-[200px] text-center">Handle</p>
-        </div>
-        {products &&
-          products.map((value, key) => {
+        <div className="py-24">
+          <div className="flex justify-between mb-5">
+            <p className="font-bold w-[200px] text-center">Tên sản phẩm</p>
+            <p className="font-bold h-28 w-[200px] text-center">Ảnh sản phẩm</p>
+            <p className="font-bold w-[150px] text-center">Giá sản phẩm</p>
+            <p className="font-bold w-[150px] text-center">Số lượng sản phẩm</p>
+            <p className="font-bold w-[150px] text-center">Loại sản phẩm</p>
+            <p className="font-bold w-[200px] text-center">Chi tiết sản phẩm</p>
+            <p className="font-bold w-[200px] text-center">Handle</p>
+          </div>
+          {products?.map((value, key) => {
             return (
               <div
                 key={key}
@@ -290,7 +297,7 @@ function ProductsAdmin() {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeleteProduct(key)}
+                    onClick={() => handleDeleteProduct(value.id, key)}
                     className="bg-red-redd text-white px-3 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
                   >
                     Delete
@@ -299,8 +306,9 @@ function ProductsAdmin() {
               </div>
             );
           })}
+        </div>
       </div>
-    </div>
+    </Admin>
   );
 }
-export default ProductsAdmin;
+export default connect(componentSelector)(ProductsAdmin);

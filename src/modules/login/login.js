@@ -1,26 +1,31 @@
-import react, { useState, useEffect, useRouter } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import react, { useEffect, useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { BiLock } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
 import {
   userLogin,
+  getUser,
   googleUserLogin,
-  fetchUser,
 } from "../../redux/action/userAction";
 import { useGoogleLogin } from "react-google-login";
 import { ROUTER } from "../../routers/router";
 import { RefreshTokenSetup } from "../auth/refreshToken";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { userSelector } from "../../redux/selector/userSelector";
 
-function Login() {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
-  const { googleUser } = useSelector((state) => state.user);
+const componentSelector = () =>
+  createSelector([userSelector], ({ user }) => {
+    return {
+      user,
+    };
+  });
 
+function Login({ dispatch, user }) {
   const [userName, setUserName] = useState();
   const [passWord, setPassWord] = useState();
   const [isLogin, setIsLogin] = useState(false);
@@ -40,8 +45,8 @@ function Login() {
         let checkPass = UserLogin.some((el) => el.passWord === passWord);
         if (checkPass === true && checkUser === true) {
           setIsLogin(true);
-          toast.success("Đăng nhập thành công");
           Router.push("/");
+          toast.success("Đăng nhập thành công");
           let idLogin = user.filter((e) => {
             return e.userName === userName;
           });
@@ -65,41 +70,27 @@ function Login() {
       toast.warn("Vui lòng nhập các trường");
     }
   };
+
   const clientId =
     "295032336816-21451obqs8cpbmhkhaaadp26q7d1d86e.apps.googleusercontent.com";
   const onSuccess = (res) => {
     console.log("[Login Success ] currentUser:", res.profileObj);
     RefreshTokenSetup(res);
-    googleUser = [...googleUser, res.profileObj];
-    dispatch(googleUserLogin(googleUser));
+    const profileObj = res.profileObj;
+    let checkAccount = user.some((e) => e.userName == profileObj.email);
+    if (!checkAccount) {
+      let results = {
+        id: Number(profileObj.googleId),
+        image: profileObj.imageUrl,
+        userName: profileObj.email,
+        passWord: "******",
+        role: "user",
+      };
+      dispatch(getUser(results));
+    }
+    const email = profileObj.email;
+    dispatch(googleUserLogin(email));
     toast.success("Đăng nhập bằng Google thành công");
-    googleUser.map((val) => {
-      let checkAccount = user.some((e) => e.userName == val.email);
-      if (!checkAccount) {
-        let results = {
-          id: val.googleId,
-          image: val.imageUrl,
-          userName: val.email,
-          passWord: "******",
-          role: "user",
-        };
-        user.push(results);
-        dispatch(fetchUser(user));
-      }
-      let idLogin = user.filter((e) => {
-        return e.userName === val.email;
-      });
-      const results = [
-        {
-          id: idLogin[0].id,
-          image: idLogin[0].image,
-          userName: val.email,
-          passWord: "******",
-          role: idLogin[0].role,
-        },
-      ];
-      dispatch(userLogin(results));
-    });
     Router.push("/");
   };
   const onFailure = (res) => {
@@ -115,8 +106,7 @@ function Login() {
   });
   return (
     <div className="pt-20 pb-44 lg:w-3/4 w-11/12 h-3/4 mx-auto lg:mt-[10%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly">
-      <ToastContainer />
-      <Link href={ROUTER.Home}>
+      <Link href={ROUTER.Home} passHref>
         <img
           alt="img"
           className="hidden lg:block w-[40%]"
@@ -126,8 +116,8 @@ function Login() {
       <div className="relative">
         <p className="text-black uppercase font-bold text-2xl">JOIN WITH US</p>
         <p className="text-gray-500">
-          Don't have an account?
-          <Link href={ROUTER.Register}>
+          Dont have an account?
+          <Link href={ROUTER.Register} passHref>
             <span className="text-red-redd font-bold cursor-pointer">
               {" "}
               Create an account
@@ -213,4 +203,4 @@ function InputLogin({
   );
 }
 
-export default Login;
+export default connect(componentSelector)(Login);

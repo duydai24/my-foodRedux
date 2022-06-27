@@ -1,134 +1,89 @@
-import react from "react";
+import react, { useState } from "react";
 import { MdFavorite } from "react-icons/md";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import { addCart } from "../../../redux/action/cartAction";
+import { addCart, updateCart } from "../../../redux/action/cartAction";
 import {
   quantityNumberProducts,
   updateProducts,
+  updateQuantityNumberProducts,
 } from "../../../redux/action/productsAction";
 import Star from "../../../lib/star";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { batch, connect } from "react-redux";
+import { cartSelector } from "../../../redux/selector/cartSelector";
+import {
+  productsSelector,
+  saleSeclector,
+} from "../../../redux/selector/productsSelector";
 
-function ProductsShopDetailContent() {
-  const dispatch = useDispatch();
-  const product = useSelector((state) => state.product);
-  const { products } = useSelector((state) => state.product);
-  const { cartItem } = useSelector((state) => state.cart);
+const componentSelector = () =>
+  createSelector(
+    [productsSelector, cartSelector, saleSeclector],
+    ({ products }, { cartItem }, { sale }) => {
+      return {
+        products,
+        cartItem,
+        sale,
+      };
+    }
+  );
 
-  const quantityNumber2 = useSelector((state) => state.product.quantityNumber);
+function ProductsShopDetailContent({ dispatch, products, cartItem, sale }) {
   const router = useRouter();
   const { productShopDetailContent } = router.query;
   let new_product = products.filter((e) => {
     return e.id == productShopDetailContent;
   });
-
-  let quantityNumber = 1;
+  const [quantityNumber, setQuantityNumber] = useState(1);
   const handleAddQuantity = () => {
-    quantityNumber += product.quantityNumber;
-
-    dispatch(quantityNumberProducts(product, quantityNumber));
+    setQuantityNumber(quantityNumber + 1);
   };
 
   const handleTruQuantity = () => {
-    if (product.quantityNumber > 1) {
-      quantityNumber = product.quantityNumber - 1;
-      dispatch(quantityNumberProducts(product, quantityNumber));
+    if (quantityNumber > 1) {
+      setQuantityNumber(quantityNumber - 1);
     }
   };
-  const addToCart = (id, key, name, img, price) => {
-    const checkCart = cartItem.some((el) => el.id === id);
+
+  const addToCart = (id, name, img, price) => {
+    const checkCart = cartItem.some((e) => e.id === id);
     if (!checkCart) {
-      let totalQuantity = 0;
-      let totalPrice = 0;
       let new_cartItem = {
         id,
         name: name,
         image: img,
         price: price,
-        quantity: product.quantityNumber,
+        quantity: quantityNumber,
       };
-      cartItem.push(new_cartItem);
-      cartItem.map(
-        (value) => (
-          (totalQuantity += value.quantity),
-          (totalPrice += value.quantity * value.price)
-        )
-      );
-      dispatch(addCart(cartItem, totalQuantity, totalPrice));
-      quantityNumber = 1;
-      dispatch(quantityNumberProducts(product, quantityNumber));
+      dispatch(addCart(new_cartItem));
     } else {
-      let filterCart = cartItem.filter((e) => {
-        return e.id === id;
-      });
-      let key = cartItem.indexOf(...filterCart);
-      cartItem[key].quantity = cartItem[key].quantity + quantityNumber2;
-      let totalQuantity = 0;
-      let totalPrice = 0;
-      cartItem.map(
-        (value) => (
-          (totalQuantity += value.quantity),
-          (totalPrice += value.quantity * value.price)
-        )
-      );
-      quantityNumber = 1;
-      dispatch(quantityNumberProducts(product, quantityNumber));
-      dispatch(addCart(cartItem, totalQuantity, totalPrice));
+      dispatch(updateCart(id, quantityNumber));
     }
     toast.success("Thêm vào giỏ hàng thành công");
-    let new_products;
-    let filterProducts = products.filter((e) => e.id === id);
-    filterProducts.map((value) => {
-      if (value.saleNumber === undefined) {
-        new_products = {
-          id: id,
-          name: name,
-          description: value.description,
-          image: img,
-          price: price,
-          quantity: (value.quantity -= product.quantityNumber),
-          categoryId: value.categoryId,
-        };
-        products.splice(id, 1, new_products);
-        dispatch(updateProducts(products));
-      } else {
-        new_products = {
-          id: id,
-          name: name,
-          description: value.description,
-          image: img,
-          price: price,
-          quantity: (value.quantity -= product.quantityNumber),
-          categoryId: value.categoryId,
-          gif: value.gif,
-          saleNumber: value.saleNumber,
-        };
-      }
-      products.splice(id, 1, new_products);
-      dispatch(updateProducts(products));
-    });
+    dispatch(updateQuantityNumberProducts(id, quantityNumber));
+    setQuantityNumber(1);
   };
   return (
     <div>
-      {new_product &&
-        new_product.map((value, key) => (
-          <ProductsShopDetailContentItems
-            id={key}
-            key={key}
-            name={value.name}
-            img={value.image}
-            description={value.description}
-            quantity={product.quantityNumber}
-            price={value.price}
-            addQuantityOnClick={() => handleAddQuantity()}
-            truQuantityOnClick={() => handleTruQuantity()}
-            addToCart={() =>
-              addToCart(value.id, key, value.name, value.image, value.price)
-            }
-          />
-        ))}
+      {new_product?.map((value, key) => (
+        <ProductsShopDetailContentItems
+          id={key}
+          key={key}
+          name={value.name}
+          img={value.image}
+          description={value.description}
+          quantityNumber={quantityNumber}
+          price={value.price}
+          addQuantityOnClick={() => handleAddQuantity()}
+          truQuantityOnClick={() => handleTruQuantity()}
+          addToCart={() =>
+            addToCart(value.id, value.name, value.image, value.price)
+          }
+          sale={sale}
+        />
+      ))}
     </div>
   );
 }
@@ -137,14 +92,14 @@ function ProductsShopDetailContentItems({
   name,
   price,
   description,
-  quantity,
+  quantityNumber,
   img,
   id,
   truQuantityOnClick,
   addQuantityOnClick,
   addToCart,
+  sale,
 }) {
-  const { sale } = useSelector((state) => state.product);
   let saleNumber;
   sale.map((val) => (saleNumber = val.saleNumber));
   return (
@@ -181,7 +136,7 @@ function ProductsShopDetailContentItems({
               -
             </span>
             <span className=" w-10 h-10 pt-2 text-center rounded-full">
-              {quantity}
+              {quantityNumber}
             </span>
             <span
               onClick={addQuantityOnClick}
@@ -207,4 +162,4 @@ function ProductsShopDetailContentItems({
     </div>
   );
 }
-export default ProductsShopDetailContent;
+export default connect(componentSelector)(ProductsShopDetailContent);

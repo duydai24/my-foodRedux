@@ -1,4 +1,4 @@
-import * as types from "../types";
+import { GET_DB, DELETE_BANNER, UPDATE_BANNER, ADD_BANNER } from "../types";
 export const initialState = {
   banerSlide: [
     { image: "/bgHome.webp" },
@@ -17,25 +17,31 @@ export const initialState = {
 
 export const dbReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_DB:
+    case GET_DB:
       return {
         ...state,
         db: action.payload,
       };
-    case types.DELETE_BANNER:
+    case DELETE_BANNER:
+      state.banerSlide.splice(action.payload.key, 1);
       return {
         ...state,
-        db: action.payload.banerSlide,
+        banerSlide: state.banerSlide,
       };
-    case types.ADD_BANNER:
+    case ADD_BANNER:
       return {
         ...state,
-        db: action.payload.banerSlide,
+        banerSlide: [...state.banerSlide, action.payload],
       };
-    case types.UPDATE_BANNER:
+    case UPDATE_BANNER:
+      state.banerSlide.splice(
+        action.payload.index,
+        1,
+        action.payload.new_banner
+      );
       return {
         ...state,
-        db: action.payload.banerSlide,
+        banerSlide: state.banerSlide,
       };
     default:
       return state;

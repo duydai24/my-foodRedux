@@ -1,19 +1,20 @@
-import * as types from "../types";
+import { ADD_ORDER, HANDLE_ORDER } from "../types";
 
 export const initialState = {
-  order: []
+  order: [],
 };
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_ORDER:
+    case ADD_ORDER:
       return {
         ...state,
-        order: action.payload.order,
+        order: [...state.order, action.payload],
       };
-      case types.HANDLE_ORDER:
+    case HANDLE_ORDER:
+      const newDataOrder = [...state.order];
       return {
         ...state,
-        order: action.payload.order,
+        order: newDataOrder,
       };
     default:
       return state;

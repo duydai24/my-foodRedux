@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import Layout from "../../layout/layout";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addSaleOption,
-  updateProducts,
-} from "../../redux/action/productsAction";
+import { updateProducts } from "../../redux/action/productsAction";
 import { IoMdAddCircle } from "react-icons/io";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import {
+  productsSelector,
+  saleSeclector,
+} from "../../redux/selector/productsSelector";
 
-function SaleOption() {
-  const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.product);
+const componentSelector = () =>
+  createSelector(
+    [productsSelector, saleSeclector],
+    ({ products }, { sale }) => {
+      return {
+        products,
+        sale,
+      };
+    }
+  );
 
+function SaleOption({ dispatch, products, sale }) {
   const a = products.filter((x) => x.saleNumber !== undefined);
   let saleNumbers = [];
   a.map((value) => saleNumbers.push(Number(value.saleNumber)));
@@ -33,7 +44,6 @@ function SaleOption() {
       data: getData,
     });
   }
-  const { sale } = useSelector((state) => state.product);
   let saleNumber;
   let gif;
   sale.map((value) => {
@@ -43,10 +53,10 @@ function SaleOption() {
 
   const deleteSale = (id) => {
     let products4 = products.filter((value) => value.id === id);
-    let productItem2;
+    let new_products;
     products4.map(
       (value) =>
-        (productItem2 = {
+        (new_products = {
           id: value.id,
           name: value.name,
           description: value.description,
@@ -56,9 +66,8 @@ function SaleOption() {
           categoryId: value.categoryId,
         })
     );
-    products.splice(id, 1, productItem2);
-    dispatch(updateProducts(products));
-    alert("Xoá khuyến mãi cho sản phẩm id = " + id + " thành công");
+    dispatch(updateProducts(id, new_products));
+    toast.success("Xoá khuyến mãi cho sản phẩm id = " + id + " thành công");
   };
 
   return (
@@ -73,7 +82,7 @@ function SaleOption() {
                   <p className="bg-yellow-700 w-4/5 h-full rounded px-4 py-2 text-white">
                     Sale {value.sale}%
                   </p>
-                  <Link href={`/Admin/Sale/${value.id}`}>
+                  <Link href={`/Admin/Sale/${value.id}`} passHref>
                     <span className="w-1/5 text-3xl ml-3 hover:text-red-redd">
                       <IoMdAddCircle />
                     </span>
@@ -105,4 +114,4 @@ function SaleOption() {
     </Layout>
   );
 }
-export default SaleOption;
+export default connect(componentSelector)(SaleOption);

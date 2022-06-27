@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import { getBase64 } from "../lib/getBase64";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addBannerSlide,
   deleteBannerSlide,
   updateBannerSlide,
 } from "../redux/action/dbAction";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import Admin from "./admin";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { dbSelector } from "../redux/selector/dbSelector";
 
-function BannerSlideAdmin() {
+const componentSelector = () =>
+  createSelector([dbSelector], ({ banerSlide }) => {
+    return {
+      banerSlide,
+    };
+  });
+
+function BannerSlideAdmin({ dispatch, banerSlide }) {
   const [buttonEdit, setButtonEdit] = useState(false);
-  const { banerSlide } = useSelector((state) => state.db);
   const [index, setIndex] = useState(0);
   const [buttonAdd, setButtonAdd] = useState(false);
   const [imageFile, setImageFile] = useState("");
-  const dispatch = useDispatch();
 
   const onImageChange = (e) => {
     let file = e.target.files;
@@ -55,8 +62,7 @@ function BannerSlideAdmin() {
     setImageFile(imageFile.image);
   };
   const handleDelete = (value, key, index) => {
-    banerSlide.splice(key, 1);
-    dispatch(deleteBannerSlide(banerSlide));
+    dispatch(deleteBannerSlide(key, banerSlide));
   };
   const handleButtonAdd = () => {
     setImageFile({
@@ -70,15 +76,13 @@ function BannerSlideAdmin() {
       let new_banner = {
         image: imageFile.image,
       };
-      console.log(new_banner);
-      banerSlide.push(new_banner);
-      dispatch(addBannerSlide(banerSlide));
+      dispatch(addBannerSlide(new_banner));
       setImageFile({
         image: "",
       });
       toast.success("Thêm mới banner thành công");
     } else {
-      toast.warn("Vui lòng nhập banner");
+      toast.warn("Vui lòng chọn banner");
     }
     setButtonAdd(false);
   };
@@ -86,9 +90,8 @@ function BannerSlideAdmin() {
     let new_banner = {
       image: imageFile.image,
     };
-    banerSlide.splice(index, 1, new_banner);
     if (imageFile.image) {
-      dispatch(updateBannerSlide(banerSlide));
+      dispatch(updateBannerSlide(index, new_banner));
       setButtonEdit(false);
       setImageFile({
         image: "",
@@ -98,96 +101,100 @@ function BannerSlideAdmin() {
       toast.warn("Vui lòng nhập banner");
     }
   };
-
   return (
-    <div className="w-full py-10 flex justify-around">
-      <ToastContainer />
-      <div className="">
-        {banerSlide.map((value, key) => (
-          <div key={key}>
-            <BannerItem
-              img={value.image}
-              handleDelete={() => handleDelete(value, key, index)}
-              handleEdit={() => handleEdit(value, key, index)}
+    <Admin>
+      <div className="w-full py-10 flex justify-around">
+        <div className="">
+          {banerSlide.map((value, key) => (
+            <div key={key}>
+              <BannerItem
+                img={value?.image}
+                handleDelete={() => handleDelete(value, key, index)}
+                handleEdit={() => handleEdit(value, key, index)}
+              />
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={() => handleButtonAdd()}
+          className="bg-red-redd text-white h-10 px-20 py-1 mb-5 rounded-lg"
+        >
+          add
+        </button>
+        <div className="">
+          {imageFile.image == undefined ? (
+            ""
+          ) : (
+            <img
+              alt="banerSlide not image"
+              className="w-[500px] h-[300px]"
+              src={imageFile.image}
+              width={500}
+              height={300}
             />
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={() => handleButtonAdd()}
-        className="bg-red-redd text-white h-10 px-20 py-1 mb-5 rounded-lg"
-      >
-        add
-      </button>
-      <div className="">
-        <img
-          alt="img"
-          className="w-[500px] h-[300px]"
-          src={imageFile.image}
-          width={500}
-          height={300}
-        />
-        {buttonEdit !== false || buttonAdd !== false ? (
-          <div className="flex justify-around mt-5 items-center">
-            <input
-              className=" py-1 w-[30%] border-none outline-none"
-              type="file"
-              name="image"
-              onChange={onImageChange}
-              placeholder="Nhập ảnh sản phẩm..."
-            />
-            {imageFile.image !== undefined ? (
+          )}
+          {buttonEdit !== false || buttonAdd !== false ? (
+            <div className="flex justify-around mt-5 items-center">
+              <input
+                className=" py-1 w-[30%] border-none outline-none"
+                type="file"
+                name="image"
+                onChange={onImageChange}
+                placeholder="Nhập ảnh sản phẩm..."
+              />
+              {imageFile.image !== undefined ? (
+                <button
+                  onClick={() => handleDeleteImage()}
+                  className="bg-gray-200 px-2 h-8 rounded"
+                >
+                  Deltete Image
+                </button>
+              ) : (
+                "^^Vui lòng chọn ảnh"
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+          {buttonAdd !== false ? (
+            <div className="flex items-center">
               <button
-                onClick={() => handleDeleteImage()}
-                className="bg-gray-200 px-2 h-8 rounded"
+                onClick={() => handleAdd()}
+                className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
               >
-                Deltete Image
+                Thêm mới
               </button>
-            ) : (
-              "^^Vui lòng chọn ảnh"
-            )}
-          </div>
-        ) : (
-          ""
-        )}
-        {buttonAdd !== false ? (
-          <div className="flex items-center">
-            <button
-              onClick={() => handleAdd()}
-              className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
-            >
-              Thêm mới
-            </button>
-            <button
-              onClick={() => handlCancel()}
-              className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          ""
-        )}
-        {buttonEdit !== false ? (
-          <div className="flex mt-20">
-            <button
-              onClick={() => handlUpdate(index)}
-              className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
-            >
-              Update
-            </button>
-            <button
-              onClick={() => handlCancel()}
-              className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          ""
-        )}
+              <button
+                onClick={() => handlCancel()}
+                className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
+          {buttonEdit !== false ? (
+            <div className="flex mt-20">
+              <button
+                onClick={() => handlUpdate(index)}
+                className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => handlCancel()}
+                className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
-    </div>
+    </Admin>
   );
 }
 
@@ -213,4 +220,4 @@ function BannerItem({ img, handleDelete, handleEdit }) {
     </div>
   );
 }
-export default BannerSlideAdmin;
+export default connect(componentSelector)(BannerSlideAdmin);

@@ -1,99 +1,103 @@
-import react, { useState, useEffect } from "react";
-import { RiDeleteBack2Line } from "react-icons/ri";
+import { useState } from "react";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
 import Router from "next/router";
 import Layout from "../../layout/layout";
 import { Helmet } from "react-helmet";
 import { ROUTER } from "../../routers/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { cartSelector, cartsSelector } from "../../redux/selector/cartSelector";
+import { userSelector } from "../../redux/selector/userSelector";
+import Loading from "../../layout/loading";
+
+const componentSelector = () =>
+  createSelector(
+    [cartSelector, cartsSelector, userSelector],
+    ({ cartItem }, { cart }, { accountLogin }) => {
+      return {
+        cartItem,
+        cart,
+        accountLogin,
+      };
+    }
+  );
 
 const TITLE = "My Food - Cart";
 
-function Cart({ className, onClick }) {
-  const dispatch = useDispatch();
-  const { cartItem } = useSelector((state) => state.cart);
-  const { cart } = useSelector((state) => state);
-  // const { googleUser } = useSelector((state) => state.user);
-
-  const handleAddQuantity = (id, key) => {
-    cartItem[key].quantity = cartItem[key].quantity + 1;
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cartItem.map(
-      (value) => (
-        (totalQuantity += value.quantity),
-        (totalPrice += value.quantity * value.price)
-      )
-    );
-
-    dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+function Cart({ dispatch, onClick, cart, cartItem, accountLogin }) {
+  const handleAddQuantity = (id) => {
+    const quantityNumber = 1;
+    dispatch(updateCart(id, quantityNumber));
   };
   const handleTruQuantity = (id, key) => {
     if (cartItem[key].quantity > 1) {
-      cartItem[key].quantity = cartItem[key].quantity - 1;
-      let totalQuantity = 0;
-      let totalPrice = 0;
-      cartItem.map(
-        (value) => (
-          (totalQuantity += value.quantity),
-          (totalPrice += value.quantity * value.price)
-        )
-      );
-
-      dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+      const quantityNumber = -1;
+      dispatch(updateCart(id, quantityNumber));
     }
   };
-  const handleDeleteCartItem = (id, key) => {
-    cartItem.splice(key, 1);
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cartItem.map((value) => {
-      totalQuantity += value.quantity;
-      totalPrice += value.price * value.quantity;
-    });
-
-    dispatch(deleteCart(cartItem, totalQuantity, totalPrice));
+  const handleDeleteCartItem = (id) => {
+    dispatch(deleteCart(id));
+  };
+  const [loading, setLoading] = useState(false);
+  const handleCheckout = () => {
+    if (cartItem.length < 1) {
+      toast.success("Vui lòng thêm sản phẩm vào giỏ hàng");
+      Router.push("/Shop");
+    } else {
+      setLoading(true);
+      Router.push("/Checkout", () => {
+        setLoading(false);
+      });
+    }
   };
 
   return (
-    <Layout>
-      <ToastContainer />
-      <Helmet>
-        <title>{TITLE}</title>
-      </Helmet>
-      {/* {cartItem.length > 0 ? ( */}
-      <div className="container pb-24 pt-40">
-        <div className="transition-all bg-white shadow-2xl rounded-2xl z-60">
-          <h2 className="uppercase font-bold text-2xl text-center">
-            Shopping Cart
-          </h2>
-          {cartItem.length > 0 ? (
-            cartItem &&
-            cartItem.map((value, key) => (
-              <CartItems
-                key={key}
-                img={value.image}
-                name={value.name}
-                price={value.price}
-                quantity={value.quantity}
-                addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-                truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-                deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+    <div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Layout>
+          <Helmet>
+            <title>{TITLE}</title>
+          </Helmet>
+          <div className="container pb-24 pt-40">
+            <div className="transition-all bg-white shadow-2xl rounded-2xl z-60">
+              <h2 className="uppercase font-bold text-2xl text-center">
+                Shopping Cart
+              </h2>
+              {cartItem?.length > 0 ? (
+                cartItem?.map((value, key) => (
+                  <CartItems
+                    key={key}
+                    img={value?.image}
+                    name={value.name}
+                    price={value.price}
+                    quantity={value.quantity}
+                    addQuantityOnClick={() => handleAddQuantity(value.id, key)}
+                    truQuantityOnClick={() => handleTruQuantity(value.id, key)}
+                    deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+                  />
+                ))
+              ) : (
+                <p className="text-center font-bold p-3">
+                  Giỏ hàng trống - Mua hàng nào ^^
+                </p>
+              )}
+              <CartHanldle
+                totalPrice={cart.totalPrice}
+                onClick={onClick}
+                accountLogin={accountLogin}
+                cartItem={cartItem}
+                handleCheckout={() => handleCheckout()}
               />
-            ))
-          ) : (
-            <p className="text-center font-bold p-3">
-              Giỏ hàng trống - Mua hàng nào ^^
-            </p>
-          )}
-          <CartHanldle totalPrice={cart.totalPrice} onClick={onClick} />
-        </div>
-      </div>
-    </Layout>
+            </div>
+          </div>
+        </Layout>
+      )}
+    </div>
   );
 }
 
@@ -147,26 +151,19 @@ function CartItems({
   );
 }
 
-function CartHanldle({ totalPrice, id, onClick }) {
-  const { accountLogin } = useSelector((state) => state.user);
-  const { cartItem } = useSelector((state) => state.cart);
-  // const { googleUser } = useSelector((state) => state.user);
-
+function CartHanldle({
+  totalPrice,
+  id,
+  onClick,
+  accountLogin,
+  cartItem,
+  handleCheckout,
+}) {
   let accountLoginLength = accountLogin.length;
-  // let googleUserLoginLength = googleUser.length;
-  const handleCheckout = () => {
-    if (cartItem.length < 1) {
-      toast.success("Vui lòng thêm sản phẩm vào giỏ hàng");
-      Router.push("/Shop");
-    } else {
-      Router.push("/Checkout");
-    }
-  };
-
   return (
     <div className="border-t-[1px] border-gray-200 relative p-5" key={id}>
       <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
-      {cartItem.length > 0 ? (
+      {cartItem?.length > 0 ? (
         <div className="flex mx-8 my-5 justify-between">
           <h2 className="font-bold text-xl">Total</h2>
           <span className="font-bold text-red-redd text-xl">
@@ -180,13 +177,13 @@ function CartHanldle({ totalPrice, id, onClick }) {
         <span className="bg-white py-52"></span>
       )}
       <div className="flex m-5 justify-evenly">
-        {cartItem.length === 0 ? (
+        {cartItem?.length === 0 ? (
           ""
         ) : (
           <div>
             {accountLoginLength === 0 ? (
               <div className="">
-                <Link href={ROUTER.Login}>
+                <Link href={ROUTER.Login} passHref>
                   <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
                     Checkout
                   </button>
@@ -194,8 +191,8 @@ function CartHanldle({ totalPrice, id, onClick }) {
               </div>
             ) : (
               <button
-                onClick={() => handleCheckout()}
-                className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn"
+                onClick={handleCheckout}
+                className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn"
               >
                 Checkout
               </button>
@@ -203,10 +200,10 @@ function CartHanldle({ totalPrice, id, onClick }) {
           </div>
         )}
 
-        <Link href={ROUTER.Shop}>
+        <Link href={ROUTER.Shop} passHref>
           <button
             onClick={onClick}
-            className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn"
+            className="bg-white rounded-full px-5 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn"
           >
             buy more
           </button>
@@ -216,4 +213,4 @@ function CartHanldle({ totalPrice, id, onClick }) {
   );
 }
 
-export default Cart;
+export default connect(componentSelector)(Cart);

@@ -1,28 +1,35 @@
-import react, { useState, useEffect } from "react";
+import react, { useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { FaRegAddressCard } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { GiNotebook } from "react-icons/gi";
-import Router, { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { addCart } from "../../redux/action/cartAction";
+import Router from "next/router";
+import { batch, connect } from "react-redux";
+import { deteteAllCart } from "../../redux/action/cartAction";
 import { addOrder } from "../../redux/action/oderAction";
-import { getStatistica } from "../../redux/action/statisticaAction";
-import { googleUserLogin } from "../../redux/action/userAction";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { setNewStatistic } from "../../redux/action/statisticaAction";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { cartSelector } from "../../redux/selector/cartSelector";
+import { userSelector } from "../../redux/selector/userSelector";
+import Loading from "../../layout/loading";
 
-function Checkout() {
+const componentSelector = () =>
+  createSelector(
+    [cartSelector, userSelector],
+    ({ cartItem }, { accountLogin }) => {
+      return {
+        cartItem,
+        accountLogin,
+      };
+    }
+  );
+
+function Checkout({ dispatch, cartItem, accountLogin }) {
   const [name, setName] = useState();
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
   const [note, setNote] = useState();
-  const { cartItem } = useSelector((state) => state.cart);
-  const { orders } = useSelector((state) => state);
-  const { order } = useSelector((state) => state.orders);
-  const { statisticaItem } = useSelector((state) => state.statistica);
-  const { accountLogin } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const handleName = (name) => {
     setName(name);
@@ -37,15 +44,13 @@ function Checkout() {
     setNote(note);
   };
 
-  let userId;
-  let totalQuantity = 0;
-  let totalPrice = 0;
-  accountLogin.map((value) => (userId = value.id));
+  let userId = accountLogin?.length ? accountLogin[0].id : null;
+
+  // accountLogin.map((value) => (userId = value.id)); [id,id] dùng forEach thay map
   const handleCheckout = () => {
     if (name && address && phone && phone.length > 9) {
       const status = "Đang chờ xác nhận đơn hàng";
-
-      let newOrder = {
+      const newOrder = {
         id: Math.floor(Math.random() * 999999),
         userId: userId,
         name,
@@ -55,17 +60,11 @@ function Checkout() {
         status,
         cartItem,
       };
-      order = [...order, newOrder];
-      dispatch(addOrder(order, cartItem));
-
-      statisticaItem = [...statisticaItem, ...cartItem];
-      statisticaItem.map((val) => {
-        totalQuantity += val.quantity;
-        totalPrice += val.price * val.quantity;
+      batch(() => {
+        dispatch(addOrder(newOrder));
+        dispatch(setNewStatistic(cartItem));
+        dispatch(deteteAllCart());
       });
-      dispatch(getStatistica(statisticaItem, totalQuantity, totalPrice));
-      cartItem = [];
-      dispatch(addCart(cartItem));
       toast.success("Đặt hàng thành công");
       Router.push("/");
     } else {
@@ -74,7 +73,6 @@ function Checkout() {
   };
   return (
     <div className="py-20 lg:w-3/4 lg:h-11/12 w-11/12 h-3/4 mx-auto lg:mt-[7%] md:mt-[10%] mt-[20%] shadow-2xl rounded-lg flex justify-evenly items-center">
-      <ToastContainer />
       <div className="w-11/12 lg:w-1/2">
         <p className="text-black uppercase text-center font-bold text-2xl">
           CHECK OUT
@@ -147,7 +145,7 @@ function InputCheckOut({
           className="bg-[#F8F8FF] py-3 px-2  w-full border-none outline-none"
           type={type}
           id={id}
-          value={value}
+          value={value || ""}
           name={text}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
@@ -157,4 +155,4 @@ function InputCheckOut({
   );
 }
 
-export default Checkout;
+export default connect(componentSelector)(Checkout);

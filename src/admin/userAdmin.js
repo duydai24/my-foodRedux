@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { getBase64 } from "../lib/getBase64";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, fetchUser, updateUser } from "../redux/action/userAction";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { deleteUser, getUser, updateUser } from "../redux/action/userAction";
+import { toast } from "react-toastify";
+import Admin from "./admin";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { userSelector } from "../redux/selector/userSelector";
 
-function UserAdmin() {
+const componentSelector = () =>
+  createSelector([userSelector], ({ user }) => {
+    return {
+      user,
+    };
+  });
+
+function UserAdmin({ dispatch, user }) {
   const [imageFile, setImageFile] = useState("");
   const [editItem, setEditItem] = useState({});
   const [buttonEdit, setButtonEdit] = useState(false);
@@ -13,8 +22,6 @@ function UserAdmin() {
   const [view, setView] = useState(false);
   const [index, setIndex] = useState(0);
   const [option, setOption] = useState();
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -51,8 +58,7 @@ function UserAdmin() {
     setButtonEdit(false);
   };
   const handleAdd = () => {
-    let checkAccount =
-      user && user.some((e) => e.userName == editItem.userName);
+    let checkAccount = user?.some((e) => e.userName == editItem.userName);
     if (!checkAccount) {
       if (editItem.userName && editItem.passWord && option) {
         let results = {
@@ -62,8 +68,7 @@ function UserAdmin() {
           passWord: editItem.passWord,
           role: option,
         };
-        user.push(results);
-        dispatch(fetchUser(user));
+        dispatch(getUser(results));
         setEditItem({
           image: "",
           userName: "",
@@ -117,9 +122,7 @@ function UserAdmin() {
         passWord: editItem.passWord,
         role: option,
       };
-      user.splice(id, 1, new_User);
-      console.log(editItem);
-      dispatch(updateUser(user));
+      dispatch(updateUser(id, new_User));
       setButtonEdit(false);
       setEditItem({
         image: "",
@@ -129,13 +132,11 @@ function UserAdmin() {
       });
       toast.success("Update user thành công");
     } else {
-      console.log(editItem, "ko");
       toast.warn("Vui lòng nhập các trường");
     }
   };
-  const handleDelete = (value, key, index) => {
-    user.splice(key, 1);
-    dispatch(deleteUser(user));
+  const handleDelete = (id, key) => {
+    dispatch(deleteUser(key));
     toast.success("Xoá user thành công");
   };
   const handleButtonAdd = () => {
@@ -150,179 +151,180 @@ function UserAdmin() {
     setView(false);
   };
   return (
-    <div className="flex px-32 justify-around">
-      <ToastContainer />
-      <div className="w-2/5">
-        <p className="font-bold text-center text-xl">User information</p>
-        <div className="flex flex-col justify-start mt-5">
-          {user.map((value, key) => {
-            return (
-              <div key={key} className="flex justify-between items-center">
-                <p className="p-1 bg-gray-100 rounded-lg my-2 px-5">
-                  - {value.userName}
-                </p>
-                <div className="">
-                  <button
-                    onClick={() => handleView(value, key, index)}
-                    className="bg-red-redd text-white px-2 mr-1 rounded-lg"
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => handleDelete(value, key, index)}
-                    className="bg-red-redd text-white px-2 rounded-lg mx-1"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => handleEdit(value, key, index)}
-                    className="bg-red-redd text-white px-2 rounded-lg "
-                  >
-                    Edit
-                  </button>
+    <Admin>
+      <div className="flex px-32 justify-around">
+        <div className="w-2/5">
+          <p className="font-bold text-center text-xl">User information</p>
+          <div className="flex flex-col justify-start mt-5">
+            {user?.map((value, key) => {
+              return (
+                <div key={key} className="flex justify-between items-center">
+                  <p className="p-1 bg-gray-100 rounded-lg my-2 px-5">
+                    - {value?.userName}
+                  </p>
+                  <div className="">
+                    <button
+                      onClick={() => handleView(value, key, index)}
+                      className="bg-red-redd text-white px-2 mr-1 rounded-lg"
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => handleDelete(value.id, key, index)}
+                      className="bg-red-redd text-white px-2 rounded-lg mx-1"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => handleEdit(value, key, index)}
+                      className="bg-red-redd text-white px-2 rounded-lg "
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-          <button
-            onClick={() => handleButtonAdd()}
-            className="bg-red-redd text-white p-2 mt-5 rounded-lg"
-          >
-            add
-          </button>
-        </div>
-      </div>
-      {view == true ? (
-        <div className="w-1/2 flex justify-between">
-          <div className="w-1/2 mr-10">
-            <img
-              alt="img"
-              className="w-2/3 h-auto rounded-md shadow-md"
-              src={editItem.image}
-              width={200}
-              height={200}
-            />
+              );
+            })}
+            <button
+              onClick={() => handleButtonAdd()}
+              className="bg-red-redd text-white p-2 mt-5 rounded-lg"
+            >
+              add
+            </button>
           </div>
-          <div className="w-1/2">
-            <div className="">
-              <p className="m-0 font-bold">UserName: {editItem.userName}</p>
-              <p className="m-0 font-bold">PassWork: {editItem.passWord}</p>
-              <p className="m-0 font-bold">Role: {editItem.role}</p>
-              <button
-                onClick={() => handlCancel()}
-                className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-              >
-                Cancel
-              </button>
+        </div>
+        {view == true ? (
+          <div className="w-1/2 flex justify-between">
+            <div className="w-1/2 mr-10">
+              <img
+                alt="img"
+                className="w-2/3 h-auto rounded-md shadow-md"
+                src={editItem.image}
+                width={200}
+                height={200}
+              />
+            </div>
+            <div className="w-1/2">
+              <div className="">
+                <p className="m-0 font-bold">UserName: {editItem.userName}</p>
+                <p className="m-0 font-bold">PassWork: {editItem.passWord}</p>
+                <p className="m-0 font-bold">Role: {editItem.role}</p>
+                <button
+                  onClick={() => handlCancel()}
+                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        ""
-      )}
-      {buttonEdit == true || buttonAdd == true ? (
-        <div className="w-1/2 flex justify-between">
-          <div className="w-1/2 mr-10">
-            <img
-              alt="img"
-              className="w-2/3 h-auto rounded-md shadow-md"
-              src={editItem.image}
-              width={200}
-              height={200}
-            />
-            <div className="flex justify-around mt-5 items-center">
-              <input
-                className=" py-1 w-[30%] border-none outline-none"
-                type="file"
-                name="image"
-                onChange={onImageChange}
-                placeholder="Nhập ảnh sản phẩm..."
+        ) : (
+          ""
+        )}
+        {buttonEdit == true || buttonAdd == true ? (
+          <div className="w-1/2 flex justify-between">
+            <div className="w-1/2 mr-10">
+              <img
+                alt="img"
+                className="w-2/3 h-auto rounded-md shadow-md"
+                src={editItem.image}
+                width={200}
+                height={200}
               />
-              {editItem.image !== undefined ? (
-                <button
-                  onClick={() => handleDeleteImage()}
-                  className="bg-gray-200 px-2 h-8 rounded"
+              <div className="flex justify-around mt-5 items-center">
+                <input
+                  className=" py-1 w-[30%] border-none outline-none"
+                  type="file"
+                  name="image"
+                  onChange={onImageChange}
+                  placeholder="Nhập ảnh sản phẩm..."
+                />
+                {editItem.image !== undefined ? (
+                  <button
+                    onClick={() => handleDeleteImage()}
+                    className="bg-gray-200 px-2 h-8 rounded"
+                  >
+                    Deltete Image
+                  </button>
+                ) : (
+                  "^^Vui lòng chọn ảnh"
+                )}
+              </div>
+            </div>
+            <div className="w-1/2">
+              <div className="">
+                <p className="m-0 font-bold">UserName:</p>
+                <input
+                  className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                  type="text"
+                  value={editItem.userName}
+                  name="userName"
+                  onChange={onChange}
+                  placeholder="Nhập tên ..."
+                />
+                <p className="m-0 font-bold">PassWork:</p>
+                <input
+                  className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
+                  type="text"
+                  value={editItem.passWord}
+                  name="passWord"
+                  onChange={onChange}
+                  placeholder="Nhập mật khẩu..."
+                />
+                <p className="m-0 font-bold">Role:</p>
+                <select
+                  name="option"
+                  onChange={onChangeOption}
+                  className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
                 >
-                  Deltete Image
-                </button>
+                  <option>{editItem.role}</option>
+                  <option value="user">user</option>
+                  <option value="admin">admin</option>
+                </select>
+              </div>
+              {buttonAdd !== false ? (
+                <div className="flex justify-around items-center">
+                  <button
+                    onClick={() => handleAdd()}
+                    className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+                  >
+                    Thêm mới
+                  </button>
+                  <button
+                    onClick={() => handlCancel()}
+                    className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
+                  >
+                    Cancel
+                  </button>
+                </div>
               ) : (
-                "^^Vui lòng chọn ảnh"
+                ""
+              )}
+              {buttonEdit === false ? (
+                ""
+              ) : (
+                <div className="flex mt-14">
+                  <button
+                    onClick={() => handlUpdate(index)}
+                    className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => handlCancel()}
+                    className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
+                  >
+                    Cancel
+                  </button>
+                </div>
               )}
             </div>
           </div>
-          <div className="w-1/2">
-            <div className="">
-              <p className="m-0 font-bold">UserName:</p>
-              <input
-                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-                type="text"
-                value={editItem.userName}
-                name="userName"
-                onChange={onChange}
-                placeholder="Nhập tên ..."
-              />
-              <p className="m-0 font-bold">PassWork:</p>
-              <input
-                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none mb-5"
-                type="text"
-                value={editItem.passWord}
-                name="passWord"
-                onChange={onChange}
-                placeholder="Nhập mật khẩu..."
-              />
-              <p className="m-0 font-bold">Role:</p>
-              <select
-                name="option"
-                onChange={onChangeOption}
-                className="bg-[#F8F8FF] py-3 pl-3 w-full border-none outline-none"
-              >
-                <option>{editItem.role}</option>
-                <option value="user">user</option>
-                <option value="admin">admin</option>
-              </select>
-            </div>
-            {buttonAdd !== false ? (
-              <div className="flex justify-around items-center">
-                <button
-                  onClick={() => handleAdd()}
-                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-                >
-                  Thêm mới
-                </button>
-                <button
-                  onClick={() => handlCancel()}
-                  className="bg-red-redd text-white mt-14 px-5 py-2 border-2 border-red-redd rounded-lg text-center font-bold"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              ""
-            )}
-            {buttonEdit === false ? (
-              ""
-            ) : (
-              <div className="flex mt-14">
-                <button
-                  onClick={() => handlUpdate(index)}
-                  className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold mr-5"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handlCancel()}
-                  className="bg-red-redd text-white px-5 py-1 border-2 border-red-redd rounded-lg text-center font-bold"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </Admin>
   );
 }
-export default UserAdmin;
+export default connect(componentSelector)(UserAdmin);

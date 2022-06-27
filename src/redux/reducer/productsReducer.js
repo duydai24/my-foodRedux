@@ -1,4 +1,12 @@
-import * as types from "../types";
+import {
+  ADD_PRODUCTS,
+  DELETE_PRODUCTS,
+  QUANTITY_PRODUCTS,
+  ADD_SALE,
+  DELETE_SALE,
+  UPDATE_QUANTITY_PRODUCTS,
+  UPDATE_PRODUCTS,
+} from "../types";
 
 export const initialState = {
   products: [
@@ -276,45 +284,58 @@ export const initialState = {
 };
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_PRODUCTS:
+    case ADD_PRODUCTS:
       return {
         ...state,
-        product: action.payload.state,
-        products: action.payload.products,
+        products: [...state.products, action.payload],
       };
-    case types.DELETE_PRODUCTS:
+    case UPDATE_PRODUCTS:
+      const newDataProducts = [...state.products];
+      newDataProducts.splice(action.payload.id, 1, action.payload.new_products);
       return {
         ...state,
-        product: action.payload.state,
-        products: action.payload.products,
+        products: newDataProducts,
       };
-    case types.UPDATE_PRODUCTS:
+
+    case DELETE_PRODUCTS:
+      const newData = [...state.products];
+      newData.splice(action.payload.key, 1);
       return {
         ...state,
-        product: action.payload.state,
-        products: action.payload.products,
+        products: newData,
       };
-    case types.QUANTITY_PRODUCTS:
+
+    case QUANTITY_PRODUCTS:
       return {
         ...state,
-        product: action.payload.state,
-        quantityNumber: action.payload.quantityNumber,
+        quantityNumber: action.payload,
       };
-    case types.UPDATE_QUANTITY:
+    case UPDATE_QUANTITY_PRODUCTS:
+      const newDataQuantityProducts = [...state.products];
+      let filterProduct = newDataQuantityProducts.filter(
+        (e) => e.id === action.payload.id
+      );
+      const key = newDataQuantityProducts.indexOf(...filterProduct);
+      newDataQuantityProducts[key].quantity = newDataQuantityProducts[
+        key
+      ].quantity -= action.payload.quantityNumber;
       return {
         ...state,
-        product: action.payload.state,
-        quantity: action.payload.products.quantity,
+        products: newDataQuantityProducts,
       };
-    case types.ADD_SALE:
+    case ADD_SALE:
+      const newDataSaleAdd = [...state.sale];
+      newDataSaleAdd.splice(action.payload.key, 1, action.payload.new_Sale);
       return {
         ...state,
-        sale: action.payload.sale,
+        sale: newDataSaleAdd,
       };
-    case types.DELETE_SALE:
+    case DELETE_SALE:
+      const newDataSale = [...state.sale];
+      newDataSale.splice(action.payload.key, 1, action.payload.new_Sale);
       return {
         ...state,
-        sale: action.payload.sale,
+        sale: newDataSale,
       };
     default:
       return state;

@@ -1,15 +1,22 @@
 import react, { useState } from "react";
-import { useSelector } from "react-redux";
 import BannerShop from "./bannerShop/bannerShop";
 import MenuShop from "./menuShop/menuShop";
 import Layout from "../../layout/layout";
 import { Helmet } from "react-helmet";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { productsSelector } from "../../redux/selector/productsSelector";
+
+const componentSelector = () =>
+  createSelector([productsSelector], ({ products }) => {
+    return {
+      products,
+    };
+  });
 
 const TITLE = "My Food - Shop";
 
-function Shop() {
-  const { products } = useSelector((state) => state.product);
-
+function Shop({ products }) {
   return (
     <Layout>
       <Helmet>
@@ -20,4 +27,4 @@ function Shop() {
     </Layout>
   );
 }
-export default Shop;
+export default connect(componentSelector)(Shop);

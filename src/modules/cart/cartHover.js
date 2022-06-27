@@ -1,55 +1,40 @@
 import react, { useState } from "react";
-import { RiDeleteBack2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
 import { updateCart, deleteCart } from "../../redux/action/cartAction";
 import Link from "next/link";
 import Router from "next/router";
 import { ROUTER } from "../../routers/router";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { cartSelector, cartsSelector } from "../../redux/selector/cartSelector";
+import { userSelector } from "../../redux/selector/userSelector";
 
-function CartHover({ className }) {
-  const dispatch = useDispatch();
-  const { cartItem } = useSelector((state) => state.cart);
-  const { cart } = useSelector((state) => state);
+const componentSelector = () =>
+  createSelector(
+    [cartSelector, cartsSelector, userSelector],
+    ({ cartItem }, { cart }, { accountLogin }) => {
+      return {
+        cartItem,
+        cart,
+        accountLogin,
+      };
+    }
+  );
 
-  const handleAddQuantity = (id, key) => {
-    cartItem[key].quantity = cartItem[key].quantity + 1;
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cartItem.map(
-      (value) => (
-        (totalQuantity += value.quantity),
-        (totalPrice += value.quantity * value.price)
-      )
-    );
-
-    dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+function CartHover({ className, dispatch, cartItem, cart, accountLogin }) {
+  const handleAddQuantity = (id) => {
+    const quantityNumber = 1;
+    dispatch(updateCart(id, quantityNumber));
   };
   const handleTruQuantity = (id, key) => {
     if (cartItem[key].quantity > 1) {
-      cartItem[key].quantity = cartItem[key].quantity - 1;
-      let totalQuantity = 0;
-      let totalPrice = 0;
-      cartItem.map(
-        (value) => (
-          (totalQuantity += value.quantity),
-          (totalPrice += value.quantity * value.price)
-        )
-      );
-
-      dispatch(updateCart(cartItem, totalQuantity, totalPrice));
+      const quantityNumber = -1;
+      dispatch(updateCart(id, quantityNumber));
     }
   };
-  const handleDeleteCartItem = (id, key) => {
-    cartItem.splice(key, 1);
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cartItem.map((value) => {
-      totalQuantity += value.quantity;
-      totalPrice += value.price * value.quantity;
-    });
-
-    dispatch(deleteCart(cartItem, totalQuantity, totalPrice));
+  const handleDeleteCartItem = (id) => {
+    dispatch(deleteCart(id));
   };
 
   return (
@@ -63,18 +48,17 @@ function CartHover({ className }) {
         <h2 className="uppercase font-bold text-2xl text-center py-3 pt-5 border-y-[1px] border-gray-300">
           Shopping Cart
         </h2>
-        {cartItem.length > 0 ? (
-          cartItem &&
-          cartItem.map((value, key) => (
+        {cartItem?.length > 0 ? (
+          cartItem?.map((value, key) => (
             <CartItems
               key={key}
-              img={value.image}
-              name={value.name}
-              price={value.price}
-              quantity={value.quantity}
-              addQuantityOnClick={() => handleAddQuantity(value.id, key)}
-              truQuantityOnClick={() => handleTruQuantity(value.id, key)}
-              deleteCartItem={() => handleDeleteCartItem(value.id, key)}
+              img={value?.image}
+              name={value?.name}
+              price={value?.price}
+              quantity={value?.quantity}
+              addQuantityOnClick={() => handleAddQuantity(value?.id, key)}
+              truQuantityOnClick={() => handleTruQuantity(value?.id, key)}
+              deleteCartItem={() => handleDeleteCartItem(value?.id, key)}
             />
           ))
         ) : (
@@ -83,7 +67,11 @@ function CartHover({ className }) {
           </p>
         )}
 
-        <CartHanldle totalPrice={cart.totalPrice} />
+        <CartHanldle
+          totalPrice={cart.totalPrice}
+          accountLogin={accountLogin}
+          cartItem={cartItem}
+        />
       </div>
     </div>
   );
@@ -102,7 +90,7 @@ function CartItems({
   return (
     <div className="flex m-5 items-center justify-between" key={id}>
       <div className="flex">
-        <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" />
+        <img src={img} className="lg:w-36 lg:h-28 w-24 h-24" alt="" />
         <div className="ml-5">
           <h2 className="font-bold">{name}</h2>
           <span className="font-bold text-red-redd">
@@ -133,15 +121,11 @@ function CartItems({
   );
 }
 
-function CartHanldle({ totalPrice }) {
-  const { accountLogin } = useSelector((state) => state.user);
-  const { cartItem } = useSelector((state) => state.cart);
-  // const { googleUser } = useSelector((state) => state.user);
-  // let googleUserLoginLength = googleUser.length;
-  let accountLoginLength = accountLogin.length;
+function CartHanldle({ totalPrice, cartItem, accountLogin }) {
+  let accountLoginLength = accountLogin?.length;
   const handleCheckout = () => {
-    if (cartItem.length === 0) {
-      alert("Vui lòng thêm sản phẩm vào giỏ hàng");
+    if (cartItem?.length === 0) {
+      toast.warn("Vui lòng thêm sản phẩm vào giỏ hàng");
       Router.push("/Shop");
     } else {
       Router.push("/Checkout");
@@ -149,8 +133,8 @@ function CartHanldle({ totalPrice }) {
   };
   return (
     <div className="border-t-[1px] border-gray-200 relative">
-      <button className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
-      {cartItem.length > 0 ? (
+      <span className="rounded-lg bg-slate-300 w-32 h-2 left-1/2 top-1 -translate-x-1/2 absolute" />
+      {cartItem?.length > 0 ? (
         <div className="flex mx-8 my-5 justify-between">
           <h2 className="font-bold text-xl">Total</h2>
           <span className="font-bold text-red-redd text-xl">
@@ -163,37 +147,37 @@ function CartHanldle({ totalPrice }) {
       ) : (
         ""
       )}
-      <div className="flex m-5 pt-5 justify-between">
-        {cartItem.length === 0 ? (
+      <div className="flex m-5 pt-5 justify-between items-center">
+        {cartItem?.length === 0 ? (
           ""
         ) : (
           <div>
             {accountLoginLength === 0 ? (
               <div className="">
-                <Link href={ROUTER.Login}>
-                  <button className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn">
+                <Link href={ROUTER.Login} passHref>
+                  <span className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-[10px] text-white font-bold uppercase cursor-pointer shadowbtn">
                     Checkout
-                  </button>
+                  </span>
                 </Link>
               </div>
             ) : (
-              <button
+              <span
                 onClick={() => handleCheckout()}
-                className="bg-red-redd rounded-full px-10 lg:px-20 md:px-28 py-2 text-white font-bold uppercase shadowbtn"
+                className="bg-red-redd rounded-full px-5 lg:px-20 md:px-28 py-[10px] text-white font-bold cursor-pointer uppercase shadowbtn"
               >
                 Checkout
-              </button>
+              </span>
             )}
           </div>
         )}
-        <Link href={ROUTER.Shop}>
-          <button className="bg-white rounded-full px-10 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 shadowbtn">
+        <Link href={ROUTER.Shop} passHref>
+          <span className="bg-white rounded-full px-5 lg:px-20 md:px-28 py-2 font-bold uppercase ml-2 cursor-pointer shadowbtn">
             buy more
-          </button>
+          </span>
         </Link>
       </div>
     </div>
   );
 }
 
-export default CartHover;
+export default connect(componentSelector)(CartHover);

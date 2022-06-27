@@ -1,35 +1,51 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import Admin from "./admin";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { productsSelector } from "../redux/selector/productsSelector";
+import { userSelector } from "../redux/selector/userSelector";
+import { statisticSelector } from "../redux/selector/statisticSelector";
+import { orderSelector } from "../redux/selector/orderSelector";
 
-function StatisticalAdmin() {
-  const { user } = useSelector((state) => state.user);
-  const { products } = useSelector((state) => state.product);
-  const { statistica } = useSelector((state) => state);
-  const { statisticaItem } = useSelector((state) => state.statistica);
+const componentSelector = () =>
+  createSelector(
+    [productsSelector, userSelector, statisticSelector, orderSelector],
+    ({ products }, { user }, { statistica }, { order }) => {
+      return {
+        products,
+        user,
+        statistica,
+        order,
+      };
+    }
+  );
 
+function StatisticalAdmin({ products, user, statistica, order }) {
   let adminQuantity = user.filter((e) => e.role == "admin");
   let userQuantity = user.filter((e) => e.role == "user");
   let quantityTotal = 0;
   products.map((val) => {
     quantityTotal += val.quantity;
   });
-  // statistica.totalQuantity = 0;
+
   return (
-    <div className="grid grid-cols-2 px-20 gap-10">
-      <UserStatistica
-        totalUser={user.length}
-        adminQuantity={adminQuantity.length}
-        userQuantity={userQuantity.length}
-      />
-      <ProductsStatistica
-        quantityCategory={products.length}
-        quantityTotal={quantityTotal}
-        quantityHot={statistica.totalQuantity}
-        quantityOut={statistica.totalPrice}
-      />
-      <A1 />
-      <OrderStatistical />
-    </div>
+    <Admin>
+      <div className="grid grid-cols-2 px-20 gap-10">
+        <UserStatistica
+          totalUser={user.length}
+          adminQuantity={adminQuantity.length}
+          userQuantity={userQuantity.length}
+        />
+        <ProductsStatistica
+          quantityCategory={products.length}
+          quantityTotal={quantityTotal}
+          quantityHot={statistica.totalQuantity}
+          quantityOut={statistica.totalPrice}
+        />
+        <A1 statistica={statistica} />
+        <OrderStatistical order={order} />
+      </div>
+    </Admin>
   );
 }
 
@@ -60,24 +76,23 @@ function ProductsStatistica({
   );
 }
 /*tạo hàm tìm phần tử xuất hiện nhiều nhất trong mảng JavaScript*/
-function A1() {
-  const { statisticaItem } = useSelector((state) => state.statistica);
+function A1({ statistica }) {
   // let statisticaItem = [1, 3, 3, 3, 3, 2, 3, 8];
-  statisticaItem.sort();
+  statistica.statisticaItem.sort();
 
   let max = [0, 0];
 
   //So sánh số lần xuất hiện và thay đổi max khi cần.
   let count = 1;
-  for (let i = statisticaItem.length - 1; i > 1; --i) {
-    if (statisticaItem[i].id == statisticaItem[i - 1].id)
+  for (let i = statistica.statisticaItem.length - 1; i > 1; --i) {
+    if (statistica.statisticaItem[i].id == statistica.statisticaItem[i - 1].id)
       ++count; //Thấy phần tử trùng nhau thì tiếp tục đếm
     else {
       //So sánh số lần xuất hiện với max[1]
       if (max[1] < count) {
         //Nếu tìm thấy phần tử xuất hiện nhiều hơn thì gán phần tử vào max[0]
         //Và gán số lần xuất hiện vào max[1]
-        max[0] = statisticaItem[i];
+        max[0] = statistica.statisticaItem[i];
         max[1] = count;
       }
       count = 1;
@@ -104,8 +119,7 @@ function A1() {
   );
 }
 
-function OrderStatistical() {
-  const { order } = useSelector((state) => state.orders);
+function OrderStatistical({ order }) {
   let order_wait = order.filter(
     (e) => e.status == "Đang chờ xác nhận đơn hàng"
   );
@@ -122,4 +136,4 @@ function OrderStatistical() {
     </div>
   );
 }
-export default StatisticalAdmin;
+export default connect(componentSelector)(StatisticalAdmin);

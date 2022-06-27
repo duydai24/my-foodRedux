@@ -1,22 +1,36 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { BsSearch } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
 import Layout from "../../layout/layout";
 import { useRouter } from "next/router";
 import { updateProducts } from "../../redux/action/productsAction";
+import { toast } from "react-toastify";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import {
+  productsSelector,
+  saleSeclector,
+} from "../../redux/selector/productsSelector";
 
-function SaleDetail() {
-  const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.product);
-  const { sale } = useSelector((state) => state.product);
+const componentSelector = () =>
+  createSelector(
+    [productsSelector, saleSeclector],
+    ({ products }, { sale }) => {
+      return {
+        products,
+        sale,
+      };
+    }
+  );
+
+function SaleDetail({ sale, products, dispatch }) {
+  console.log(sale);
   const [inputSearch, setInputSearch] = useState("");
   const onChangeSearch = (e) => {
     setInputSearch(e.target.value);
   };
   const handleDeleteSearch = () => {
-    inputSearch = "";
-    setInputSearch(inputSearch);
+    setInputSearch("");
   };
   let products2 = products.filter((val) =>
     val.name.toLowerCase().includes(inputSearch.toLowerCase())
@@ -52,10 +66,10 @@ function SaleDetail() {
 
   const addSale = (id) => {
     let products3 = products.filter((value) => value.id === id);
-    let productItem;
+    let new_products;
     products3.map(
       (value) =>
-        (productItem = {
+        (new_products = {
           id: value.id,
           name: value.name,
           description: value.description,
@@ -72,25 +86,25 @@ function SaleDetail() {
         "Sản phẩm này hiện đang có 1 khuyến mãi khác, bạn có muốn tiếp tục không?"
       );
       if (result) {
-        products.splice(id, 1, productItem);
-        dispatch(updateProducts(products));
-        alert("Thêm khuyến mãi cho sản phẩm id = " + id + " thành công");
+        dispatch(updateProducts(id, new_products));
+        toast.success(
+          "Thêm khuyến mãi cho sản phẩm id = " + id + " thành công"
+        );
       } else {
-        alert("Khuyễn mãi được giữ nguyên");
+        toast("Khuyễn mãi được giữ nguyên");
       }
     } else {
-      products.splice(id, 1, productItem);
-      dispatch(updateProducts(products));
-      alert("Thêm khuyến mãi cho sản phẩm id = " + id + " thành công");
+      dispatch(updateProducts(id, new_products));
+      toast.success("Thêm khuyến mãi cho sản phẩm id = " + id + " thành công");
     }
   };
 
   const deleteSale = (id) => {
     let products4 = products.filter((value) => value.id === id);
-    let productItem2;
+    let new_products;
     products4.map(
       (value) =>
-        (productItem2 = {
+        (new_products = {
           id: value.id,
           name: value.name,
           description: value.description,
@@ -100,9 +114,8 @@ function SaleDetail() {
           categoryId: value.categoryId,
         })
     );
-    products.splice(id, 1, productItem2);
-    dispatch(updateProducts(products));
-    alert("Xoá khuyến mãi cho sản phẩm id = " + id + " thành công");
+    dispatch(updateProducts(id, new_products));
+    toast.success("Xoá khuyến mãi cho sản phẩm id = " + id + " thành công");
   };
 
   return (
@@ -176,6 +189,7 @@ function SaleDetail() {
                     src={value.image}
                     height={100}
                     width={100}
+                    alt="img"
                   />
                   {value.saleNumber > 0 ? (
                     <p className="w-[100px]">Sale {value.saleNumber}%</p>
@@ -199,4 +213,4 @@ function SaleDetail() {
     </Layout>
   );
 }
-export default SaleDetail;
+export default connect(componentSelector)(SaleDetail);

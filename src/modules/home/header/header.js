@@ -7,33 +7,37 @@ import { FaStore } from "react-icons/fa";
 import { HiUserCircle } from "react-icons/hi";
 import { BiMenuAltLeft } from "react-icons/bi";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
-import { userLogin, googleUserLogin } from "../../../redux/action/userAction";
+import { LogOut } from "../../../redux/action/userAction";
 import CartHover from "../../cart/cartHover";
 import { ROUTER } from "../../../routers/router";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { batch, connect } from "react-redux";
+import { createSelector } from "reselect";
+import { cartsSelector } from "../../../redux/selector/cartSelector";
+import { userSelector } from "../../../redux/selector/userSelector";
 
-function Header({ onClick }) {
-  const dispatch = useDispatch();
-  const { accountLogin } = useSelector((state) => state.user);
-  // const { googleUser } = useSelector((state) => state.user);
-  const { cart } = useSelector((state) => state);
+const componentSelector = () =>
+  createSelector(
+    [cartsSelector, userSelector],
+    ({ cart }, { accountLogin }) => {
+      return {
+        cart,
+        accountLogin,
+      };
+    }
+  );
+
+function Header({ onClick, dispatch, cart, accountLogin }) {
   const handleLogOut = () => {
-    const results = [];
-    // const googleUser = [];
-    dispatch(userLogin(results));
+    dispatch(LogOut());
     toast.success("Đăng xuất thành công !");
-    // dispatch(googleUserLogin(googleUser));
     Router.push("/");
   };
   let accountLoginLength = accountLogin.length;
-  // let googleUserLoginLength = googleUser.length;
 
   const [active, setOnActive] = useState(false);
-  const _className = active ? "onLogout" : " ";
 
   let accountLoginRole;
   let accountLoginImage;
@@ -42,12 +46,6 @@ function Header({ onClick }) {
       accountLoginRole = value.role;
       accountLoginImage = value.image;
     });
-  // let accountLoginGoogleName;
-  // let accountLoginGoogleImage;
-  // googleUser.map((val) => {
-  //   accountLoginGoogleName = val.familyName;
-  //   accountLoginGoogleImage = val.imageUrl;
-  // });
 
   return (
     <div className="fixed top-0 left-0 z-[1000] w-screen transition-all bg-black ">
@@ -60,7 +58,7 @@ function Header({ onClick }) {
             <BiMenuAltLeft />
           </span>
           <div className="flex items-center">
-            <Link href={ROUTER.Home}>
+            <Link href={ROUTER.Home} passHref>
               <img
                 alt="img"
                 className="w-20 md:w-[120px] h-auto md:pr-10 cursor-pointer"
@@ -85,7 +83,7 @@ function Header({ onClick }) {
               />
               {accountLoginRole === "admin" ? (
                 <IconsHeader
-                  source={ROUTER.Admin}
+                  source={"/Admin/StatisticalAdmin"}
                   text={"Admin"}
                   icon={<BsNewspaper />}
                 />
@@ -96,23 +94,23 @@ function Header({ onClick }) {
           </div>
           <div className="flex items-center max-w-[80px] h-16 md:max-w-[115px] lg:max-w-[200px] mr-3">
             <div className="h-full flex items-center headerHover">
-              <Link href={ROUTER.Cart}>
-                <div className="text-white text-3xl mr-5 md:text-3xl md:mr-8 relative cursor-pointer hover:text-red-redd">
+              <Link href={ROUTER.Cart} passHref>
+                <div className="text-white text-3xl mr-3 md:text-3xl md:mr-8 relative cursor-pointer hover:text-red-redd">
                   <FaShoppingCart />
                   <span className="bg-yellow-500 text-white text-center rounded-md text-sm md:text-base px-1 absolute top-2 left-4 md:top-2 md:left-5 a">
-                    {cart.totalQuantity}
+                    {cart?.totalQuantity}
                   </span>
                 </div>
               </Link>
               <CartHover className={"hoverCart"} />
             </div>
             {accountLoginLength > 0 && (
-              <div className="flex items-center relative">
+              <div className="flex items-center relative ml-2">
                 <div>
                   <div className="lg:block md:block hidden">
                     <div className="md:mr-3 md:flex lg:flex w-auto items-center justify-between">
                       {accountLoginImage !== undefined ? (
-                        <Link href={ROUTER.UserCustom}>
+                        <Link href={ROUTER.UserCustom} passHref>
                           <img
                             alt="img"
                             src={accountLoginImage}
@@ -138,14 +136,13 @@ function Header({ onClick }) {
                         >
                           LogOut
                         </button>
-                        <ToastContainer />
                       </div>
                     </div>
                   </div>
                   <div className="lg:hidden md:hidden block">
                     <div className="md:mr-3 md:flex lg:flex">
                       {accountLoginImage !== undefined ? (
-                        <Link href={ROUTER.UserCustom}>
+                        <Link href={ROUTER.UserCustom} passHref>
                           <img
                             alt="img"
                             src={accountLoginImage}
@@ -183,7 +180,7 @@ function IconsHeader({ text, icon, source }) {
     color: router.pathname == source ? "#ff514e" : "",
   };
   return (
-    <Link href={source}>
+    <Link href={source} passHref>
       <div className="flex cursor-pointer hoverHeader ">
         <span
           style={style}
@@ -199,4 +196,4 @@ function IconsHeader({ text, icon, source }) {
   );
 }
 
-export default Header;
+export default connect(componentSelector)(Header);

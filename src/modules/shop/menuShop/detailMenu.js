@@ -2,12 +2,20 @@ import react, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { BsHeart } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
-import { useSelector } from "react-redux";
 import { BsArrowDownShort } from "react-icons/bs";
 import ProductsMenu from "./productsMenu";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { categorySelector } from "../../../redux/selector/categorySelector";
 
-function DetailMenu({ products, filterId, priceHandle, filterr }) {
-  const { category } = useSelector((state) => state.categorys);
+const componentSelector = () =>
+  createSelector([categorySelector], ({ category }) => {
+    return {
+      category,
+    };
+  });
+
+function DetailMenu({ products, filterId, priceHandle, filterr, category }) {
   const [love, setLove] = useState();
   const handleLove = () => {
     setLove(!love);
@@ -20,8 +28,7 @@ function DetailMenu({ products, filterId, priceHandle, filterr }) {
     setInputSearch(e.target.value);
   };
   const handleDeleteSearch = () => {
-    inputSearch = "";
-    setInputSearch(inputSearch);
+    setInputSearch("");
   };
 
   const handleCategory = (id) => {
@@ -109,4 +116,4 @@ function HandleMenu({
   );
 }
 
-export default DetailMenu;
+export default connect(componentSelector)(DetailMenu);

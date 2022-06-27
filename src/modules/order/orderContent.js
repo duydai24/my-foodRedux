@@ -1,18 +1,25 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import Link from "next/link";
+import { createSelector } from "reselect";
+import { connect } from "react-redux";
+import { orderSelector } from "../../redux/selector/orderSelector";
+import { userSelector } from "../../redux/selector/userSelector";
 
-function OrderContent() {
-  const { order } = useSelector((state) => state.orders);
-  const { accountLogin } = useSelector((state) => state.user);
+const componentSelector = () =>
+  createSelector(
+    [orderSelector, userSelector],
+    ({ order }, { accountLogin }) => {
+      return {
+        order,
+        accountLogin,
+      };
+    }
+  );
+
+function OrderContent({ order, accountLogin }) {
   let userID;
-  accountLogin.map((value) => (userID = value.id));
-  let googleId;
-  // const { googleUser } = useSelector((state) => state.user);
-  // googleUser.map((val) => (googleId = val.googleId));
-
+  accountLogin.forEach((value) => (userID = value.id));
   let new_Order = order.filter((val) => val.userId === userID);
-  // new_Order = order.filter((val) => val.userId === googleId);
 
   return (
     <div className="bg-bg">
@@ -42,7 +49,7 @@ function OrderContent() {
                 <p className="text-center w-[150px]">{value.phone}</p>
                 <p className="text-center w-[100px]">{value.note}</p>
                 <p className="text-center w-[300px]">{value.status}</p>
-                <Link href={"/Order/orderProduct/" + value.id}>
+                <Link href={"/Order/orderProduct/" + value.id} passHref>
                   <p className="text-blue-700 cursor-pointer">Xem chi tiết</p>
                 </Link>
               </div>
@@ -78,7 +85,7 @@ function OrderContent() {
                   <p className="text-center w-[100px]">{value.note}</p>
                   <p className="text-center w-[300px]">{value.status}</p>
                 </div>
-                <Link href={"/Order/orderProduct/" + value.id}>
+                <Link href={"/Order/orderProduct/" + value.id} passHref>
                   <p className="text-blue-700 cursor-pointer m-auto mt-5">
                     Xem chi tiết
                   </p>
@@ -94,4 +101,4 @@ function OrderContent() {
   );
 }
 
-export default OrderContent;
+export default connect(componentSelector)(OrderContent);
